@@ -29,6 +29,9 @@ type greenhouseJob struct {
 	Location struct {
 		Name string `json:"name"`
 	} `json:"location"`
+	Departments []struct {
+		Name string `json:"name"`
+	} `json:"departments"`
 	Metadata []struct {
 		Name  string `json:"name"`
 		Value any    `json:"value"`
@@ -40,8 +43,10 @@ type greenhouseJob struct {
 	} `json:"pay_input_ranges"`
 }
 
-// Search fetches every job on each board and keeps those matching a term.
-// A failing board is skipped with a notice (see searchBoards).
+// Search fetches every job on each board and keeps those whose title or
+// department matches a term. The description is not searched: every job on
+// a company board repeats the same "About us" text (ADR 0018). A failing
+// board is skipped with a notice (see searchBoards).
 func (g *greenhouse) Search(ctx context.Context, terms []string) ([]Job, error) {
 	return searchBoards(Greenhouse, "sources.greenhouse_boards", g.boards, func(board string) ([]Job, error) {
 		var resp struct {
@@ -53,17 +58,16 @@ func (g *greenhouse) Search(ctx context.Context, terms []string) ([]Job, error) 
 		}
 		var jobs []Job
 		for _, x := range resp.Jobs {
-			j, text := x.job(board)
-			if matches(terms, x.Title, text) {
-				jobs = append(jobs, j)
+			if matches(terms, x.labels()...) {
+				jobs = append(jobs, x.job(board))
 			}
 		}
 		return jobs, nil
 	})
 }
 
-// job normalises a Greenhouse job and returns it with its plain text.
-func (x greenhouseJob) job(board string) (Job, string) {
+// job normalises a Greenhouse job.
+func (x greenhouseJob) job(board string) Job {
 	text := Text(x.Content)
 	j := Job{
 		ID: fmt.Sprintf("%s:%d", Greenhouse, x.ID), Source: Greenhouse, Title: x.Title,
@@ -78,7 +82,17 @@ func (x greenhouseJob) job(board string) (Job, string) {
 		p := x.Pay[0]
 		Salary{Min: int(p.Min / 100), Max: int(p.Max / 100), Currency: p.Currency, Period: "year"}.apply(&j)
 	}
-	return j, text
+	return j
+}
+
+// labels are the fields search terms are matched against: the title and
+// the department names.
+func (x greenhouseJob) labels() []string {
+	out := []string{x.Title}
+	for _, d := range x.Departments {
+		out = append(out, d.Name)
+	}
+	return out
 }
 
 // deadline prefers a custom field named like "Application deadline".

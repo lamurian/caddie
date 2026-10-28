@@ -16,7 +16,8 @@ locations:
   acceptable: [Germany, Belgium, Switzerland]
   excluded: [United States]
 
-# caddie search sends roles.include as search terms and drops jobs whose
+# caddie search sends roles.include as search terms (Greenhouse and Lever
+# boards match them on title and department only) and drops jobs whose
 # title contains a roles.exclude entry or whose company is excluded.
 roles:
   include:

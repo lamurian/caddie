@@ -27,7 +27,9 @@ type leverJob struct {
 	Desc       string `json:"description"`
 	Additional string `json:"additional"`
 	Categories struct {
-		Location string `json:"location"`
+		Location   string `json:"location"`
+		Team       string `json:"team"`
+		Department string `json:"department"`
 	} `json:"categories"`
 	Lists []struct {
 		Text    string `json:"text"`
@@ -41,8 +43,10 @@ type leverJob struct {
 	} `json:"salaryRange"`
 }
 
-// Search fetches every posting on each board and keeps those matching a term.
-// A failing board is skipped with a notice (see searchBoards).
+// Search fetches every posting on each board and keeps those whose title,
+// team or department matches a term. The description is not searched:
+// every posting on a company board repeats the same "About us" text
+// (ADR 0018). A failing board is skipped with a notice (see searchBoards).
 func (l *lever) Search(ctx context.Context, terms []string) ([]Job, error) {
 	return searchBoards(Lever, "sources.lever_boards", l.boards, func(board string) ([]Job, error) {
 		var resp []leverJob
@@ -52,9 +56,8 @@ func (l *lever) Search(ctx context.Context, terms []string) ([]Job, error) {
 		}
 		var jobs []Job
 		for _, x := range resp {
-			j, text := x.job(board)
-			if matches(terms, x.Title, text) {
-				jobs = append(jobs, j)
+			if matches(terms, x.Title, x.Categories.Team, x.Categories.Department) {
+				jobs = append(jobs, x.job(board))
 			}
 		}
 		return jobs, nil
@@ -66,9 +69,9 @@ var leverModes = map[string]string{"remote": "wfh", "hybrid": "hybrid", "on-site
 var leverPeriods = map[string]string{"per-year-salary": "year", "per-month-salary": "month",
 	"per-hour-wage": "hour"}
 
-// job normalises a Lever posting and returns it with its plain text.
+// job normalises a Lever posting.
 // Lever does not name the company, so the board name stands in for it.
-func (x leverJob) job(board string) (Job, string) {
+func (x leverJob) job(board string) Job {
 	text := Text(x.HTML())
 	mode := leverModes[x.Workplace]
 	if mode == "" {
@@ -82,7 +85,7 @@ func (x leverJob) job(board string) (Job, string) {
 	if s := x.Salary; s != nil && s.Min > 0 {
 		Salary{Min: int(s.Min), Max: int(s.Max), Currency: s.Currency, Period: leverPeriods[s.Interval]}.apply(&j)
 	}
-	return j, text
+	return j
 }
 
 // HTML joins the description, the titled lists and the closing text.

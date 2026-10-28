@@ -3,11 +3,13 @@
 The job boards behind `caddie search` and the fetcher behind
 `caddie posting save` ([PRD §7](../../PROPOSAL.md#7-cli-specification),
 [ADR 0016](../../docs/adr/0016-job-ids-and-search-memory.md),
-[ADR 0017](../../docs/adr/0017-posting-extraction.md)).
+[ADR 0017](../../docs/adr/0017-posting-extraction.md),
+[ADR 0018](../../docs/adr/0018-board-matching-and-fair-limit.md)).
 
 | File | Holds |
 |------|-------|
 | `source.go` | `Job`, the `Source` interface, `Search` (de-dup by URL, filters, seen), `ErrFetch` |
+| `limit.go` | `--limit` shared round-robin across feeds (each board, each other source) |
 | `build.go` | `Build`: the sources enabled in `preferences.yml`; skipped ones become notices |
 | `http.go` | `Doer` (HTTP behind an interface), `get`/`getJSON`, URL redaction |
 | `boards.go` | `searchBoards`: per-board fetch for Greenhouse and Lever; a bad board is a notice |
@@ -21,6 +23,10 @@ Every network or upstream problem wraps `ErrFetch` (exit 8) and never
 prints a query string, because the Adzuna keys travel in it. A failing
 Greenhouse or Lever board is skipped on its own with a notice; the source
 fails only when all of its boards do.
+
+Terms match the title or description on Remotive and Arbeitnow, but only
+the title and department/team on Greenhouse and Lever: a company board
+repeats its "About us" text in every job (ADR 0018).
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 # 0016. Job IDs, search filtering and search memory
 
-- **Status:** Accepted
+- **Status:** Accepted; board matching and `--limit` refined by [0018](0018-board-matching-and-fair-limit.md)
 - **Date:** 2026-10-28
 - **PRD refs:** §6.1, §7, §12.5, D13
 

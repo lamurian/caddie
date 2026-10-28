@@ -1,0 +1,24 @@
+[
+  {
+    "id": "aaaaaaaa-1111-4222-8333-000000000001",
+    "text": "Privacy Counsel",
+    "hostedUrl": "https://jobs.lever.co/initech/aaaaaaaa-1111-4222-8333-000000000001",
+    "createdAt": 1792540800000,
+    "workplaceType": "remote",
+    "categories": {"location": "Remote (EU)", "team": "Legal", "department": "G&A"},
+    "description": "<div>Initech Care is a digital health company. We are a fictional company.</div><div>Advise on data protection.</div>",
+    "lists": [],
+    "additional": ""
+  },
+  {
+    "id": "aaaaaaaa-1111-4222-8333-000000000002",
+    "text": "Senior Analyst",
+    "hostedUrl": "https://jobs.lever.co/initech/aaaaaaaa-1111-4222-8333-000000000002",
+    "createdAt": 1792540800000,
+    "workplaceType": "hybrid",
+    "categories": {"location": "Amsterdam", "team": "Health Informatics", "department": "Clinical"},
+    "description": "<div>Initech Care is a digital health company. We are a fictional company.</div><div>Map clinical terminologies.</div>",
+    "lists": [],
+    "additional": ""
+  }
+]

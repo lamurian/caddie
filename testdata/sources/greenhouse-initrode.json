@@ -1,0 +1,44 @@
+{
+  "jobs": [
+    {
+      "id": 901,
+      "title": "Account Executive",
+      "company_name": "Initrode",
+      "absolute_url": "https://boards.greenhouse.io/initrode/jobs/901",
+      "location": {"name": "Berlin"},
+      "first_published": "2026-10-20T09:00:00-04:00",
+      "departments": [{"id": 1, "name": "Sales"}],
+      "content": "&lt;p&gt;Initrode is a digital health company on a mission to make care simple. We are a fictional company.&lt;/p&gt;&lt;p&gt;Close deals with health plans.&lt;/p&gt;"
+    },
+    {
+      "id": 902,
+      "title": "Health Informatics Lead",
+      "company_name": "Initrode",
+      "absolute_url": "https://boards.greenhouse.io/initrode/jobs/902",
+      "location": {"name": "Remote - Germany"},
+      "first_published": "2026-10-21T09:00:00-04:00",
+      "departments": [{"id": 2, "name": "Clinical"}],
+      "content": "&lt;p&gt;Initrode is a digital health company on a mission to make care simple. We are a fictional company.&lt;/p&gt;&lt;p&gt;Lead clinical data standards.&lt;/p&gt;"
+    },
+    {
+      "id": 903,
+      "title": "Product Manager",
+      "company_name": "Initrode",
+      "absolute_url": "https://boards.greenhouse.io/initrode/jobs/903",
+      "location": {"name": "Berlin"},
+      "first_published": "2026-10-22T09:00:00-04:00",
+      "departments": [{"id": 3, "name": "Digital Health Products"}],
+      "content": "&lt;p&gt;Initrode is a digital health company on a mission to make care simple. We are a fictional company.&lt;/p&gt;&lt;p&gt;Own the patient app roadmap.&lt;/p&gt;"
+    },
+    {
+      "id": 904,
+      "title": "Customer Support Representative",
+      "company_name": "Initrode",
+      "absolute_url": "https://boards.greenhouse.io/initrode/jobs/904",
+      "location": {"name": "Lisbon"},
+      "first_published": "2026-10-23T09:00:00-04:00",
+      "departments": [{"id": 4, "name": "Member Ops"}],
+      "content": "&lt;p&gt;Initrode is a digital health company on a mission to make care simple. We are a fictional company.&lt;/p&gt;&lt;p&gt;Help members by chat and phone.&lt;/p&gt;"
+    }
+  ]
+}

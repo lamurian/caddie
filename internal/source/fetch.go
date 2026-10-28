@@ -80,7 +80,7 @@ func fetchGreenhouse(ctx context.Context, c Doer, r ref) (Detail, error) {
 	if err := getJSON(ctx, c, u, &x); err != nil {
 		return Detail{}, err
 	}
-	j, _ := x.job(r.board)
+	j := x.job(r.board)
 	return Detail{Job: j, HTML: x.Content}, nil
 }
 
@@ -94,7 +94,7 @@ func fetchLever(ctx context.Context, c Doer, r ref, host string) (Detail, error)
 	if err := getJSON(ctx, c, u, &x); err != nil {
 		return Detail{}, err
 	}
-	j, _ := x.job(r.board)
+	j := x.job(r.board)
 	return Detail{Job: j, HTML: x.HTML()}, nil
 }
 

@@ -65,7 +65,7 @@ type Filter struct {
 	ExcludeRoles     []string        // title substrings, case-insensitive
 	ExcludeCompanies []string        // exact company names, case-insensitive
 	Seen             map[string]bool // IDs to hide; nil shows everything
-	Limit            int             // 0 means no limit
+	Limit            int             // 0 means no limit; shared fairly (see limit)
 }
 
 // Result is what `caddie search` prints.
@@ -100,9 +100,7 @@ func Search(ctx context.Context, srcs []Source, terms []string, f Filter) (Resul
 	if len(srcs) > 0 && failed == len(srcs) {
 		return res, fmt.Errorf("%w: every source failed: %s", ErrFetch, strings.Join(res.Notices, "; "))
 	}
-	if f.Limit > 0 && len(res.Jobs) > f.Limit {
-		res.Jobs = res.Jobs[:f.Limit]
-	}
+	res.Jobs = limit(res.Jobs, f.Limit)
 	return res, nil
 }
 
