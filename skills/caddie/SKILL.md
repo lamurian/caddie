@@ -60,8 +60,13 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
   `history/`) and `preferences`. Phone and email are left out; add
   `--with-contact` only when a document or form needs them.
 
-The workflows (discover, tailor, cover letter, apply, follow up) are added
-here as their commands ship.
+## Workflows
+
+- **Discover** ("find jobs"): follow
+  [`references/discover.md`](references/discover.md). It uses
+  `caddie search`, `caddie seen add|list` and `caddie posting save <url>`.
+
+Tailor, cover letter, apply and follow up are added as their commands ship.
 
 ## Gate message
 
@@ -79,9 +84,9 @@ After filling a form, post the screenshot and exactly this text, then stop:
 | 2 | Usage error: unknown command, bad flag or argument | Fix the command line |
 | 3 | Configuration error: `.env`, an env var or `preferences.yml` is invalid or missing | Show the message to the user |
 | 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
-| 5 | Not found (reserved: unknown slug or file) | Check the slug |
+| 5 | Not found: no job posting at a URL (later: unknown slug or file) | Check the URL or slug |
 | 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
 | 7 | Refused by a safety rule (reserved: unverified render, upload outside `/handoff`) | Stop; never work around it |
-| 8 | External tool or network failure (reserved: `quarto`, `docker`, HTTP) | Run `caddie doctor`, retry once, then tell the user |
+| 8 | External tool or network failure: HTTP (later: `quarto`, `docker`) | Run `caddie doctor`, retry once, then tell the user |
 | 9 | Internal error | Report it to the user |
 <!-- exit-codes:end -->

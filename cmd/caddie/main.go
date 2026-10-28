@@ -7,10 +7,13 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"os/exec"
+	"time"
 
 	"github.com/lamurian/caddie/internal/config"
+	"github.com/lamurian/caddie/internal/source"
 )
 
 // env is everything a command touches outside its arguments.
@@ -19,12 +22,17 @@ type env struct {
 	lookup         config.LookupFunc
 	dotenv         string
 	lookPath       func(string) (string, error)
+	client         source.Doer   // HTTP for search and posting save
+	today          func() string // the date as YYYY-MM-DD
 }
 
 type command func(args []string, e env) error
 
 var commands = map[string]command{
 	"profile": cmdProfile,
+	"search":  cmdSearch,
+	"seen":    cmdSeen,
+	"posting": cmdPosting,
 	"doctor":  cmdDoctor,
 }
 
@@ -32,6 +40,11 @@ const usageText = `Usage: caddie <command> [flags]
 
 Commands:
   profile [--json] [--with-contact]   JSON summary of history/ + preferences.yml
+  search [--source s] [--limit n] [--include-seen]
+                                      JSON jobs from the enabled job boards
+  seen add <id…> --shown|--rejected   record jobs shown to or rejected by the user
+  seen list [--rejected]              JSON of seen.jsonl, one entry per job
+  posting save <url>                  fetch a posting into postings/<slug>.md
   doctor [--json]                     check configuration, workspace and history
   help                                show this help
 
@@ -42,6 +55,8 @@ func main() {
 	os.Exit(run(os.Args[1:], env{
 		stdout: os.Stdout, stderr: os.Stderr, lookup: os.LookupEnv,
 		dotenv: ".env", lookPath: exec.LookPath,
+		client: &http.Client{Timeout: 30 * time.Second},
+		today:  func() string { return time.Now().Format("2006-01-02") },
 	}))
 }
 
@@ -82,6 +97,25 @@ func parseFlags(fs *flag.FlagSet, args []string) error {
 		return usageErr("unexpected argument %q", fs.Arg(0))
 	}
 	return nil
+}
+
+// parseArgs parses flags that may appear before, between or after the
+// positional arguments, and returns the positional arguments.
+func parseArgs(fs *flag.FlagSet, args []string) ([]string, error) {
+	var pos []string
+	for {
+		if err := fs.Parse(args); err != nil {
+			if errors.Is(err, flag.ErrHelp) {
+				return nil, err
+			}
+			return nil, usageErr("%v", err)
+		}
+		if fs.NArg() == 0 {
+			return pos, nil
+		}
+		pos = append(pos, fs.Arg(0))
+		args = fs.Args()[1:]
+	}
 }
 
 func newFlags(name string, e env) *flag.FlagSet {

@@ -13,10 +13,14 @@ in [`cmd/README.md`](../README.md) and
 | `exit.go` | Exit-code constants and the error → code mapping |
 | `profile.go` | `caddie profile [--json] [--with-contact]` |
 | `doctor.go` | `caddie doctor [--json]`, a thin wrapper over `internal/doctor` |
+| `search.go` | `caddie search [--source s] [--limit n] [--include-seen]`; workspace loading helpers |
+| `seen.go` | `caddie seen add <id…> --shown\|--rejected` and `caddie seen list [--rejected]` |
+| `posting.go` | `caddie posting save <url>` |
 
 Tests run each command in-process against `testdata/` and assert both the
 output and the exit code. `profile_test.go` owns `-update` for
-`testdata/golden/profile.json`.
+`testdata/golden/profile.json`. `runWith` answers HTTP from
+`testdata/sources/` so no test touches the network.
 
 ## Contributing
 

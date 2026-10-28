@@ -29,7 +29,7 @@ func TestExitTableMirroredInSkill(t *testing.T) {
 		t.Errorf("exit-code tables differ:\ncmd/README.md:\n%s\n\nSKILL.md:\n%s", readme, skill)
 	}
 	for _, code := range []int{exitOK, exitCheckFailed, exitUsage, exitConfig,
-		exitMalformed, exitIllegalState, exitInternal} {
+		exitMalformed, exitNotFound, exitIllegalState, exitExternal, exitInternal} {
 		if !strings.Contains(readme, fmt.Sprintf("\n| %d |", code)) {
 			t.Errorf("exit code %d is not documented in cmd/README.md", code)
 		}
