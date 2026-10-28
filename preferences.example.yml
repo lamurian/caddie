@@ -1,0 +1,41 @@
+# Copy to preferences.yml (git-ignored) and edit.
+contact:
+  email: you@example.org
+  phone: "+31 6 00000000"
+
+salary:
+  currency: EUR
+  period: year                 # year | month | hour
+  minimum: 70000
+  target: 85000
+
+work_mode: [wfa, wfh, hybrid, wfo]   # in order of preference
+
+locations:
+  preferred: [Groningen, NL, Netherlands, Remote (EU)]
+  acceptable: [Germany, Belgium, Switzerland]
+  excluded: [United States]
+
+roles:
+  include: [data scientist, biostatistician, epidemiologist, research scientist, statistical consultant]
+  exclude: [sales engineer]
+
+companies:
+  exclude: [ExampleCorp]
+
+sources:
+  adzuna:   {enabled: true, countries: [nl, de, be]}
+  remotive: {enabled: true}
+  arbeitnow: {enabled: true}
+  greenhouse_boards: [acme, globex]
+  lever_boards: []
+  portals: [who, un, worldbank, adb, isdb, mckinsey, bcg, bain]  # see portals/
+
+ranking:
+  top_n: 10
+  weights: {skills_match: 0.4, salary_fit: 0.2, work_mode_fit: 0.2, location_fit: 0.2}
+
+apply:
+  require_gate: true           # must stay true; cron runs never apply
+  follow_up_days: 21
+  deadline_warning_days: 7

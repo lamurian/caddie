@@ -1,0 +1,14 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  line-limits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enforce doc and code line limits
+        run: scripts/check-lines.sh
+  # Go build, vet and test jobs are added in docs/tasks/01-skeleton.md.
