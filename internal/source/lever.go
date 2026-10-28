@@ -42,22 +42,23 @@ type leverJob struct {
 }
 
 // Search fetches every posting on each board and keeps those matching a term.
+// A failing board is skipped with a notice (see searchBoards).
 func (l *lever) Search(ctx context.Context, terms []string) ([]Job, error) {
-	var jobs []Job
-	for _, board := range l.boards {
+	return searchBoards(Lever, "sources.lever_boards", l.boards, func(board string) ([]Job, error) {
 		var resp []leverJob
 		u := fmt.Sprintf("%s/%s?mode=json", leverBase, url.PathEscape(board))
 		if err := getJSON(ctx, l.client, u, &resp); err != nil {
 			return nil, err
 		}
+		var jobs []Job
 		for _, x := range resp {
 			j, text := x.job(board)
 			if matches(terms, x.Title, text) {
 				jobs = append(jobs, j)
 			}
 		}
-	}
-	return jobs, nil
+		return jobs, nil
+	})
 }
 
 var leverModes = map[string]string{"remote": "wfh", "hybrid": "hybrid", "on-site": "wfo", "onsite": "wfo"}

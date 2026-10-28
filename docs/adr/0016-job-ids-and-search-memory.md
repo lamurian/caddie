@@ -31,8 +31,11 @@ is down, and how statuses combine when a job is marked twice.
   are hidden and counted in `hidden_seen` unless `--include-seen`.
   `--limit` defaults to 50; `summary` is plain text capped at 600 runes.
 - A disabled or unconfigured source, a failing source and a malformed
-  `seen.jsonl` line are **notices** in the JSON, not errors. Only when every
-  queried source fails does `search` exit 8. Error text never contains a
+  `seen.jsonl` line are **notices** in the JSON, not errors. So is one
+  failing Greenhouse or Lever board (`greenhouse-board: board <slug>
+  skipped: HTTP 404 — check the slug in sources.greenhouse_boards`): the
+  other boards' jobs are kept, and the source fails only when every board
+  does. Only when every queried source fails does `search` exit 8. Error text never contains a
   query string, because Adzuna keys travel in it.
 - **Search memory:** `search` writes the jobs it printed to
   `.caddie/last-search.json` (newest first, merged with earlier searches,

@@ -41,9 +41,9 @@ type greenhouseJob struct {
 }
 
 // Search fetches every job on each board and keeps those matching a term.
+// A failing board is skipped with a notice (see searchBoards).
 func (g *greenhouse) Search(ctx context.Context, terms []string) ([]Job, error) {
-	var jobs []Job
-	for _, board := range g.boards {
+	return searchBoards(Greenhouse, "sources.greenhouse_boards", g.boards, func(board string) ([]Job, error) {
 		var resp struct {
 			Jobs []greenhouseJob `json:"jobs"`
 		}
@@ -51,14 +51,15 @@ func (g *greenhouse) Search(ctx context.Context, terms []string) ([]Job, error) 
 		if err := getJSON(ctx, g.client, u, &resp); err != nil {
 			return nil, err
 		}
+		var jobs []Job
 		for _, x := range resp.Jobs {
 			j, text := x.job(board)
 			if matches(terms, x.Title, text) {
 				jobs = append(jobs, j)
 			}
 		}
-	}
-	return jobs, nil
+		return jobs, nil
+	})
 }
 
 // job normalises a Greenhouse job and returns it with its plain text.

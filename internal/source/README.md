@@ -10,6 +10,7 @@ The job boards behind `caddie search` and the fetcher behind
 | `source.go` | `Job`, the `Source` interface, `Search` (de-dup by URL, filters, seen), `ErrFetch` |
 | `build.go` | `Build`: the sources enabled in `preferences.yml`; skipped ones become notices |
 | `http.go` | `Doer` (HTTP behind an interface), `get`/`getJSON`, URL redaction |
+| `boards.go` | `searchBoards`: per-board fetch for Greenhouse and Lever; a bad board is a notice |
 | `adzuna.go`, `remotive.go`, `arbeitnow.go`, `greenhouse.go`, `lever.go` | One adapter each |
 | `fetch.go` | `Fetch` one posting (Greenhouse/Lever API, else a page) and `ID` from a URL |
 | `page.go`, `jsonld.go` | Careers pages: schema.org `JobPosting` JSON-LD, else title and main text |
@@ -17,7 +18,9 @@ The job boards behind `caddie search` and the fetcher behind
 | `text.go` | `ParseSalary`, `Deadline`, `Date`, `WorkMode`, summaries |
 
 Every network or upstream problem wraps `ErrFetch` (exit 8) and never
-prints a query string, because the Adzuna keys travel in it.
+prints a query string, because the Adzuna keys travel in it. A failing
+Greenhouse or Lever board is skipped on its own with a notice; the source
+fails only when all of its boards do.
 
 ## Contributing
 

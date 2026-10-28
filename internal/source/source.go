@@ -42,7 +42,9 @@ type Job struct {
 }
 
 // Source is one job board. Search returns the jobs matching any of terms
-// (all jobs when terms is empty), normalised to Job.
+// (all jobs when terms is empty), normalised to Job. A source with several
+// boards may return jobs together with a *partial error listing the boards
+// it skipped.
 type Source interface {
 	Name() string
 	Search(ctx context.Context, terms []string) ([]Job, error)
@@ -74,14 +76,20 @@ type Result struct {
 }
 
 // Search queries every source in order, de-duplicates by URL (first wins)
-// and applies f. A failing source becomes a notice; only when every source
-// fails is the result an ErrFetch error.
+// and applies f. A failing source becomes a notice, as does each skipped
+// board of a partial result; only when every source fails is the result an
+// ErrFetch error.
 func Search(ctx context.Context, srcs []Source, terms []string, f Filter) (Result, error) {
 	res := Result{Jobs: []Job{}, Notices: []string{}}
 	urls := map[string]bool{}
 	failed := 0
 	for _, s := range srcs {
 		jobs, err := s.Search(ctx, terms)
+		var p *partial
+		if errors.As(err, &p) {
+			res.Notices = append(res.Notices, p.notices...)
+			err = nil
+		}
 		if err != nil {
 			failed++
 			res.Notices = append(res.Notices, fmt.Sprintf("%s: skipped: %v", s.Name(), err))

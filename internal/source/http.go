@@ -40,7 +40,7 @@ func get(ctx context.Context, c Doer, rawURL, accept string) ([]byte, error) {
 	}
 	defer func() { _ = resp.Body.Close() }()
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("%w: %s: HTTP %d", ErrFetch, redact(rawURL), resp.StatusCode)
+		return nil, fmt.Errorf("%w: %s: %w", ErrFetch, redact(rawURL), statusError(resp.StatusCode))
 	}
 	body, err := io.ReadAll(io.LimitReader(resp.Body, maxBody))
 	if err != nil {
@@ -59,6 +59,11 @@ func getJSON(ctx context.Context, c Doer, rawURL string, v any) error {
 	}
 	return nil
 }
+
+// statusError is an HTTP status other than 200, printed as "HTTP 404".
+type statusError int
+
+func (s statusError) Error() string { return fmt.Sprintf("HTTP %d", int(s)) }
 
 // redact drops the query string and any user info from a URL.
 func redact(rawURL string) string {
