@@ -7,6 +7,7 @@ The Agent Skill that Pi, Goose or any other agent loads to drive Caddie:
 
 ```
 skills/caddie/
+├── README.md           # for contributors; agents read SKILL.md
 ├── SKILL.md            # entry: what caddie is, hard rules, workflow index
 └── references/         # one file per workflow or table, loaded on demand
     ├── discover.md     # §6.1
@@ -17,9 +18,11 @@ skills/caddie/
     └── exit-codes.md
 ```
 
-`SKILL.md` must stay under 100 lines like every other doc, so detail goes into
-`references/` ([ADR 0012](../docs/adr/0012-agentic-docs-and-line-limits.md)).
-Each phase in `docs/tasks/` adds its own section.
+[`SKILL.md`](caddie/SKILL.md) must stay under 100 lines like every other doc,
+so detail goes into `references/` (created when the first workflow lands)
+([ADR 0012](../docs/adr/0012-agentic-docs-and-line-limits.md)).
+Each phase in `docs/tasks/` adds its own section. The exit-code table is
+mirrored verbatim from `cmd/README.md`, and a Go test keeps them equal.
 
 ## Non-negotiable content
 

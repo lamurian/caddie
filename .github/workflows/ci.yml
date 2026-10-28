@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   # Required status check on main; Renovate automerges only when it passes.
-  # Go build, vet and test tasks join `mise run check` in phase 01.
+  # `mise run check` covers lines, linters, secrets and Go build, vet, test.
   check:
     runs-on: ubuntu-latest
     steps:

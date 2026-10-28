@@ -1,6 +1,6 @@
 # 01. Skeleton
 
-- **Status:** Todo
+- **Status:** Done
 - **PRD milestone:** M1
 
 ## Goal
@@ -45,23 +45,24 @@ Sources, memory, documents, browser, `move`.
 
 ## Deliverables
 
-`go.mod`, Go tasks in `mise.toml`, `cmd/caddie/`, `internal/{config,workspace,profile}/`,
-`testdata/history/`, `testdata/golden/profile.json`.
+`go.mod`, Go tasks in `mise.toml`, `cmd/caddie/`,
+`internal/{config,workspace,profile,doctor}/` (`doctor` keeps the checks out
+of `cmd/`), `testdata/history/`, `testdata/golden/profile.json`.
 
 ## Definition of Done
 
-- [ ] `mise run check` runs build, vet, tests, golangci-lint (complexity
+- [x] `mise run check` runs build, vet, tests, golangci-lint (complexity
       ≤ 15) and the existing checks, and passes locally and in CI.
-- [ ] Env vars override `.env`, which overrides defaults (tested).
-- [ ] The history parser handles title, organisation, location, date range,
+- [x] Env vars override `.env`, which overrides defaults (tested).
+- [x] The history parser handles title, organisation, location, date range,
       `Present` and bullets; publications and presentations parse; errors
       name the file and line.
-- [ ] `caddie profile --json` matches `testdata/golden/profile.json`.
-- [ ] Profile output omits phone and email by default.
-- [ ] State machine tests cover every legal transition and reject an
+- [x] `caddie profile --json` matches `testdata/golden/profile.json`.
+- [x] Profile output omits phone and email by default.
+- [x] State machine tests cover every legal transition and reject an
       illegal one.
-- [ ] `caddie doctor` exits non-zero with a clear message when
+- [x] `caddie doctor` exits non-zero with a clear message when
       `require_gate: false` or `history/` is malformed.
-- [ ] The exit-code table is documented in `cmd/README.md`.
-- [ ] `skills/caddie/SKILL.md` exists, with what Caddie is, the directory
+- [x] The exit-code table is documented in `cmd/README.md`.
+- [x] `skills/caddie/SKILL.md` exists, with what Caddie is, the directory
       layout and the hard rules (PRD §8.1, §8.3).

@@ -5,6 +5,7 @@ personal data, real `history/` content, real answers or session state in here.
 
 ```
 testdata/
+├── config/       # fictional preferences (*.fixture.yml: preferences.yml is ignored)
 ├── history/      # a fictional CV following the history schema
 ├── postings/     # sample postings (Markdown + frontmatter) and raw HTML/JSON
 ├── portals/      # saved listing/detail pages, one directory per organisation
@@ -12,11 +13,18 @@ testdata/
 └── golden/       # expected outputs: keyword reports, profile JSON, PDF text
 ```
 
+Each directory has its own README: [config](config/README.md),
+[history](history/README.md), [postings](postings/README.md),
+[golden](golden/README.md). `portals/` and `sources/` arrive with their
+phases and get one then.
+
 ## Rules
 
 - Tests never hit the network. Record a response once, then commit it here.
-- **Golden files** are regenerated with `go test ./... -update` (a flag that
-  each package defines) and reviewed like code. Never hand-edit golden output
+- **Golden files** are regenerated with `go test <package> -update` (a flag
+  that each package owning a golden file defines, e.g.
+  `go test ./cmd/caddie -update` for `golden/profile.json`) and reviewed like
+  code. Never hand-edit golden output
   just to make a test pass.
 - The fictional history should exercise edge cases: a `Present` end date,
   multiple bullets, publications with several authors, and an entry with no

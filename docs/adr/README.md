@@ -20,6 +20,8 @@ accepted ADR without superseding it.
 | [0011](0011-posting-state-machine.md) | Posting frontmatter as a state machine; MIT licence | D19–D20 |
 | [0012](0012-agentic-docs-and-line-limits.md) | Agentic docs and line limits | — |
 | [0013](0013-dev-tooling.md) | Dev tooling: mise, lefthook and Renovate | — |
+| [0014](0014-cli-contract.md) | CLI contract: exit codes, output, configuration | §7, §12.7–12.8 |
+| [0015](0015-history-parser-details.md) | History parser details | §12.1–12.2 |
 
 ## Writing a new ADR
 

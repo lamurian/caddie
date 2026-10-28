@@ -29,7 +29,11 @@ Aug 2022 – Jun 2023
   the location and the date range (`Mon YYYY – Mon YYYY|Present`). Bullets
   follow until the next `###`.
 - In `publication.md` and `presentation.md`, the lines after `###` are the
-  venue, authors and date.
+  venue, authors (split on `,`, `;`, ` and `) and date.
+- The location line may be left out. Dates may also be `YYYY` or a full
+  month name; an indented line continues the bullet above it
+  ([ADR 0015](../docs/adr/0015-history-parser-details.md)).
+- Check your files with `caddie doctor`: errors name the file and line.
 
 `about.md` has YAML frontmatter:
 
