@@ -8,7 +8,7 @@ M2, M3 and M4 each split in two.
 | # | Phase | PRD milestone | Status |
 |---|-------|---------------|--------|
 | 01 | [Skeleton](01-skeleton.md) | M1 | Done |
-| 02 | [Discover: job boards](02-discover-boards.md) | M2 | Todo |
+| 02 | [Discover: job boards](02-discover-boards.md) | M2 | Done |
 | 03 | [Discover: organisation portals](03-discover-portals.md) | M2 | Todo |
 | 04 | [Verify, keywords, answers](04-verify-and-answers.md) | M3 | Todo |
 | 05 | [Render](05-render.md) | M3 | Todo |

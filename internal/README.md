@@ -11,17 +11,19 @@ tested against `testdata/` ([ADR 0001](../docs/adr/0001-skill-plus-cli.md)).
 | [`workspace`](workspace/README.md) | Directory layout, slugs, posting state machine, `Move` | §6.5, §12.3 |
 | [`profile`](profile/README.md) | Parse `history/*.md` + `about.md` into a struct → JSON | §12.1–12.2 |
 | [`doctor`](doctor/README.md) | Health checks behind `caddie doctor`; reports, never changes | §7 |
-| `posting` | Fetch, extract, frontmatter, reviews merge, manual checklist | §6.1, §12.3–12.4 |
-| `source` | Adapters: adzuna, remotive, arbeitnow, greenhouse, lever, portal | §7 |
-| `memory` | `.caddie/seen.jsonl` and `answers.yml` with lookup order | §12.5 |
+| [`posting`](posting/README.md) | Fetch, extract, frontmatter, reviews merge, manual checklist | §6.1, §12.3–12.4 |
+| [`source`](source/README.md) | Adapters: adzuna, remotive, arbeitnow, greenhouse, lever, portal | §7 |
+| [`memory`](memory/README.md) | `.caddie/seen.jsonl`, the last-search cache, `answers.yml` | §12.5 |
 | `document` | `Verify`, `Keywords`, `Render` (Quarto) + verified hashes | §6.2–6.3 |
 | `browse` | agent-browser argv builder behind an `Exec` interface | §9 |
 
 ## Dependency direction
 
 `cmd` → any package. `workspace`, `posting`, `document` may use `config`,
-`profile` and `memory`. `doctor` may use every package it checks. `source` returns plain structs and never touches the
-filesystem layout. `browse` depends only on `config`. No cycles; no package
+`profile` and `memory`; `posting` also uses `source` and `workspace`.
+`doctor` may use every package it checks. `source` uses only `config`,
+returns plain structs and never touches the filesystem layout; `memory`
+stores `source.Job` values in its search cache. `browse` depends only on `config`. No cycles; no package
 imports `cmd`.
 
 ## Conventions

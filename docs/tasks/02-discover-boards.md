@@ -1,6 +1,6 @@
 # 02. Discover: job boards
 
-- **Status:** Todo
+- **Status:** Done
 - **PRD milestone:** M2 (part 1)
 
 ## Goal
@@ -35,6 +35,10 @@ save confirmed postings, with any matching reviews merged in.
 - Skill: the discover workflow (§6.1), with exact commands and the per-item
   ranking fields.
 
+Decisions: [ADR 0016](../adr/0016-job-ids-and-search-memory.md) (job
+IDs, filtering, search memory) and
+[ADR 0017](../adr/0017-posting-extraction.md) (fetch and sections).
+
 ## Out of scope
 
 The `portal` adapter (phase 03). Ranking stays agent judgment and is not
@@ -47,14 +51,15 @@ handlers, fixtures and `skills/caddie/references/discover.md`.
 
 ## Definition of Done
 
-- [ ] Each adapter has a recorded-response test that maps to `Job`,
+- [x] Each adapter has a recorded-response test that maps to `Job`,
       including salary, work mode, location and deadline when present.
-- [ ] A disabled source, or missing Adzuna keys, is skipped with a notice,
+- [x] A disabled source, or missing Adzuna keys, is skipped with a notice,
       not an error.
-- [ ] `seen` filtering is tested, both with and without `--include-seen`.
-- [ ] `seen.jsonl` tolerates a hand-edited or blank line and reports it.
-- [ ] `posting save` produces frontmatter matching PRD §12.3, has a golden
+- [x] `seen` filtering is tested, both with and without `--include-seen`.
+- [x] `seen.jsonl` tolerates a hand-edited or blank line and reports it.
+- [x] `posting save` produces frontmatter matching PRD §12.3, has a golden
       test, and fills `## Reviews` when a review file exists.
-- [ ] Slugs are stable and unique (e.g. `senior-data-scientist-at-acme`).
+- [x] Slugs are stable and unique (e.g. `senior-data-scientist-at-acme`).
 - [ ] A manual run with real keys returns results (noted in the PR, not run
-      in CI).
+      in CI). **Not done yet:** must be run by a maintainer with real Adzuna
+      keys in `.env` (`caddie search`, then `caddie posting save <url>`).
