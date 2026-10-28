@@ -15,14 +15,36 @@ The `caddie` CLI entry point lives in `cmd/caddie/main.go`
 
 `profile`, `search`, `seen`, `posting save`, `answers`, `verify`, `keywords`,
 `render`, `browse`, `move`, `follow-ups`, `doctor`. Each is introduced by the
-phase in [`docs/tasks/`](../docs/tasks/README.md) that owns it.
+phase in [`docs/tasks/`](../docs/tasks/README.md) that owns it. Implemented:
+`profile [--json] [--with-contact]` and `doctor [--json]` (phase 01).
+
+## Exit codes
+
+Defined in `cmd/caddie/exit.go`, the contract of
+[ADR 0014](../docs/adr/0014-cli-contract.md). Errors go to stderr as one line,
+`caddie <command>: <message>`.
+
+<!-- exit-codes:begin -->
+| Code | Meaning | What the agent does |
+|------|---------|---------------------|
+| 0 | Success | Continue |
+| 1 | A check failed (`doctor` found a problem; later `verify` finds an untraceable claim) | Read the output, fix the cause, rerun |
+| 2 | Usage error: unknown command, bad flag or argument | Fix the command line |
+| 3 | Configuration error: `.env`, an env var or `preferences.yml` is invalid or missing | Show the message to the user |
+| 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
+| 5 | Not found (reserved: unknown slug or file) | Check the slug |
+| 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
+| 7 | Refused by a safety rule (reserved: unverified render, upload outside `/handoff`) | Stop; never work around it |
+| 8 | External tool or network failure (reserved: `quarto`, `docker`, HTTP) | Run `caddie doctor`, retry once, then tell the user |
+| 9 | Internal error | Report it to the user |
+<!-- exit-codes:end -->
 
 ## Conventions
 
 - Every command supports `--json`. Keep output short and structured, because
   the agent reasons over exactly what is printed.
-- Exit codes are documented in one table, mirrored verbatim in
-  `skills/caddie/SKILL.md`. Change both together.
+- Exit codes are documented in the table above, mirrored verbatim in
+  `skills/caddie/SKILL.md` (a test compares them). Change both together.
 - One file per subcommand group (e.g. `cmd/caddie/answers.go`) so that
   `main.go` stays small; every file stays under 300 lines.
 - Standard library `flag` (or a single small dependency) is preferred; adding

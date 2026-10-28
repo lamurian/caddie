@@ -1,0 +1,246 @@
+{
+  "identity": {
+    "name": "Mira Example-Halvorsen",
+    "nationality": "NO",
+    "work_authorization": [
+      "NL",
+      "EU"
+    ],
+    "location": "Utrecht, NL",
+    "links": {
+      "github": "https://github.com/example",
+      "orcid": "https://orcid.org/0000-0000-0000-0000",
+      "scholar": "https://scholar.example.org/mira"
+    },
+    "languages": [
+      {
+        "name": "English",
+        "level": "C2"
+      },
+      {
+        "name": "Norwegian",
+        "level": "native"
+      },
+      {
+        "name": "Dutch",
+        "level": "B1"
+      }
+    ]
+  },
+  "about": "Biostatistician who turns messy clinical data into decisions. I build\nreproducible pipelines in R and Python and explain the results to people\nwho will act on them.\n\nEverything in this file is fictional and exists only for tests.",
+  "sections": [
+    {
+      "id": "consultancies",
+      "heading": "Consultancies",
+      "entries": [
+        {
+          "title": "External Statistical Consultant",
+          "organisation": "Example Respiratory Network",
+          "location": "Bergen, Norway",
+          "start": "2021-08",
+          "end": "2021-12",
+          "bullets": [
+            "Provided statistical consultation on tuberculosis cohort data"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "heading": "Education",
+      "entries": [
+        {
+          "title": "MSc Biostatistics",
+          "organisation": "University of Exampleton",
+          "location": "Exampleton, Norway",
+          "start": "2017",
+          "end": "2019",
+          "bullets": [
+            "Thesis: joint models for longitudinal and time-to-event data"
+          ]
+        },
+        {
+          "title": "BSc Mathematics",
+          "organisation": "Example Technical College",
+          "location": "Oslo, Norway",
+          "start": "2014-09",
+          "end": "2017-06"
+        }
+      ]
+    },
+    {
+      "id": "employment",
+      "heading": "Employment",
+      "entries": [
+        {
+          "title": "Senior Biostatistician",
+          "organisation": "Fjordline Health Research",
+          "location": "Utrecht, Netherlands",
+          "start": "2023-03",
+          "end": "present",
+          "bullets": [
+            "Lead the statistical analysis plan for three multi-centre trials",
+            "Built a survival analysis pipeline in R that cut reporting time from two weeks to two days",
+            "Mentor two junior analysts"
+          ]
+        },
+        {
+          "title": "Data Analyst",
+          "organisation": "Northwind Clinical Data",
+          "start": "2019-09",
+          "end": "2023-02",
+          "bullets": [
+            "Cleaned and linked registry data for 40,000 patients",
+            "Automated weekly dashboards with Python"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "presentation",
+      "heading": "Presentations",
+      "works": [
+        {
+          "title": "Survival pipelines that clinicians trust",
+          "venue": "Example R Users Conference, Utrecht",
+          "authors": [
+            "Example-Halvorsen M"
+          ],
+          "date": "2023-11"
+        }
+      ]
+    },
+    {
+      "id": "publication",
+      "heading": "Publications",
+      "works": [
+        {
+          "title": "Joint models for sparse longitudinal biomarkers",
+          "venue": "Journal of Fictional Statistics, 12(3), 45–67",
+          "authors": [
+            "Example-Halvorsen M",
+            "Doe J",
+            "Roe R",
+            "Poe P"
+          ],
+          "date": "2024-03",
+          "bullets": [
+            "doi:10.0000/example.0001"
+          ]
+        },
+        {
+          "title": "Nowcasting outbreaks with delayed reporting",
+          "venue": "Proceedings of the Imaginary Epidemiology Conference",
+          "authors": [
+            "Example-Halvorsen M",
+            "Smith A"
+          ],
+          "date": "2022"
+        }
+      ]
+    },
+    {
+      "id": "research",
+      "heading": "Research",
+      "entries": [
+        {
+          "title": "Visiting Researcher",
+          "organisation": "Institute for Imaginary Epidemiology",
+          "location": "Leiden, Netherlands",
+          "start": "2022-01",
+          "end": "2022-06",
+          "bullets": [
+            "Developed Bayesian models for outbreak nowcasting"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "teaching",
+      "heading": "Teaching",
+      "entries": [
+        {
+          "title": "Teaching Assistant, Applied Regression",
+          "organisation": "University of Exampleton",
+          "location": "Exampleton, Norway",
+          "start": "2018-09",
+          "end": "2019-06",
+          "bullets": [
+            "Ran weekly R labs for 60 students"
+          ]
+        }
+      ]
+    }
+  ],
+  "preferences": {
+    "salary": {
+      "currency": "EUR",
+      "period": "year",
+      "minimum": 60000,
+      "target": 72000
+    },
+    "work_mode": [
+      "hybrid",
+      "wfh"
+    ],
+    "locations": {
+      "preferred": [
+        "Utrecht",
+        "Netherlands"
+      ],
+      "acceptable": [
+        "Belgium"
+      ],
+      "excluded": []
+    },
+    "roles": {
+      "include": [
+        "biostatistician",
+        "data scientist"
+      ],
+      "exclude": [
+        "sales engineer"
+      ]
+    },
+    "companies": {
+      "exclude": [
+        "ExampleCorp"
+      ]
+    },
+    "sources": {
+      "adzuna": {
+        "enabled": false,
+        "countries": [
+          "nl"
+        ]
+      },
+      "remotive": {
+        "enabled": true
+      },
+      "arbeitnow": {
+        "enabled": false
+      },
+      "greenhouse_boards": [
+        "acme"
+      ],
+      "lever_boards": [],
+      "portals": [
+        "who"
+      ]
+    },
+    "ranking": {
+      "top_n": 5,
+      "weights": {
+        "skills_match": 0.5,
+        "salary_fit": 0.2,
+        "work_mode_fit": 0.2,
+        "location_fit": 0.1
+      }
+    },
+    "apply": {
+      "require_gate": true,
+      "follow_up_days": 14,
+      "deadline_warning_days": 5
+    }
+  }
+}

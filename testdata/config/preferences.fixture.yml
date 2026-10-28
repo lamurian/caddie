@@ -1,0 +1,41 @@
+# Fictional preferences for tests. Contact details are placeholders.
+contact:
+  email: mira@example.org
+  phone: "+00 0 00000000"
+
+salary:
+  currency: EUR
+  period: year
+  minimum: 60000
+  target: 72000
+
+work_mode: [hybrid, wfh]
+
+locations:
+  preferred: [Utrecht, Netherlands]
+  acceptable: [Belgium]
+  excluded: []
+
+roles:
+  include: [biostatistician, data scientist]
+  exclude: [sales engineer]
+
+companies:
+  exclude: [ExampleCorp]
+
+sources:
+  adzuna: {enabled: false, countries: [nl]}
+  remotive: {enabled: true}
+  arbeitnow: {enabled: false}
+  greenhouse_boards: [acme]
+  lever_boards: []
+  portals: [who]
+
+ranking:
+  top_n: 5
+  weights: {skills_match: 0.5, salary_fit: 0.2, work_mode_fit: 0.2, location_fit: 0.1}
+
+apply:
+  require_gate: true
+  follow_up_days: 14
+  deadline_warning_days: 5

@@ -22,15 +22,25 @@ GOTOOLCHAIN = "local"
 [hooks]
 postinstall = "lefthook install"
 
-# Go tasks (build, test, vet) join `check` in phase 01.
+[tasks.build]
+description = "Compile every Go package"
+run = "go build ./..."
+
+[tasks.vet]
+description = "Run go vet"
+run = "go vet ./..."
+
+[tasks.test]
+description = "Run the Go tests (no network)"
+run = "go test ./..."
 
 [tasks.lines]
 description = "Enforce doc and code line limits (ADR 0012)"
 run = "scripts/check-lines.sh"
 
 [tasks."lint:go"]
-description = "Lint Go, incl. complexity <= 15 (skips until go.mod exists)"
-run = "if [ -f go.mod ]; then golangci-lint run ./...; else echo 'no go.mod: skipped'; fi"
+description = "Lint Go, incl. complexity <= 15"
+run = "golangci-lint run ./..."
 
 [tasks."lint:yaml"]
 description = "Lint YAML files"
@@ -54,4 +64,4 @@ depends = ["lint:*"]
 
 [tasks.check]
 description = "Everything CI runs; the pre-push hook runs this too"
-depends = ["lines", "lint", "secrets"]
+depends = ["lines", "lint", "secrets", "build", "vet", "test"]
