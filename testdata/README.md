@@ -6,12 +6,17 @@ personal data, real `history/` content, real answers or session state in here.
 ```
 testdata/
 ├── config/       # fictional preferences (*.fixture.yml: preferences.yml is ignored)
-├── history/      # a fictional CV following the history schema (see its README)
+├── history/      # a fictional CV following the history schema
 ├── postings/     # sample postings (Markdown + frontmatter) and raw HTML/JSON
 ├── portals/      # saved listing/detail pages, one directory per organisation
 ├── sources/      # recorded board API responses (adzuna, remotive, …)
 └── golden/       # expected outputs: keyword reports, profile JSON, PDF text
 ```
+
+Each directory has its own README: [config](config/README.md),
+[history](history/README.md), [postings](postings/README.md),
+[golden](golden/README.md). `portals/` and `sources/` arrive with their
+phases and get one then.
 
 ## Rules
 

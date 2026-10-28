@@ -7,6 +7,7 @@ The Agent Skill that Pi, Goose or any other agent loads to drive Caddie:
 
 ```
 skills/caddie/
+├── README.md           # for contributors; agents read SKILL.md
 ├── SKILL.md            # entry: what caddie is, hard rules, workflow index
 └── references/         # one file per workflow or table, loaded on demand
     ├── discover.md     # §6.1

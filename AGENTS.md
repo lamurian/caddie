@@ -47,13 +47,13 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 
 | Path | Purpose | Guide |
 |------|---------|-------|
-| `cmd/` | CLI entry point (`cmd/caddie`), exit codes | [README](cmd/README.md) |
-| `internal/` | All Go packages: config, workspace, profile, doctor, posting, source, memory, document, browse | [README](internal/README.md) |
-| `skills/` | The Agent Skill the agent loads (`skills/caddie/SKILL.md`) | [README](skills/README.md) |
+| `cmd/` | CLI entry point (`cmd/caddie`), exit codes | [README](cmd/README.md), [caddie](cmd/caddie/README.md) |
+| `internal/` | All Go packages: config, workspace, profile, doctor, posting, source, memory, document, browse | [README](internal/README.md); one per package |
+| `skills/` | The Agent Skill the agent loads (`skills/caddie/SKILL.md`) | [README](skills/README.md), [caddie](skills/caddie/README.md) |
 | `templates/` | Quarto templates for resume and cover letter | [README](templates/README.md) |
 | `docker/` | Browser + egress proxy compose stack | [README](docker/README.md) |
 | `portals/` | Per-organisation portal adapter configs | [README](portals/README.md) |
-| `testdata/` | Fictional fixtures and golden files | [README](testdata/README.md), [history](testdata/history/README.md) |
+| `testdata/` | Fictional fixtures and golden files | [README](testdata/README.md); one per subdirectory |
 | `history/` | The user's career history (tracked, public) | [README](history/README.md) |
 | `docs/adr/` | Architecture decision records | [README](docs/adr/README.md) |
 | `docs/tasks/` | Development phases with Definitions of Done | [README](docs/tasks/README.md) |
