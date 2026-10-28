@@ -9,6 +9,7 @@ The workspace's shape and the posting lifecycle
 | `layout.go` | `Layout`: paths of `postings/`, `applied/`, `manual/`, … and `Missing()` |
 | `slug.go` | `Slug` / `PostingSlug`: ASCII, lower-case, accents stripped (`<title>-at-<company>`) |
 | `posting.go` | `Posting`, the YAML frontmatter of `postings/<slug>.md`, and `ParsePosting` |
+| `frontmatter.go` | `Posting.Frontmatter`: writes it back in PRD §12.3 order, unset values empty |
 | `state.go` | `Status` and `Transition(from, to)`: the only legal status changes |
 
 Phase 01 only validates transitions; moving files between directories
