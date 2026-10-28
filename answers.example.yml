@@ -1,0 +1,15 @@
+# Copy to answers.yml (git-ignored). Caddie writes here via `caddie answers add`.
+# Lookup order for a key: posting:<slug> -> company:<x> -> global.
+global:
+  why_wfa: "I do my best analytical work with uninterrupted blocks of time."
+  notice_period: "1 month"
+  salary_expectation_eur: "85000"
+  right_to_work: "EU citizen's spouse permit, no sponsorship needed"
+  referees: "Available on request"
+company:
+  who:
+    why_org: "Example: why this organisation matters to me."
+posting:
+  senior-data-scientist-at-acme:
+    lead_story: "Example: the concrete story the cover letter opens with."
+    start_date: "2027-01-01"

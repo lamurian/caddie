@@ -1,0 +1,18 @@
+# secrets and personal settings
+.env
+preferences.yml
+answers.yml
+.caddie/
+
+# build output
+/caddie
+/dist/
+
+# browser data if ever bind-mounted
+docker/browser-profile/
+*.state.json
+
+# generated artefacts
+*.pdf
+**/trace/
+.quarto/

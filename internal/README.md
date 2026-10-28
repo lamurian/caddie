@@ -1,0 +1,44 @@
+# internal/
+
+All Go logic. Packages are deterministic, make no LLM calls and are unit
+tested against `testdata/` ([ADR 0001](../docs/adr/0001-skill-plus-cli.md)).
+
+## Packages
+
+| Package | Responsibility | PRD |
+|---------|----------------|-----|
+| `config` | Load `.env`, env vars (env wins), `preferences.yml` | §12.7–12.8 |
+| `workspace` | Directory layout, slugs, posting state machine, `Move` | §6.5, §12.3 |
+| `profile` | Parse `history/*.md` + `about.md` into a struct → JSON | §12.1–12.2 |
+| `posting` | Fetch, extract, frontmatter, reviews merge, manual checklist | §6.1, §12.3–12.4 |
+| `source` | Adapters: adzuna, remotive, arbeitnow, greenhouse, lever, portal | §7 |
+| `memory` | `.caddie/seen.jsonl` and `answers.yml` with lookup order | §12.5 |
+| `document` | `Verify`, `Keywords`, `Render` (Quarto) + verified hashes | §6.2–6.3 |
+| `browse` | agent-browser argv builder behind an `Exec` interface | §9 |
+
+## Dependency direction
+
+`cmd` → any package. `workspace`, `posting`, `document` may use `config`,
+`profile` and `memory`. `source` returns plain structs and never touches the
+filesystem layout. `browse` depends only on `config`. No cycles; no package
+imports `cmd`.
+
+## Conventions
+
+- One package per directory, a `doc.go` with the package comment, and files
+  under 300 lines (tests included). Split by concern, e.g.
+  `source/adzuna.go`, `source/lever.go`.
+- External processes (`quarto`, `docker compose`, `agent-browser`) and HTTP
+  go behind small interfaces so that tests can use fakes.
+- Errors carry enough context for the CLI to pick an exit code; define
+  sentinel errors per package.
+- Tests are table-driven, use `testdata/` fixtures and golden files, and
+  never touch the network.
+
+## Contributing
+
+1. Check which phase in [`docs/tasks/`](../docs/tasks/README.md) owns the
+   package and stay inside its scope.
+2. Write the test first against a fixture in `testdata/`.
+3. Keep exported APIs small; `cmd/` should need one call per subcommand.
+4. If you add a package, add it to the table above.
