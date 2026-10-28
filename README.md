@@ -32,6 +32,7 @@ listed in [`docs/tasks/`](docs/tasks/README.md).
 ## Quick setup (once phase 01 lands)
 
 ```bash
+mise install   # pinned tools + git hooks
 cp .env.example .env
 cp preferences.example.yml preferences.yml
 cp answers.example.yml answers.yml

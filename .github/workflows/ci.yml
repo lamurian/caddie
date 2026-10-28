@@ -2,13 +2,21 @@ name: ci
 
 on:
   push:
+    branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  line-limits:
+  # Required status check on main; Renovate automerges only when it passes.
+  # Go build, vet and test tasks join `mise run check` in phase 01.
+  check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Enforce doc and code line limits
-        run: scripts/check-lines.sh
-  # Go build, vet and test jobs are added in docs/tasks/01-skeleton.md.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # gitleaks scans the full history
+      - uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
+      - name: Run all checks
+        run: mise run check

@@ -1,0 +1,36 @@
+# Git hooks (docs/adr/0013-dev-tooling.md). `mise install` installs them.
+# Hooks mirror CI; CI stays authoritative. Tools come from mise.toml.
+
+pre-commit:
+  parallel: true
+  jobs:
+    - name: secrets
+      run: mise exec -- gitleaks git --staged --redact --no-banner
+
+    - name: workspace-guard
+      run: scripts/guard-workspace.sh {staged_files}
+
+    - name: gofmt
+      glob: "*.go"
+      run: mise exec -- gofmt -w {staged_files}
+      stage_fixed: true
+
+    - name: shellcheck
+      glob: "*.sh"
+      run: mise exec -- shellcheck {staged_files}
+
+    - name: yamllint
+      glob: "*.{yml,yaml}"
+      run: mise exec -- yamllint --strict {staged_files}
+
+    - name: actionlint
+      glob: ".github/workflows/*.{yml,yaml}"
+      run: mise exec -- actionlint {staged_files}
+
+    - name: line-limits
+      run: mise run lines
+
+pre-push:
+  jobs:
+    - name: check
+      run: mise run check

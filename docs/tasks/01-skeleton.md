@@ -20,7 +20,9 @@ reports the health of the setup, and CI builds and tests every push.
 
 ## Scope
 
-- `go.mod`, `Makefile` (`build`, `test`, `vet`, `lint`, `check`) and
+- `go.mod` (its `go` directive matching `mise.toml`), mise tasks `build`,
+  `test` and `vet` joined into `check` (`lint:go` already exists)
+  ([ADR 0013](../adr/0013-dev-tooling.md)), and
   `cmd/caddie/main.go` with subcommand dispatch, `--json` and an exit-code
   table.
 - `internal/config`: `.env` plus env vars (env wins) and `preferences.yml`.
@@ -35,7 +37,7 @@ reports the health of the setup, and CI builds and tests every push.
   `history/` parses, and `apply.require_gate` is `true`. Missing `quarto` and
   `docker` are reported as warnings for now.
 - `testdata/history/`: a fictional CV covering the schema's edge cases.
-- CI: add Go build, vet and test jobs to `.github/workflows/ci.yml`.
+- CI: nothing to add; the `check` job already runs `mise run check`.
 
 ## Out of scope
 
@@ -43,12 +45,13 @@ Sources, memory, documents, browser, `move`.
 
 ## Deliverables
 
-`go.mod`, `Makefile`, `cmd/caddie/`, `internal/{config,workspace,profile}/`,
-`testdata/history/`, `testdata/golden/profile.json`, updated CI.
+`go.mod`, Go tasks in `mise.toml`, `cmd/caddie/`, `internal/{config,workspace,profile}/`,
+`testdata/history/`, `testdata/golden/profile.json`.
 
 ## Definition of Done
 
-- [ ] `make check` runs vet, tests and `scripts/check-lines.sh`, and passes.
+- [ ] `mise run check` runs build, vet, tests, golangci-lint (complexity
+      ≤ 15) and the existing checks, and passes locally and in CI.
 - [ ] Env vars override `.env`, which overrides defaults (tested).
 - [ ] The history parser handles title, organisation, location, date range,
       `Present` and bullets; publications and presentations parse; errors

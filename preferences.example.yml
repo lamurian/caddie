@@ -17,14 +17,16 @@ locations:
   excluded: [United States]
 
 roles:
-  include: [data scientist, biostatistician, epidemiologist, research scientist, statistical consultant]
+  include:
+    [data scientist, biostatistician, epidemiologist, research scientist,
+     statistical consultant]
   exclude: [sales engineer]
 
 companies:
   exclude: [ExampleCorp]
 
 sources:
-  adzuna:   {enabled: true, countries: [nl, de, be]}
+  adzuna: {enabled: true, countries: [nl, de, be]}
   remotive: {enabled: true}
   arbeitnow: {enabled: true}
   greenhouse_boards: [acme, globex]

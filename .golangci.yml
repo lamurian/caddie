@@ -1,0 +1,15 @@
+# golangci-lint config, run by `mise run lint:go` (docs/adr/0013-dev-tooling.md).
+# Complexity gate: every function, tests included, keeps cyclomatic and
+# cognitive complexity <= 15. The linters report scores above min-complexity.
+# Split a function that fails; don't add //nolint.
+version: "2"
+
+linters:
+  enable:
+    - gocyclo
+    - gocognit
+  settings:
+    gocyclo:
+      min-complexity: 15
+    gocognit:
+      min-complexity: 15

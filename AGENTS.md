@@ -18,6 +18,8 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
    under 300 lines. Aim well under (~80 / ~250). Split, don't squeeze.
    `PROPOSAL.md` is the only exemption. Enforced by `scripts/check-lines.sh`
    in CI ([ADR 0012](docs/adr/0012-agentic-docs-and-line-limits.md)).
+   Every Go function keeps cyclomatic and cognitive complexity ≤ 15,
+   enforced by golangci-lint ([ADR 0013](docs/adr/0013-dev-tooling.md)).
 2. **Mechanics in code, judgment in the skill.** If two agents could do it
    differently and it matters, it belongs in the binary ([ADR 0001](docs/adr/0001-skill-plus-cli.md)).
 3. **Never weaken the submit gate**, the fidelity check or the credential
@@ -31,12 +33,14 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 
 ## How to work
 
-1. Pick the first unfinished phase in [`docs/tasks/`](docs/tasks/README.md).
-2. Read the ADRs and PRD sections it lists under *Inputs*.
-3. Read the README of every directory you will touch.
-4. Implement, with tests (PRD §13). Tick the Definition of Done.
-5. Run `scripts/check-lines.sh` (and, from phase 01, `make check`).
-6. If you make a decision the ADRs don't cover, add an ADR
+1. Run `mise install`: it installs the pinned tools and the git hooks
+   ([ADR 0013](docs/adr/0013-dev-tooling.md)).
+2. Pick the first unfinished phase in [`docs/tasks/`](docs/tasks/README.md).
+3. Read the ADRs and PRD sections it lists under *Inputs*.
+4. Read the README of every directory you will touch.
+5. Implement, with tests (PRD §13). Tick the Definition of Done.
+6. Run `mise run check` (the same command as CI and the pre-push hook).
+7. If you make a decision the ADRs don't cover, add an ADR
    ([how](docs/adr/README.md)).
 
 ## Directory map
@@ -53,7 +57,8 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 | `history/` | The user's career history (tracked, public) | [README](history/README.md) |
 | `docs/adr/` | Architecture decision records | [README](docs/adr/README.md) |
 | `docs/tasks/` | Development phases with Definitions of Done | [README](docs/tasks/README.md) |
-| `scripts/` | Repo tooling (`check-lines.sh`) | — |
+| `scripts/` | Repo tooling (`check-lines.sh`, `guard-workspace.sh`) | — |
+| `.github/` | CI workflow and Renovate config | [README](.github/README.md) |
 
 ## Workspace directories
 

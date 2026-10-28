@@ -36,6 +36,8 @@ Every phase's Definition of Done also implicitly includes these items:
   300 lines.
 - `go vet ./...` and `go test ./...` pass in CI, with no network access in
   tests.
+- `golangci-lint` passes: every function's cyclomatic and cognitive
+  complexity is ≤ 15.
 - Every new directory has a README linked from `AGENTS.md`.
 - The relevant `skills/caddie` section is updated, and every command it shows
   works exactly as written.
