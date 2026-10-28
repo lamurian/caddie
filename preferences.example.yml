@@ -16,6 +16,9 @@ locations:
   acceptable: [Germany, Belgium, Switzerland]
   excluded: [United States]
 
+# caddie search sends roles.include as search terms (Greenhouse and Lever
+# boards match them on title and department only) and drops jobs whose
+# title contains a roles.exclude entry or whose company is excluded.
 roles:
   include:
     [data scientist, biostatistician, epidemiologist, research scientist,
@@ -25,6 +28,8 @@ roles:
 companies:
   exclude: [ExampleCorp]
 
+# A disabled source, or adzuna without CADDIE_ADZUNA_APP_ID/APP_KEY in
+# .env, is skipped with a notice. Boards are company slugs from their URLs.
 sources:
   adzuna: {enabled: true, countries: [nl, de, be]}
   remotive: {enabled: true}

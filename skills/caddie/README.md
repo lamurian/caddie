@@ -5,8 +5,8 @@ is, the directory layout, the hard rules (PRD §8.3, verbatim), the gate
 message and the exit-code table. This README is for contributors; agents
 read `SKILL.md`.
 
-`references/` (one file per workflow) is added when the first workflow
-lands; see the layout in [`skills/README.md`](../README.md).
+[`references/`](references/README.md) holds one file per workflow; see the
+layout in [`skills/README.md`](../README.md).
 
 ## Contributing
 

@@ -22,6 +22,9 @@ accepted ADR without superseding it.
 | [0013](0013-dev-tooling.md) | Dev tooling: mise, lefthook and Renovate | — |
 | [0014](0014-cli-contract.md) | CLI contract: exit codes, output, configuration | §7, §12.7–12.8 |
 | [0015](0015-history-parser-details.md) | History parser details | §12.1–12.2 |
+| [0016](0016-job-ids-and-search-memory.md) | Job IDs, search filtering and search memory | §6.1, §7, §12.5 |
+| [0017](0017-posting-extraction.md) | Posting fetch and section extraction | §6.1, §12.3–12.4 |
+| [0018](0018-board-matching-and-fair-limit.md) | Company boards match titles; `--limit` shared across feeds | §6.1, §7 |
 
 ## Writing a new ADR
 

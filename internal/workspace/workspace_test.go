@@ -83,3 +83,30 @@ func TestParsePostingErrors(t *testing.T) {
 		}
 	}
 }
+
+// Frontmatter writes the fixture byte for byte and round-trips through
+// ParsePosting, including values YAML would misread unquoted.
+func TestFrontmatterRoundTrip(t *testing.T) {
+	name := "../../testdata/postings/senior-data-scientist-at-acme.md"
+	data, err := os.ReadFile(name)
+	if err != nil {
+		t.Fatal(err)
+	}
+	p, _, err := ParsePosting(name, data)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := string(p.Frontmatter()); !strings.HasPrefix(string(data), got) {
+		t.Errorf("frontmatter differs from fixture:\n%s", got)
+	}
+	odd := Posting{Slug: "s", Title: "Lead: Data #1", Company: "yes", Location: "123",
+		Status: StatusSaved, ManualReason: "multi\nline"}
+	back, _, err := ParsePosting("odd.md", odd.Frontmatter())
+	if err != nil {
+		t.Fatal(err)
+	}
+	odd.ManualReason = "multi line"
+	if back != odd {
+		t.Errorf("round trip:\n got %+v\nwant %+v", back, odd)
+	}
+}

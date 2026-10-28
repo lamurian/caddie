@@ -1,0 +1,32 @@
+{
+  "id": "0f8e7d6c-5b4a-4321-9876-0123456789ab",
+  "text": "Biostatistician",
+  "hostedUrl": "https://jobs.lever.co/globex/0f8e7d6c-5b4a-4321-9876-0123456789ab",
+  "applyUrl": "https://jobs.lever.co/globex/0f8e7d6c-5b4a-4321-9876-0123456789ab/apply",
+  "createdAt": 1792540800000,
+  "workplaceType": "remote",
+  "categories": {
+    "location": "Remote (EU)",
+    "commitment": "Full-time",
+    "team": "Research"
+  },
+  "description": "<div>Globex is a fictional research firm.</div>",
+  "descriptionPlain": "Globex is a fictional research firm.",
+  "lists": [
+    {
+      "text": "Responsibilities",
+      "content": "<li>Design trials.</li><li>Write analysis plans.</li>"
+    },
+    {
+      "text": "Requirements",
+      "content": "<li>MSc in biostatistics.</li>"
+    }
+  ],
+  "additional": "<div>Applications close on 1 December 2026.</div>",
+  "salaryRange": {
+    "min": 5000,
+    "max": 6000,
+    "currency": "EUR",
+    "interval": "per-month-salary"
+  }
+}

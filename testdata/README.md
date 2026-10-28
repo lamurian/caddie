@@ -8,6 +8,7 @@ testdata/
 ├── config/       # fictional preferences (*.fixture.yml: preferences.yml is ignored)
 ├── history/      # a fictional CV following the history schema
 ├── postings/     # sample postings (Markdown + frontmatter) and raw HTML/JSON
+├── reviews/      # fictional reviews/<company>.md merged into saved postings
 ├── portals/      # saved listing/detail pages, one directory per organisation
 ├── sources/      # recorded board API responses (adzuna, remotive, …)
 └── golden/       # expected outputs: keyword reports, profile JSON, PDF text
@@ -15,8 +16,9 @@ testdata/
 
 Each directory has its own README: [config](config/README.md),
 [history](history/README.md), [postings](postings/README.md),
-[golden](golden/README.md). `portals/` and `sources/` arrive with their
-phases and get one then.
+[reviews](reviews/README.md), [sources](sources/README.md),
+[golden](golden/README.md). `portals/` arrives with phase 03 and gets one
+then.
 
 ## Rules
 

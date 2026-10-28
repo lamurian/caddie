@@ -5,6 +5,7 @@ Expected outputs that tests compare byte for byte.
 | File | Produced by | Regenerate |
 |------|-------------|------------|
 | `profile.json` | `caddie profile --json` on `testdata/` | `go test ./cmd/caddie -update` |
+| `posting-senior-data-scientist-at-acme.md` | `posting.Save` on `sources/greenhouse-acme-123.json` + `reviews/acme.md`; `cmd/caddie` checks it too | `go test ./internal/posting -update` |
 
 ## Contributing
 

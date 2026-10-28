@@ -1,0 +1,39 @@
+{
+  "jobs": [
+    {
+      "id": 123,
+      "title": "Senior Data Scientist",
+      "company_name": "Acme",
+      "absolute_url": "https://boards.greenhouse.io/acme/jobs/123",
+      "location": {
+        "name": "Amsterdam, NL (Hybrid)"
+      },
+      "updated_at": "2026-10-21T09:00:00-04:00",
+      "first_published": "2026-10-20T09:00:00-04:00",
+      "metadata": [
+        {
+          "id": 1,
+          "name": "Application Deadline",
+          "value": "2026-11-14",
+          "value_type": "date"
+        }
+      ],
+      "content": "&lt;p&gt;Acme is a fictional analytics company. You join a small team in Amsterdam.&lt;/p&gt;&lt;h3&gt;What you&#x27;ll do&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;Build survival models for client trials.&lt;/li&gt;&lt;li&gt;Present results to clinicians.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;What you bring:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;5+ years of applied statistics.&lt;/li&gt;&lt;li&gt;R and Python.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Nice to have&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Experience with Bayesian methods.&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;What we offer&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;32 days of leave.&lt;/li&gt;&lt;li&gt;Learning budget.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Application deadline: 14 November 2026.&lt;/p&gt;"
+    },
+    {
+      "id": 456,
+      "title": "Account Executive",
+      "company_name": "Acme",
+      "absolute_url": "https://boards.greenhouse.io/acme/jobs/456",
+      "location": {
+        "name": "Berlin, DE"
+      },
+      "updated_at": "2026-10-22T09:00:00-04:00",
+      "metadata": [],
+      "content": "&lt;p&gt;Sell our products to new clients.&lt;/p&gt;"
+    }
+  ],
+  "meta": {
+    "total": 2
+  }
+}
