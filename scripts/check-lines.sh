@@ -23,7 +23,7 @@ while IFS= read -r f; do
   case "$f" in
     PROPOSAL.md) ;;
     *.md) check "$f" "$DOC_LIMIT" ;;
-    *.go|*.sh|*.yml|*.yaml|*.qmd|*.typ|*.conf|Makefile|*/Makefile|*Dockerfile)
+    *.go|*.sh|*.yml|*.yaml|*.toml|*.json5|*.qmd|*.typ|*.conf|*Dockerfile)
       check "$f" "$CODE_LIMIT" ;;
   esac
 done < <(git ls-files --cached --others --exclude-standard)

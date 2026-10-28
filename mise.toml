@@ -1,0 +1,53 @@
+# Tool versions and dev tasks (docs/adr/0013-dev-tooling.md).
+# Versions are exact; Renovate bumps them and refreshes mise.lock.
+# mise must not load .env: internal/config owns env > .env > defaults.
+
+[tools]
+go = "1.27.3"
+golangci-lint = "2.15.0"
+lefthook = "2.2.2"
+gitleaks = "8.30.1"
+shellcheck = "0.11.0"
+actionlint = "1.7.12"
+uv = "0.13.6"
+"pipx:yamllint" = "1.38.0"
+"github:quarto-dev/quarto-cli" = "1.10.19"
+
+[settings]
+lockfile = true
+
+[env]
+GOTOOLCHAIN = "local"
+
+[hooks]
+postinstall = "lefthook install"
+
+# Go tasks (build, test, vet, lint:go) join `check` in phase 01.
+
+[tasks.lines]
+description = "Enforce doc and code line limits (ADR 0012)"
+run = "scripts/check-lines.sh"
+
+[tasks."lint:yaml"]
+description = "Lint YAML files"
+run = "yamllint --strict ."
+
+[tasks."lint:sh"]
+description = "Lint shell scripts"
+run = "git ls-files -z '*.sh' | xargs -0 -r shellcheck"
+
+[tasks."lint:actions"]
+description = "Lint GitHub Actions workflows"
+run = "actionlint"
+
+[tasks.secrets]
+description = "Scan committed history for secrets (staged files: pre-commit)"
+run = "gitleaks git --redact --no-banner"
+
+[tasks.lint]
+description = "Run every linter"
+depends = ["lint:*"]
+
+[tasks.check]
+description = "Everything CI runs; the pre-push hook runs this too"
+depends = ["lines", "lint", "secrets"]

@@ -19,6 +19,7 @@ accepted ADR without superseding it.
 | [0010](0010-quarto-rendering.md) | PDF rendering with Quarto + Typst | D18 |
 | [0011](0011-posting-state-machine.md) | Posting frontmatter as a state machine; MIT licence | D19–D20 |
 | [0012](0012-agentic-docs-and-line-limits.md) | Agentic docs and line limits | — |
+| [0013](0013-dev-tooling.md) | Dev tooling: mise, lefthook and Renovate | — |
 
 ## Writing a new ADR
 
