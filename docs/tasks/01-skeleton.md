@@ -21,7 +21,7 @@ reports the health of the setup, and CI builds and tests every push.
 ## Scope
 
 - `go.mod` (its `go` directive matching `mise.toml`), mise tasks `build`,
-  `test`, `vet` and `lint:go` joined into `check`
+  `test` and `vet` joined into `check` (`lint:go` already exists)
   ([ADR 0013](../adr/0013-dev-tooling.md)), and
   `cmd/caddie/main.go` with subcommand dispatch, `--json` and an exit-code
   table.
@@ -50,8 +50,8 @@ Sources, memory, documents, browser, `move`.
 
 ## Definition of Done
 
-- [ ] `mise run check` runs build, vet, tests, golangci-lint and the
-      existing checks, and passes locally and in CI.
+- [ ] `mise run check` runs build, vet, tests, golangci-lint (complexity
+      ≤ 15) and the existing checks, and passes locally and in CI.
 - [ ] Env vars override `.env`, which overrides defaults (tested).
 - [ ] The history parser handles title, organisation, location, date range,
       `Present` and bullets; publications and presentations parse; errors

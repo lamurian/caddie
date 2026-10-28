@@ -22,11 +22,15 @@ GOTOOLCHAIN = "local"
 [hooks]
 postinstall = "lefthook install"
 
-# Go tasks (build, test, vet, lint:go) join `check` in phase 01.
+# Go tasks (build, test, vet) join `check` in phase 01.
 
 [tasks.lines]
 description = "Enforce doc and code line limits (ADR 0012)"
 run = "scripts/check-lines.sh"
+
+[tasks."lint:go"]
+description = "Lint Go, incl. complexity <= 15 (skips until go.mod exists)"
+run = "if [ -f go.mod ]; then golangci-lint run ./...; else echo 'no go.mod: skipped'; fi"
 
 [tasks."lint:yaml"]
 description = "Lint YAML files"

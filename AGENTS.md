@@ -18,6 +18,8 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
    under 300 lines. Aim well under (~80 / ~250). Split, don't squeeze.
    `PROPOSAL.md` is the only exemption. Enforced by `scripts/check-lines.sh`
    in CI ([ADR 0012](docs/adr/0012-agentic-docs-and-line-limits.md)).
+   Every Go function keeps cyclomatic and cognitive complexity ≤ 15,
+   enforced by golangci-lint ([ADR 0013](docs/adr/0013-dev-tooling.md)).
 2. **Mechanics in code, judgment in the skill.** If two agents could do it
    differently and it matters, it belongs in the binary ([ADR 0001](docs/adr/0001-skill-plus-cli.md)).
 3. **Never weaken the submit gate**, the fidelity check or the credential

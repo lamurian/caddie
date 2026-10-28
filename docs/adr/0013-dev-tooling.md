@@ -18,7 +18,11 @@ dependencies that stay current without manual chores. PRD §11 lists a
   Quarto) and records checksums in the committed `mise.lock`.
 - **mise tasks replace the Makefile.** `mise run check` is the single entry
   point that CI, the pre-push hook and contributors all run. Go tasks
-  (`build`, `test`, `vet`, `lint:go`) join it in phase 01.
+  (`build`, `test`, `vet`) join it in phase 01.
+- **Complexity gate:** `.golangci.yml` enables gocyclo and gocognit at
+  `min-complexity: 15`, so every Go function, tests included, keeps
+  cyclomatic and cognitive complexity ≤ 15. A failing function is split, not
+  silenced with `//nolint`. `lint:go` skips until `go.mod` exists.
 - mise does **not** load `.env`; `internal/config` owns the precedence
   env > `.env` > defaults. `GOTOOLCHAIN=local` keeps mise's Go authoritative.
 - **lefthook** (`lefthook.yml`) runs fast, staged-file checks on pre-commit:
