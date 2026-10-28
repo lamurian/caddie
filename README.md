@@ -29,14 +29,14 @@ listed in [`docs/tasks/`](docs/tasks/README.md).
 - [`docs/adr/`](docs/adr/README.md): architecture decisions.
 - [`docs/tasks/`](docs/tasks/README.md): development phases.
 
-## Quick setup (once phase 01 lands)
+## Quick setup
 
 ```bash
 mise install   # pinned tools + git hooks
 cp .env.example .env
 cp preferences.example.yml preferences.yml
 cp answers.example.yml answers.yml
-go build ./cmd/caddie && ./caddie doctor
+go build ./cmd/caddie && ./caddie doctor   # then fill in history/
 ```
 
 ## Licence

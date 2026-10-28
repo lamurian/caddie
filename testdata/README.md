@@ -5,7 +5,8 @@ personal data, real `history/` content, real answers or session state in here.
 
 ```
 testdata/
-├── history/      # a fictional CV following the history schema
+├── config/       # fictional preferences (*.fixture.yml: preferences.yml is ignored)
+├── history/      # a fictional CV following the history schema (see its README)
 ├── postings/     # sample postings (Markdown + frontmatter) and raw HTML/JSON
 ├── portals/      # saved listing/detail pages, one directory per organisation
 ├── sources/      # recorded board API responses (adzuna, remotive, …)
@@ -15,8 +16,10 @@ testdata/
 ## Rules
 
 - Tests never hit the network. Record a response once, then commit it here.
-- **Golden files** are regenerated with `go test ./... -update` (a flag that
-  each package defines) and reviewed like code. Never hand-edit golden output
+- **Golden files** are regenerated with `go test <package> -update` (a flag
+  that each package owning a golden file defines, e.g.
+  `go test ./cmd/caddie -update` for `golden/profile.json`) and reviewed like
+  code. Never hand-edit golden output
   just to make a test pass.
 - The fictional history should exercise edge cases: a `Present` end date,
   multiple bullets, publications with several authors, and an entry with no
