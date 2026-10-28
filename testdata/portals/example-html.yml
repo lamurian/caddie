@@ -1,0 +1,14 @@
+# Fictional selector-based portal: an HTML listing, one <li> per opening.
+name: Example Health Organization
+listing_url: https://careers.example.org/vacancies
+item_selector: ul.vacancies li.vacancy
+fields:
+  id: "@data-id"
+  title: a.title
+  url: a.title@href
+  location: .location
+  deadline: .closing-date
+  salary: .grade
+detail_url: https://careers.example.org/job?id={id}
+ats: taleo
+notes: Fictional fixture for the internal/source tests.

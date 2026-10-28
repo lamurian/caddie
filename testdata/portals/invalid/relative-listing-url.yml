@@ -1,0 +1,5 @@
+name: Example
+listing_url: /vacancies
+item_selector: li
+fields: {title: a, url: a@href}
+ats: bespoke

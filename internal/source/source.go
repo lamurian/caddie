@@ -17,6 +17,10 @@ const (
 	Arbeitnow  = "arbeitnow"
 	Greenhouse = "greenhouse-board"
 	Lever      = "lever-board"
+
+	// PortalFamily names every organisation portal; one portal's source
+	// name is "portal:<org>" (ADR 0019).
+	PortalFamily = "portal"
 )
 
 // Names lists every board source in the order search queries them.
