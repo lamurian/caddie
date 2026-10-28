@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "slug": "data-scientist-stark-berlin-12345",
+      "company_name": "Stark Analytics",
+      "title": "Data Scientist (m/w/d)",
+      "description": "<p>Fictional role. Hybrid, two days in Berlin.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/jobs/companies/stark/data-scientist-stark-berlin-12345",
+      "tags": [
+        "Data"
+      ],
+      "job_types": [
+        "full time"
+      ],
+      "location": "Berlin",
+      "created_at": 1792800000
+    },
+    {
+      "slug": "biostatistician-wayne-munich-23456",
+      "company_name": "Wayne Research",
+      "title": "Biostatistician",
+      "description": "<p>Fictional fully remote role.</p>",
+      "remote": true,
+      "url": "https://www.arbeitnow.com/jobs/companies/wayne/biostatistician-wayne-munich-23456",
+      "tags": [],
+      "job_types": [],
+      "location": "Munich",
+      "created_at": 1792713600
+    },
+    {
+      "slug": "werkstudent-vertrieb-oscorp-34567",
+      "company_name": "Oscorp",
+      "title": "Werkstudent Vertrieb",
+      "description": "<p>Fictional sales internship.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/jobs/companies/oscorp/werkstudent-vertrieb-oscorp-34567",
+      "tags": [],
+      "job_types": [],
+      "location": "Hamburg",
+      "created_at": 1792627200
+    }
+  ],
+  "links": {
+    "next": null
+  }
+}

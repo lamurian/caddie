@@ -1,0 +1,29 @@
+{
+  "job-count": 2,
+  "jobs": [
+    {
+      "id": 7000001,
+      "url": "https://remotive.com/remote-jobs/data/data-scientist-7000001",
+      "title": "Data Scientist",
+      "company_name": "Hooli",
+      "category": "Data",
+      "job_type": "full_time",
+      "publication_date": "2026-10-26T10:00:00",
+      "candidate_required_location": "Europe",
+      "salary": "$80k - $100k",
+      "description": "<p>Fictional remote data role.</p><p>Application deadline: 30 November 2026</p>"
+    },
+    {
+      "id": 7000002,
+      "url": "https://remotive.com/remote-jobs/data/biostatistician-7000002",
+      "title": "Biostatistician",
+      "company_name": "Vandelay",
+      "category": "Data",
+      "job_type": "contract",
+      "publication_date": "2026-10-23T10:00:00",
+      "candidate_required_location": "Worldwide",
+      "salary": "",
+      "description": "<p>Fictional contract work on clinical trial data.</p>"
+    }
+  ]
+}

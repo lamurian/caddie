@@ -1,0 +1,38 @@
+{
+  "count": 2,
+  "results": [
+    {
+      "id": "4100000001",
+      "title": "Biostatistician",
+      "company": {
+        "display_name": "Initech Health"
+      },
+      "location": {
+        "display_name": "Utrecht, Utrecht"
+      },
+      "redirect_url": "https://www.adzuna.nl/details/4100000001",
+      "description": "Hybrid role in a fictional CRO. Closing date: 2026-11-30.",
+      "created": "2026-10-25T08:00:00Z",
+      "salary_min": 60000,
+      "salary_max": 72000,
+      "salary_is_predicted": "0",
+      "contract_time": "full_time"
+    },
+    {
+      "id": "4100000002",
+      "title": "Junior Biostatistician",
+      "company": {
+        "display_name": "Umbrella Pharma"
+      },
+      "location": {
+        "display_name": "Leiden, Zuid-Holland"
+      },
+      "redirect_url": "https://www.adzuna.nl/details/4100000002",
+      "description": "Work on site with a fictional lab team.",
+      "created": "2026-10-24T08:00:00Z",
+      "salary_min": 41000,
+      "salary_max": 41000,
+      "salary_is_predicted": "1"
+    }
+  ]
+}
