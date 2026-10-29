@@ -123,10 +123,17 @@ func periodOf(lower string, amount int) string {
 	return ""
 }
 
-var deadlinePattern = regexp.MustCompile(`(?i)(?:application deadline|deadline|closing date|apply by|applications close)\s*(?:is|on|:)?\s*` +
-	`(\d{4}-\d{2}-\d{2}|\d{1,2}\s+[A-Za-z]+\.?\s+\d{4}|[A-Za-z]+\.?\s+\d{1,2},?\s+\d{4})`)
+// dateExpr matches the date layouts Date accepts: 2026-11-14, 14 Nov 2026,
+// 14 November 2026, Nov 14, 2026 and 14-Nov-2026.
+const dateExpr = `\d{4}-\d{2}-\d{2}|\d{1,2}\s+[A-Za-z]+\.?\s+\d{4}|[A-Za-z]+\.?\s+\d{1,2},?\s+\d{4}|\d{1,2}-[A-Za-z]{3}-\d{4}`
 
-var dateLayouts = []string{"2 January 2006", "2 Jan 2006", "January 2 2006", "Jan 2 2006"}
+var (
+	deadlinePattern = regexp.MustCompile(`(?i)(?:application deadline|deadline|closing date|apply by|applications close)` +
+		`\s*(?:is|on|:)?\s*(` + dateExpr + `)`)
+	datePattern = regexp.MustCompile(dateExpr)
+)
+
+var dateLayouts = []string{"2 January 2006", "2 Jan 2006", "January 2 2006", "Jan 2 2006", "2-Jan-2006"}
 
 // Deadline finds an application deadline stated in text and returns it as
 // YYYY-MM-DD, or "" when none is stated.
@@ -151,6 +158,18 @@ func Date(s string) string {
 	for _, layout := range dateLayouts {
 		if t, err := time.Parse(layout, s); err == nil {
 			return t.Format("2006-01-02")
+		}
+	}
+	return ""
+}
+
+// findDate returns the first date in text that Date can normalise, such as
+// "Closing: 30 November 2026", as YYYY-MM-DD, or "". Numeric dates other
+// than YYYY-MM-DD (14/11/2026) are ambiguous and never read.
+func findDate(text string) string {
+	for _, m := range datePattern.FindAllString(text, -1) {
+		if d := Date(m); d != "" {
+			return d
 		}
 	}
 	return ""

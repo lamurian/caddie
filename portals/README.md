@@ -46,7 +46,16 @@ detail_url: https://careers.example.org/job?id={id}
 ats: taleo
 ```
 
-Enabled from `preferences.yml` → `sources.portals`.
+Enabled from `preferences.yml` → `sources.portals`; `caddie search
+--source portal` queries every enabled portal, `--source portal:<org>` one.
+
+Each item becomes a job with ID `portal:<org>:<id>` (`fields.id`, else the
+`{id}` `detail_url` captures from the URL, else a URL hash). `roles.include`
+matches the title only. `deadline` text may hold other words ("Closing: 30
+Nov 2026"): the first `2026-11-30`, `30 Nov 2026`, `30 November 2026`, `Nov
+30, 2026` or `30-Nov-2026` in it is used; `30/11/2026` is ambiguous and
+ignored. `salary` counts only with a currency or period ("USD 90,000",
+"90,000 per year"), so a grade such as `P-3` is not a salary.
 
 ## Hosts
 

@@ -44,6 +44,23 @@ func TestDeadlineAndDate(t *testing.T) {
 	}
 }
 
+func TestFindDate(t *testing.T) {
+	cases := map[string]string{
+		"Closing: 30 November 2026":            "2026-11-30",
+		"Closing Date: Nov 14, 2026, 11:59 PM": "2026-11-14",
+		"Deadline 14-Nov-2026":                 "2026-11-14",
+		"Ref 12 2026, closes Dec. 1, 2026":     "2026-12-01",
+		"2026-11-30T23:59:59Z":                 "2026-11-30",
+		"14/11/2026":                           "",
+		"Expired":                              "",
+	}
+	for in, want := range cases {
+		if got := findDate(in); got != want {
+			t.Errorf("findDate(%q) = %q, want %q", in, got, want)
+		}
+	}
+}
+
 func TestWorkMode(t *testing.T) {
 	cases := map[string]string{
 		"Amsterdam (Hybrid)":   "hybrid",

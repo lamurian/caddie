@@ -39,8 +39,17 @@ only a YAML file, a fixture and a test.
 - **Enabling.** `preferences.yml` `sources.portals` lists the orgs to
   query. `--source portal` means every enabled portal and
   `--source portal:<org>` one. A listed org without a file, or a
-  `js_rendered: true` config, is a notice, not an error. An invalid config
+  `js_rendered: true` config, is a notice, not an error, as is
+  `--source portal:<org>` for an org `sources.portals` does not list. An invalid config
   is exit 3 with `<file>: <field>: <problem>`.
+- **Search.** Portals run after the boards, in `sources.portals` order,
+  so a URL a board already returned is kept as the board's job. Each
+  portal is its own `--limit` feed (ADR 0018). `roles.include` matches the
+  title only: listings have no description. The URL is `fields.url`, else
+  `detail_url` with the id (query- or path-escaped); an item with neither
+  is dropped. `deadline` is the first unambiguous date in the field's text
+  (no `dd/mm` vs `mm/dd` guessing); `salary` counts only with a currency
+  or a pay period, so a UN grade (`P-3`) is never read as an amount.
 - **Scope of a fetch.** One GET or POST to `listing_url` per portal: no
   JavaScript rendering, no authentication and no pagination beyond what
   that one response returns.

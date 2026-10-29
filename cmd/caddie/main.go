@@ -41,7 +41,7 @@ const usageText = `Usage: caddie <command> [flags]
 Commands:
   profile [--json] [--with-contact]   JSON summary of history/ + preferences.yml
   search [--source s] [--limit n] [--include-seen]
-                                      JSON jobs from the enabled job boards
+                                      JSON jobs from enabled boards and portals
   seen add <id…> --shown|--rejected   record jobs shown to or rejected by the user
   seen list [--rejected]              JSON of seen.jsonl, one entry per job
   posting save <url>                  fetch a posting into postings/<slug>.md
