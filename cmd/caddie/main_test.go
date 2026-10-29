@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	"github.com/lamurian/caddie/internal/config"
+	"github.com/lamurian/caddie/internal/document"
 	"github.com/lamurian/caddie/internal/posting"
 	"github.com/lamurian/caddie/internal/profile"
 	"github.com/lamurian/caddie/internal/source"
@@ -33,6 +34,15 @@ func runCaddie(t *testing.T, vars map[string]string, args ...string) result {
 // runWith is runCaddie with HTTP answered from recorded responses.
 func runWith(t *testing.T, vars map[string]string, client fakeHTTP, args ...string) result {
 	t.Helper()
+	return runQuarto(t, vars, client, nil, args...)
+}
+
+// runQuarto is runWith with q as quarto; a nil q fails the test if run.
+func runQuarto(t *testing.T, vars map[string]string, client fakeHTTP, q document.Quarto, args ...string) result {
+	t.Helper()
+	if q == nil {
+		q = noQuarto{t}
+	}
 	var out, errOut bytes.Buffer
 	code := run(args, env{
 		stdout: &out, stderr: &errOut,
@@ -43,6 +53,7 @@ func runWith(t *testing.T, vars map[string]string, client fakeHTTP, args ...stri
 		},
 		client: client,
 		today:  func() string { return "2026-10-28" },
+		quarto: func(string) document.Quarto { return q },
 	})
 	return result{code, out.String(), errOut.String()}
 }
@@ -106,6 +117,9 @@ func TestExitCodeMapping(t *testing.T) {
 		{workspace.Transition(workspace.StatusSaved, workspace.StatusApplied), exitIllegalState},
 		{fmt.Errorf("x: %w", posting.ErrNoPosting), exitNotFound},
 		{fmt.Errorf("x: %w", source.ErrFetch), exitExternal},
+		{fmt.Errorf("x: %w", document.ErrNotVerified), exitRefused},
+		{fmt.Errorf("x: %w", document.ErrQuarto), exitExternal},
+		{fmt.Errorf("x: %w", document.ErrKind), exitUsage},
 		{errors.New("surprise"), exitInternal},
 	}
 	for _, c := range cases {

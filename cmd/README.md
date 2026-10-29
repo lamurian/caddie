@@ -24,7 +24,9 @@ phase in [`docs/tasks/`](../docs/tasks/README.md) that owns it. Implemented:
 `answers show [--for <slug>] [--form]` and `answers list` (phase 04,
 [ADR 0020](../docs/adr/0020-answers-scopes-and-form-keys.md));
 `verify <doc.md> [--json]` and `keywords <posting.md> <doc.md> [--json]`
-(phase 04, [ADR 0021](../docs/adr/0021-claim-extraction-and-non-factual-prose.md)). Flags may
+(phase 04, [ADR 0021](../docs/adr/0021-claim-extraction-and-non-factual-prose.md));
+`render resume|cover-letter <slug> [--json]` (phase 05,
+[ADR 0022](../docs/adr/0022-render-naming-and-gate.md)). Flags may
 come before or after arguments. A malformed `answers.yml` is exit 4; an
 unknown `--for` slug or a missing file is exit 5.
 
@@ -44,8 +46,8 @@ Defined in `cmd/caddie/exit.go`, the contract of
 | 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
 | 5 | Not found: no job posting at a URL, an unknown slug or a missing file | Check the URL, slug or path |
 | 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
-| 7 | Refused by a safety rule (reserved: unverified render, upload outside `/handoff`) | Stop; never work around it |
-| 8 | External tool or network failure: HTTP (later: `quarto`, `docker`) | Run `caddie doctor`, retry once, then tell the user |
+| 7 | Refused by a safety rule: `render` on an unverified or edited draft (reserved: upload outside `/handoff`) | Stop; never work around it |
+| 8 | External tool or network failure: HTTP, `quarto` (later: `docker`) | Run `caddie doctor`, retry once, then tell the user |
 | 9 | Internal error | Report it to the user |
 <!-- exit-codes:end -->
 
