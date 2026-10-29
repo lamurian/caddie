@@ -17,10 +17,13 @@ in [`cmd/README.md`](../README.md) and
 | `seen.go` | `caddie seen add <id…> --shown\|--rejected` and `caddie seen list [--rejected]` |
 | `posting.go` | `caddie posting save <url>` |
 | `answers.go` | `caddie answers add\|show\|list` over `answers.yml`; finds a posting by slug |
+| `verify.go` | `caddie verify <doc.md> [--json]`: traces claims, records the verified hash; `readDoc` |
+| `keywords.go` | `caddie keywords <posting.md> <doc.md> [--json]`: advisory keyword coverage |
 
 Tests run each command in-process against `testdata/` and assert both the
 output and the exit code. `profile_test.go` owns `-update` for
-`testdata/golden/profile.json`. `runWith` answers HTTP from
+`testdata/golden/profile.json`; `keywords_test.go` reads the keywords
+golden that `internal/document` owns. `runWith` answers HTTP from
 `testdata/sources/` (portal listings from `testdata/portals/`, see
 `search_portal_test.go`) so no test touches the network.
 

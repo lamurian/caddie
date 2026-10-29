@@ -29,12 +29,14 @@ type env struct {
 type command func(args []string, e env) error
 
 var commands = map[string]command{
-	"profile": cmdProfile,
-	"search":  cmdSearch,
-	"seen":    cmdSeen,
-	"posting": cmdPosting,
-	"answers": cmdAnswers,
-	"doctor":  cmdDoctor,
+	"profile":  cmdProfile,
+	"search":   cmdSearch,
+	"seen":     cmdSeen,
+	"posting":  cmdPosting,
+	"answers":  cmdAnswers,
+	"verify":   cmdVerify,
+	"keywords": cmdKeywords,
+	"doctor":   cmdDoctor,
 }
 
 const usageText = `Usage: caddie <command> [flags]
@@ -51,6 +53,9 @@ Commands:
   answers show [--for <slug>] [--form]
                                       JSON answers: global, or merged for a posting
   answers list                        JSON of every stored answer and its scope
+  verify <doc.md> [--json]            trace every claim of a draft to history/ and answers
+  keywords <posting.md> <doc.md> [--json]
+                                      keyword coverage of a draft against a posting
   doctor [--json]                     check configuration, workspace and history
   help                                show this help
 

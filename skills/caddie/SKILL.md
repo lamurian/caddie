@@ -81,11 +81,11 @@ After filling a form, post the screenshot and exactly this text, then stop:
 | Code | Meaning | What the agent does |
 |------|---------|---------------------|
 | 0 | Success | Continue |
-| 1 | A check failed (`doctor` found a problem; later `verify` finds an untraceable claim) | Read the output, fix the cause, rerun |
+| 1 | A check failed (`doctor` found a problem; `verify` found an untraceable claim) | Read the output, fix the cause, rerun |
 | 2 | Usage error: unknown command, bad flag or argument | Fix the command line |
 | 3 | Configuration error: `.env`, an env var or `preferences.yml` is invalid or missing | Show the message to the user |
 | 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
-| 5 | Not found: no job posting at a URL (later: unknown slug or file) | Check the URL or slug |
+| 5 | Not found: no job posting at a URL, an unknown slug or a missing file | Check the URL, slug or path |
 | 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
 | 7 | Refused by a safety rule (reserved: unverified render, upload outside `/handoff`) | Stop; never work around it |
 | 8 | External tool or network failure: HTTP (later: `quarto`, `docker`) | Run `caddie doctor`, retry once, then tell the user |
