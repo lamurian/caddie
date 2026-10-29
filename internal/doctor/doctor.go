@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/lamurian/caddie/internal/config"
+	"github.com/lamurian/caddie/internal/document"
 	"github.com/lamurian/caddie/internal/profile"
 	"github.com/lamurian/caddie/internal/workspace"
 )
@@ -37,6 +38,8 @@ type Options struct {
 	DotEnv   string
 	Lookup   config.LookupFunc
 	LookPath func(file string) (string, error)
+	// Quarto runs the quarto found at bin; nil runs it for real.
+	Quarto func(bin string) document.Quarto
 }
 
 func (r *Report) add(name string, s Status, format string, args ...any) {
@@ -60,7 +63,7 @@ func Run(opts Options) Report {
 	checkDirs(&r, layout)
 	checkPreferences(&r, layout)
 	checkHistory(&r, layout)
-	checkTool(&r, opts.LookPath, "quarto", cfg.QuartoBin, "needed by `caddie render` (phase 05)")
+	checkQuarto(&r, opts, cfg.QuartoBin)
 	checkTool(&r, opts.LookPath, "docker", "docker", "needed by `caddie browse` (phase 06)")
 	return r
 }

@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/lamurian/caddie/internal/document"
 )
 
 // workspaceWith builds a complete temp workspace holding the fixture
@@ -80,4 +83,43 @@ func TestDoctorMalformedHistory(t *testing.T) {
 		}
 	}
 	t.Errorf("no history failure naming teaching.md:4 in %+v", rep)
+}
+
+// doctorWithQuarto runs doctor with every tool found and q as quarto.
+func doctorWithQuarto(t *testing.T, q document.Quarto) result {
+	t.Helper()
+	vars := workspaceWith(t, "apply: {require_gate: true}\n", nil)
+	var out, errOut bytes.Buffer
+	code := run([]string{"doctor"}, env{
+		stdout: &out, stderr: &errOut,
+		lookup:   func(k string) (string, bool) { v, ok := vars[k]; return v, ok },
+		dotenv:   filepath.Join(t.TempDir(), "absent.env"),
+		lookPath: func(f string) (string, error) { return "/opt/bin/" + f, nil },
+		quarto: func(bin string) document.Quarto {
+			if bin != "/opt/bin/quarto" {
+				t.Errorf("quarto bin %q", bin)
+			}
+			return q
+		},
+	})
+	return result{code, out.String(), errOut.String()}
+}
+
+func TestDoctorQuartoRenders(t *testing.T) {
+	q := &fakeQuarto{}
+	r := doctorWithQuarto(t, q)
+	if r.code != exitOK || !strings.Contains(r.stdout, "ok    quarto       found at /opt/bin/quarto; rendered a test PDF") {
+		t.Errorf("got %+v", r)
+	}
+	if len(q.calls) != 1 || q.calls[0][1] != "doctor.qmd" {
+		t.Errorf("quarto calls %q", q.calls)
+	}
+}
+
+func TestDoctorQuartoBroken(t *testing.T) {
+	r := doctorWithQuarto(t, &fakeQuarto{fail: true})
+	if r.code != exitCheckFailed || !strings.Contains(r.stdout, "fail  quarto") ||
+		!strings.Contains(r.stdout, "ERROR: compile failed") {
+		t.Errorf("got %+v", r)
+	}
 }

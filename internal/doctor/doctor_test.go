@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/lamurian/caddie/internal/document"
 )
 
 const gateOn = "apply: {require_gate: true}\n"
@@ -45,8 +47,15 @@ func newWorkspace(t *testing.T, prefs string, history map[string]string) string 
 	return root
 }
 
+// run runs every check with a quarto that renders, when found.
 func run(root string, found bool) Report {
-	return Run(Options{
+	return Run(options(root, found, &fakeQuarto{pdf: []byte("%PDF-fake")}))
+}
+
+// options fakes the environment: root as the workspace, every tool found
+// under /usr/bin (or none) and q as quarto.
+func options(root string, found bool, q *fakeQuarto) Options {
+	return Options{
 		DotEnv: filepath.Join(root, "absent.env"),
 		Lookup: func(k string) (string, bool) {
 			if k == "CADDIE_WORKSPACE" {
@@ -60,7 +69,8 @@ func run(root string, found bool) Report {
 			}
 			return "", errors.New("not found")
 		},
-	})
+		Quarto: func(bin string) document.Quarto { q.bin = bin; return q },
+	}
 }
 
 func status(r Report, name string) Check {
