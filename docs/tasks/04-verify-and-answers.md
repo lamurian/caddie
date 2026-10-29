@@ -58,4 +58,4 @@ fixtures and golden files, and `skills/caddie/references/{tailor,cover-letter}.m
       `--for <slug>` returns the merged view.
 - [ ] `answers.yml` round-trips without losing keys or hand comments
       (or the limitation is documented).
-- [ ] The skill tells the agent to run `answers show` before asking anything.
+- [x] The skill tells the agent to run `answers show` before asking anything.
