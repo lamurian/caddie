@@ -1,0 +1,20 @@
+---
+# Caddie resume template (ADR 0010). `caddie render resume <slug>` copies
+# this directory into a temporary one, writes _caddie-body.md (the verified
+# draft) and _caddie.json (name, location, email, phone, links) next to it,
+# then runs `quarto render resume.qmd --to typst --output <Name>-resume-…pdf`.
+# The reader keeps body text literal: no smart quotes, citations, math or
+# raw markup.
+from: markdown-smart-citations-tex_math_dollars-raw_tex-raw_html-raw_attribute+lists_without_preceding_blankline
+format:
+  typst:
+    shift-heading-level-by: 0
+    template-partials:
+      - typst-template.typ
+      - typst-show.typ
+filters:
+  - caddie-fields.lua
+caddie-layout: resume
+---
+
+{{< include _caddie-body.md >}}
