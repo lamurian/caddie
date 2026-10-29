@@ -1,0 +1,23 @@
+# Fictional answers for the memory and `caddie answers` tests.
+# Lookup order for a key: posting:<slug> -> company:<x> -> global.
+global:
+  # Asked once, reused on every form.
+  notice_period: "1 month"
+  salary_expectation_eur: 85000 # unquoted on purpose: kept as literal text
+  start_date: "2027-03-01"
+  right_to_work: "EU citizen's spouse permit, no sponsorship needed"
+  why_org: 'Generic: I like mission-driven teams.'
+  referees: # still to ask; an empty value counts as unanswered
+company:
+  # Company keys are the slug of the posting's company.
+  acme:
+    start_date: "2027-02-01"
+    why_org: "Acme's survival-analysis work matches my research."
+  who:
+    why_org: "Example: why this organisation matters to me."
+posting:
+  senior-data-scientist-at-acme:
+    start_date: "2027-01-01" # the posting asks for January
+    lead_story: |-
+      The fictional trial where I cut
+      the analysis time in half.

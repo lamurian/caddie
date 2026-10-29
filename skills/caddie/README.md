@@ -1,8 +1,9 @@
 # skills/caddie/
 
 The Agent Skill itself. An agent loads [`SKILL.md`](SKILL.md): what Caddie
-is, the directory layout, the hard rules (PRD §8.3, verbatim), the gate
-message and the exit-code table. This README is for contributors; agents
+is, the directory layout, the hard rules (PRD §8.3, verbatim), the commands
+available now, the workflow index with the cover-letter interview guidance
+(PRD §8.6), the gate message and the exit-code table. This README is for contributors; agents
 read `SKILL.md`.
 
 [`references/`](references/README.md) holds one file per workflow; see the

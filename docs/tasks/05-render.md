@@ -55,3 +55,9 @@ text extraction in `testdata/golden/` and skill updates to the render steps.
       `rendered`.
 - [ ] Rendering works on a headless Linux box with only Quarto installed
       (noted in the PR).
+- [ ] The resume draft format (name, headline, contact) is settled with
+      `verify`: `#`/`##` heading text is not checked (ADR 0021), so the
+      template supplies name and contact and drafts carry none; update
+      `references/tailor.md` and the `testdata/documents/` fixtures to match.
+- [ ] One path convention for `.caddie/verified/` records (verify stores the
+      path as given, relative to the current directory).

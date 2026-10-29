@@ -8,8 +8,8 @@ Parses `history/` into a `Profile` that serialises to JSON
 |------|-------|
 | `load.go` | `Load(dir)`: reads every `*.md` except `README.md`, skips subdirectories |
 | `about.go` | `about.md` YAML frontmatter → `Identity` (name, links, languages, …) |
-| `section.go` | One history file → `Section` of `Entry` (title, organisation, location, dates, bullets) |
-| `dates.go` | Date ranges: month names, `Sept`, year-only, `Present`, `-` / `–` / `—` |
+| `section.go` | One history file → `Section` of `Entry` (title, organisation, location, dates, bullets); `SplitAuthors` |
+| `dates.go` | `ParseDate`, `ParseRange`: month names, `Sept`, year-only, `Present`, `-` / `–` / `—` |
 | `types.go` | `Profile`, `Section`, `Entry`, `Work` (publications, presentations) |
 
 Every problem is a `*ParseError` that prints `file:line: message` and wraps

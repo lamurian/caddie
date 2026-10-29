@@ -10,7 +10,7 @@ M2, M3 and M4 each split in two.
 | 01 | [Skeleton](01-skeleton.md) | M1 | Done |
 | 02 | [Discover: job boards](02-discover-boards.md) | M2 | Done |
 | 03 | [Discover: organisation portals](03-discover-portals.md) | M2 | Done |
-| 04 | [Verify, keywords, answers](04-verify-and-answers.md) | M3 | Todo |
+| 04 | [Verify, keywords, answers](04-verify-and-answers.md) | M3 | Done |
 | 05 | [Render](05-render.md) | M3 | Todo |
 | 06 | [Browser sandbox](06-browser-sandbox.md) | M4 | Todo |
 | 07 | [Apply and archive](07-apply-and-archive.md) | M4 | Todo |

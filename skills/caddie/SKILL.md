@@ -12,14 +12,11 @@ description: >-
 
 ## What Caddie is
 
-Caddie is a job application workflow made of this skill plus one binary,
-`caddie`. You supply judgment: ranking, tailoring, writing and deciding what
-to ask. `caddie` supplies everything that must be deterministic: parsing,
-verification, rendering, memory, file moves and browser commands. It makes no
-LLM calls. What it prints is what you reason over: keep to its JSON output
-and its exit codes. The final *Submit* click always stays with the human.
-
-Run every command from the repository root.
+This skill plus one binary, `caddie`. You supply judgment: ranking,
+tailoring, writing, what to ask. `caddie` supplies the deterministic parts:
+parsing, verification, rendering, memory, file moves, browser commands; it
+makes no LLM calls. Keep to its output and exit codes. The human always
+clicks *Submit*. Run every command from the repository root.
 
 ## Directory layout
 
@@ -53,21 +50,29 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
 
 ## Commands available now
 
-- `caddie doctor`: checks the setup. Run it first in a new session. Exit 0
-  means healthy (`warn` lines are fine); otherwise show the user each `fail`
-  line verbatim and stop.
-- `caddie profile`: JSON with `identity`, `about`, `sections` (from
-  `history/`) and `preferences`. Phone and email are left out; add
-  `--with-contact` only when a document or form needs them.
+- `caddie doctor`: run it first in a new session. Exit 0 is healthy (`warn`
+  is fine); otherwise show the user each `fail` line verbatim and stop.
+- `caddie profile`: JSON `identity`, `about`, `sections` (`history/`) and
+  `preferences`; phone and email only with `--with-contact`, when needed.
+- `caddie answers show [--for <slug>] [--form]`, `caddie answers list` (JSON),
+  `caddie answers add --key k --scope global|company:<x>|posting:<slug> "<text>"`.
+- `caddie verify <doc.md>`: traces every claim of a draft to `history/` and
+  answers; exit 1 lists each untraceable claim by line.
+- `caddie keywords <posting.md> <doc.md>`: advisory keyword coverage.
 
 ## Workflows
 
-- **Discover** ("find jobs"): follow
-  [`references/discover.md`](references/discover.md). It uses
-  `caddie search` (job boards and organisation portals), `caddie seen
-  add|list` and `caddie posting save <url>`.
-
-Tailor, cover letter, apply and follow up are added as their commands ship.
+- **Discover** ("find jobs"): [`references/discover.md`](references/discover.md)
+  (`caddie search`, `caddie seen add|list`, `caddie posting save <url>`).
+- **Tailor** ("tailor <slug>"): [`references/tailor.md`](references/tailor.md)
+  (draft, `caddie verify`, `caddie keywords`, iterate).
+- **Cover letter** ("cover letter <slug>"):
+  [`references/cover-letter.md`](references/cover-letter.md). Interview:
+  run `caddie answers show --for <slug>` before asking the user anything,
+  then ask at most five questions, batched in one message, only for keys
+  not stored. Suggested keys: `why_org`, `why_role`, `lead_story`,
+  `start_date`, `constraints`.
+- Rendering, apply and follow up are added as their commands ship.
 
 ## Gate message
 
@@ -81,11 +86,11 @@ After filling a form, post the screenshot and exactly this text, then stop:
 | Code | Meaning | What the agent does |
 |------|---------|---------------------|
 | 0 | Success | Continue |
-| 1 | A check failed (`doctor` found a problem; later `verify` finds an untraceable claim) | Read the output, fix the cause, rerun |
+| 1 | A check failed (`doctor` found a problem; `verify` found an untraceable claim) | Read the output, fix the cause, rerun |
 | 2 | Usage error: unknown command, bad flag or argument | Fix the command line |
 | 3 | Configuration error: `.env`, an env var or `preferences.yml` is invalid or missing | Show the message to the user |
 | 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
-| 5 | Not found: no job posting at a URL (later: unknown slug or file) | Check the URL or slug |
+| 5 | Not found: no job posting at a URL, an unknown slug or a missing file | Check the URL, slug or path |
 | 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
 | 7 | Refused by a safety rule (reserved: unverified render, upload outside `/handoff`) | Stop; never work around it |
 | 8 | External tool or network failure: HTTP (later: `quarto`, `docker`) | Run `caddie doctor`, retry once, then tell the user |

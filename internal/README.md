@@ -14,7 +14,7 @@ tested against `testdata/` ([ADR 0001](../docs/adr/0001-skill-plus-cli.md)).
 | [`posting`](posting/README.md) | Fetch, extract, frontmatter, reviews merge, manual checklist | §6.1, §12.3–12.4 |
 | [`source`](source/README.md) | Adapters: adzuna, remotive, arbeitnow, greenhouse, lever, portal | §7 |
 | [`memory`](memory/README.md) | `.caddie/seen.jsonl`, the last-search cache, `answers.yml` | §12.5 |
-| `document` | `Verify`, `Keywords`, `Render` (Quarto) + verified hashes | §6.2–6.3 |
+| [`document`](document/README.md) | `Verify`, `Keywords`, `Render` (Quarto) + verified hashes | §6.2–6.3 |
 | `browse` | agent-browser argv builder behind an `Exec` interface | §9 |
 
 ## Dependency direction

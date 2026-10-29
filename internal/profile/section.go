@@ -104,7 +104,7 @@ func toEntry(file string, b block) (Entry, error) {
 			b.title.text, len(fields))
 	}
 	dates := fields[len(fields)-1]
-	start, end, err := parseRange(dates.text)
+	start, end, err := ParseRange(dates.text)
 	if err != nil {
 		return Entry{}, errAt(file, dates.n, "%v", err)
 	}
@@ -129,12 +129,12 @@ func toWork(file string, b block) (Work, error) {
 	if err != nil {
 		return Work{}, errAt(file, fields[2].n, "%v", err)
 	}
-	return Work{Title: b.title.text, Venue: fields[0].text, Authors: splitAuthors(fields[1].text),
+	return Work{Title: b.title.text, Venue: fields[0].text, Authors: SplitAuthors(fields[1].text),
 		Date: d.String(), Bullets: bullets}, nil
 }
 
-// splitAuthors splits "A, B and C" or "A; B; C" into names.
-func splitAuthors(s string) []string {
+// SplitAuthors splits "A, B and C" or "A; B; C" into names.
+func SplitAuthors(s string) []string {
 	s = strings.ReplaceAll(s, ";", ",")
 	s = strings.ReplaceAll(s, " and ", ", ")
 	var out []string
