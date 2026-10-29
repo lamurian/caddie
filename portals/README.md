@@ -70,6 +70,7 @@ The hosts each config contacts (`listing_url`, `detail_url`). They seed
 
 | Org | Hosts | Notes |
 |-----|-------|-------|
+| `un` | `careers.un.org` | JSON API (POST); applying is on `inspira.un.org` (login) |
 
 ## Discovery, not application
 

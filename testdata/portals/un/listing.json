@@ -1,0 +1,54 @@
+{
+  "status": 200,
+  "message": "Success",
+  "data": {
+    "count": 4,
+    "list": [
+      {
+        "jobId": 900101,
+        "postingTitle": "Programme Management Officer, Fictional Affairs",
+        "jobCodeTitle": "PROGRAMME MANAGEMENT OFFICER",
+        "jobLevel": "P-3",
+        "jobNetwork": "Management and Administration",
+        "deptOffice": "Office of Example Affairs",
+        "dutyStation": [{"code": "NAIROBI", "description": "Nairobi"}],
+        "startDate": "2026-10-14T04:00:00.000Z",
+        "endDate": "2026-11-28T04:59:59.000Z"
+      },
+      {
+        "jobId": 900102,
+        "postingTitle": "  Statistician\n  (Temporary Job Opening) ",
+        "jobCodeTitle": "STATISTICIAN",
+        "jobLevel": "P-4",
+        "jobNetwork": "Economic, Social and Development",
+        "deptOffice": "Example Statistics Division",
+        "dutyStation": [
+          {"code": "NEW YORK", "description": "New York"},
+          {"code": "GENEVA", "description": "Geneva"}
+        ],
+        "startDate": "2026-10-20T04:00:00.000Z",
+        "endDate": "2026-12-15T04:59:59.000Z"
+      },
+      {
+        "jobId": 900103,
+        "postingTitle": "Associate Economic Affairs Officer",
+        "jobCodeTitle": "ASSOCIATE ECONOMIC AFFAIRS OFFICER",
+        "jobLevel": "P-2",
+        "jobNetwork": "Economic, Social and Development",
+        "deptOffice": "Example Regional Commission",
+        "dutyStation": [{"code": "BANGKOK", "description": "Bangkok"}],
+        "startDate": "2026-10-22T04:00:00.000Z",
+        "endDate": null
+      },
+      {
+        "jobId": 900104,
+        "postingTitle": "",
+        "jobCodeTitle": "INFORMATION SYSTEMS ASSISTANT",
+        "jobLevel": "G-5",
+        "dutyStation": [{"code": "VIENNA", "description": "Vienna"}],
+        "startDate": "2026-10-23T04:00:00.000Z",
+        "endDate": "2026-11-10T04:59:59.000Z"
+      }
+    ]
+  }
+}
