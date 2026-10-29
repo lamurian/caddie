@@ -57,6 +57,9 @@ Nov 2026"): the first `2026-11-30`, `30 Nov 2026`, `30 November 2026`, `Nov
 ignored. `salary` counts only with a currency or period ("USD 90,000",
 "90,000 per year"), so a grade such as `P-3` is not a salary.
 
+`caddie posting save` recognises every config here, enabled or not, and
+takes `ats` from it.
+
 ## Hosts
 
 The hosts each config contacts (`listing_url`, `detail_url`). They seed

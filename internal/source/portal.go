@@ -2,8 +2,6 @@ package source
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
 	"fmt"
 	"net/url"
 	"slices"
@@ -67,12 +65,8 @@ func (p Portal) job(it portalItem) (Job, bool) {
 	if native == "" {
 		native, _ = p.Matches(link)
 	}
-	if native == "" {
-		sum := sha256.Sum256([]byte(strings.TrimSpace(link)))
-		native = hex.EncodeToString(sum[:])[:12]
-	}
 	j := Job{
-		ID: p.SourceName() + ":" + native, Source: p.SourceName(),
+		ID: PortalJobID(p, native, link), Source: p.SourceName(),
 		Title: it["title"], Company: p.Name, URL: link, Location: it["location"],
 		WorkMode: WorkMode(it["location"], it["title"]), Deadline: findDate(it["deadline"]),
 	}
