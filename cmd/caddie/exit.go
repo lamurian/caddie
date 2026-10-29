@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/lamurian/caddie/internal/config"
+	"github.com/lamurian/caddie/internal/memory"
 	"github.com/lamurian/caddie/internal/posting"
 	"github.com/lamurian/caddie/internal/profile"
 	"github.com/lamurian/caddie/internal/source"
@@ -46,8 +47,10 @@ var exitCodes = []struct {
 	{profile.ErrMalformed, exitMalformed},
 	{workspace.ErrBadPosting, exitMalformed},
 	{workspace.ErrUnknownStatus, exitMalformed},
+	{memory.ErrMalformedAnswers, exitMalformed},
 	{workspace.ErrIllegalTransition, exitIllegalState},
 	{posting.ErrNoPosting, exitNotFound},
+	{errNotFound, exitNotFound},
 	{source.ErrFetch, exitExternal},
 }
 

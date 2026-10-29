@@ -16,6 +16,7 @@ in [`cmd/README.md`](../README.md) and
 | `search.go` | `caddie search [--source s] [--limit n] [--include-seen]`; workspace loading helpers |
 | `seen.go` | `caddie seen add <id…> --shown\|--rejected` and `caddie seen list [--rejected]` |
 | `posting.go` | `caddie posting save <url>` |
+| `answers.go` | `caddie answers add\|show\|list` over `answers.yml`; finds a posting by slug |
 
 Tests run each command in-process against `testdata/` and assert both the
 output and the exit code. `profile_test.go` owns `-update` for
