@@ -1,0 +1,20 @@
+---
+# Caddie cover-letter template (ADR 0010). `caddie render cover-letter
+# <slug>` copies this directory into a temporary one, writes _caddie-body.md
+# (the verified letter) and _caddie.json (name, location, email, phone,
+# links) next to it, then runs
+# `quarto render cover-letter.qmd --to typst --output <Name>-cover-letter-…pdf`.
+# The header comes from _caddie.json; the letter itself is the body alone.
+from: markdown-smart-citations-tex_math_dollars-raw_tex-raw_html-raw_attribute+lists_without_preceding_blankline
+format:
+  typst:
+    shift-heading-level-by: 0
+    template-partials:
+      - typst-template.typ
+      - typst-show.typ
+filters:
+  - caddie-fields.lua
+caddie-layout: letter
+---
+
+{{< include _caddie-body.md >}}
