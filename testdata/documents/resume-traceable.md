@@ -1,14 +1,8 @@
----
-title: Resume
----
-
-# Mira Example-Halvorsen
+## About
 
 Biostatistician who turns messy clinical data into decisions for trial
 teams. I build reproducible pipelines in R and Python and explain the
 results to the people who act on them. Passionate about open science.
-
-Code: https://github.com/example · ORCID: https://orcid.org/0000-0000-0000-0000
 
 ## Employment
 

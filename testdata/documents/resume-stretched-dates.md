@@ -1,4 +1,6 @@
-# Mira Example-Halvorsen
+## About
+
+Biostatistician who turns messy clinical data into decisions.
 
 ## Employment
 
