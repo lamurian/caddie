@@ -1,7 +1,7 @@
 # internal/document/
 
 Checks the agent's tailored Markdown drafts (`resumes/<slug>.md`,
-`cover-letters/<slug>.md`) before they are rendered
+`cover-letters/<slug>.md`) and renders them to PDF once verified
 ([PRD §6.2–6.3](../../PROPOSAL.md),
 [ADR 0004](../../docs/adr/0004-fidelity-check.md)).
 
@@ -17,6 +17,10 @@ Checks the agent's tailored Markdown drafts (`resumes/<slug>.md`,
 | `keywords.go` | `Keywords(posting, draft, profile)` → `KeywordReport`, its statuses and `Text()` |
 | `keywords_extract.go` | `## Requirements` → de-duplicated keyword phrases, filler stripping |
 | `keywords_match.go` | Folding, tokens, plural stem, phrase boundaries, the history text |
+| `render.go` | `Kind`, `ParseKind`, `RenderInput`, `RenderResult`, `Render`: the verified gate, quarto, PDF and handoff copy |
+| `render_name.go` | `PDFName`: `<Name>-<kind>-<position-slug>-<company-slug>.pdf` |
+| `render_quarto.go` | `Quarto` interface and `ExecQuarto`, the real binary |
+| `render_files.go` | The temp render dir: template copy, `_caddie-body.md`, `_caddie.json` |
 | `golden_test.go` | The `-update` flag and `checkGolden` shared by every golden test here |
 
 Claim kinds and the non-factual prose rule are in
@@ -40,6 +44,19 @@ language names, section headings, entry titles, organisations and bullets,
 and work titles, venues and bullets. Status: `covered` (draft and history),
 `missing` (history only: may be added), `unsupported` (neither: never add),
 `unbacked` (draft only: run `caddie verify` and remove it).
+
+## Render
+
+`Render` refuses with `ErrNotVerified` (exit 7) unless the draft's exact
+bytes have a verified hash, before any temp dir or quarto call. It copies the
+template's directory (no dot-entries) into `os.MkdirTemp`, writes
+`_caddie-body.md` (the draft minus frontmatter) and `_caddie.json` (identity,
+contact, kind, position, company; empty fields omitted, links sorted), runs
+`quarto render <template> --to typst --output <PDFName>` there, and copies
+the PDF next to the draft and into `handoff/` (overwriting). Quarto failures
+wrap `ErrQuarto` (exit 8) with the output's tail. Contact details exist only
+in that temp dir and the PDF. Tests use a fake `Quarto`; see
+[ADR 0022](../../docs/adr/0022-render-naming-and-gate.md).
 
 ## Contributing
 
