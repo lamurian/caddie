@@ -13,7 +13,7 @@ Checks the agent's tailored Markdown drafts (`resumes/<slug>.md`,
 | `verify_corpus.go` | What a draft may claim: profile, answers, targets |
 | `verify_dates.go` | Dates in free text → `YYYY-MM-DD`, `YYYY-MM`, `YYYY` via `profile.ParseDate` |
 | `verify_words.go` | Word splitting, case and diacritics folding, numbers, term shape, allowlist |
-| `hash.go` | `Hash`, `RecordVerified`, `IsVerified`: `.caddie/verified/<sha256>` |
+| `hash.go` | `Hash`, `RecordPath`, `RecordVerified`, `IsVerified`: `.caddie/verified/<sha256>` |
 | `keywords.go` | `Keywords(posting, draft, profile)` → `KeywordReport`, its statuses and `Text()` |
 | `keywords_extract.go` | `## Requirements` → de-duplicated keyword phrases, filler stripping |
 | `keywords_match.go` | Folding, tokens, plural stem, phrase boundaries, the history text |
@@ -21,6 +21,10 @@ Checks the agent's tailored Markdown drafts (`resumes/<slug>.md`,
 
 Claim kinds and the non-factual prose rule are in
 [ADR 0021](../../docs/adr/0021-claim-extraction-and-non-factual-prose.md).
+A `verified/<sha256>` record is JSON `{"path", "at"}`; `path` comes from
+`RecordPath`: relative to the workspace root and slash-separated
+(`resumes/<slug>.md`), absolute only for a draft outside the workspace.
+Only the hash is authoritative; `path` is informational.
 
 ## Keywords
 
