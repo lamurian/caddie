@@ -9,13 +9,14 @@ portal tests through a fake HTTP client
 |------|-------|
 | `example-html.yml` | A selector-based config (HTML listing, `detail_url` with a query `{id}`) |
 | `example-json.yml` | A JSON-path config (POST search API with a body) |
-| `example-html/listing.html` | The listing page `example-html.yml` selects on |
+| `example-html/listing.html`, `detail-1001.html` | The listing page `example-html.yml` selects on, and one job page |
 | `example-json/listing.json` | `example-json.yml`'s saved response: nested fields, numeric IDs, an untitled item |
 | `invalid/*.yml` | Configs that fail validation, one problem each, named after it |
-| `<org>/` | Saved listing (and one detail) response for `portals/<org>.yml` |
+| `who/listing.json` | `portals/who.yml`'s Taleo search response: positional `column[]`, a JSON-array-in-string location |
+| `un/listing.json` | `portals/un.yml`'s API response (shape partly assumed, see its notes): `dutyStation[]`, a null `endDate` |
 
 The real configs live in [`portals/`](../../portals/README.md); their
-fixtures go in `<org>/` here (`listing.html` or `listing.json`, plus
+fixtures go in `<org>/` here (no README per sub-directory: this table covers them) (`listing.html` or `listing.json`, plus
 `detail-<id>.html`, which the `posting save` tests replay).
 
 ## Contributing

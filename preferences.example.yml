@@ -36,6 +36,8 @@ sources:
   arbeitnow: {enabled: true}
   greenhouse_boards: [acme, globex]
   lever_boards: []
+  # Configured: who, un. The rest arrive in phase 08; until then each is
+  # skipped with a notice (no portals/<org>.yml).
   portals: [who, un, worldbank, adb, isdb, mckinsey, bcg, bain]  # see portals/
 
 ranking:

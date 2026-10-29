@@ -64,7 +64,8 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
 
 - **Discover** ("find jobs"): follow
   [`references/discover.md`](references/discover.md). It uses
-  `caddie search`, `caddie seen add|list` and `caddie posting save <url>`.
+  `caddie search` (job boards and organisation portals), `caddie seen
+  add|list` and `caddie posting save <url>`.
 
 Tailor, cover letter, apply and follow up are added as their commands ship.
 

@@ -10,6 +10,7 @@ json_path: data.list
 fields:
   id: jobId
   title: postingTitle
+  location: dutyStation.0.description
   deadline: endDate
 detail_url: https://careers.un.org/jobSearchDescription/{id}?language=en
 ats: inspira
@@ -24,12 +25,12 @@ notes: >-
   ("2026-10-21T03:59:59.000Z") and fields jobTitle, dutyStation, jobLevel.
   ASSUMED (not seen first-hand: careers.un.org answered this project's
   datacenter with a CDN 403): the request body, the data.list array and the
-  list item keys jobId, postingTitle, endDate. If search returns a json_path
+  list item keys jobId, postingTitle, dutyStation, endDate. If search returns a json_path
   or empty-title error, record a real response and fix these keys.
   itemPerPage 500 aims to cover every opening (about 465 in 2026-10) in one
   request; there is no paging, so a server cap would cut the list short.
-  Limitations: location is not mapped because dutyStation is an array of
-  objects, which a dotted path cannot read. jobLevel is a grade (P-3), not
+  Limitations: location is the first duty station only (dutyStation is an
+  array of objects, which a dotted path cannot join). jobLevel is a grade (P-3), not
   a salary, so it is not mapped. endDate is 23:59 New York time in UTC, so
   the deadline date can read one day later than the posted one.
   Alternative: the public RSS feed https://careers.un.org/jobfeed lists

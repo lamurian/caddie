@@ -16,12 +16,13 @@ The job boards behind `caddie search` and the fetcher behind
 | `adzuna.go`, `remotive.go`, `arbeitnow.go`, `greenhouse.go`, `lever.go` | One adapter each |
 | `fetch.go` | `Fetch` one posting (Greenhouse/Lever API, else a page) and `ID` from a URL |
 | `page.go`, `jsonld.go` | Careers pages: schema.org `JobPosting` JSON-LD, else title and main text |
+| `text.go` | `ParseSalary`, `Deadline`, `Date`, `WorkMode`, summaries |
 | `html.go` | `Blocks`/`Text`: description HTML → paragraphs, headings, list items |
 | `portal_config.go` | `Portal`: `portals/<org>.yml` load, validation, `Hosts`, `Matches` (ADR 0019) |
 | `portal_html.go` | `extractHTML`: CSS selectors (cascadia) → raw `portalItem`s, links resolved |
-| `text.go` | `ParseSalary`, `Deadline`, `Date`, `WorkMode`, summaries |
 | `portal_json.go` | `extractJSON`: items at a dotted `json_path`, fields by key path; path checks |
 | `portal.go` | `portalSource`: one GET/POST per portal, items → `Job`; `PortalOrgs`, `--source portal[:<org>]` |
+| `portal_headers.go` | `headers` validation: no credentials, `User-Agent`, transport headers or CR/LF |
 | `portal_match.go` | `LoadAllPortals`, `PortalFor` a URL, `PortalJobID`, `SourceOf` a Job ID |
 
 Every network or upstream problem wraps `ErrFetch` (exit 8) and never

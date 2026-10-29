@@ -16,7 +16,7 @@ only a YAML file, a fixture and a test.
 
 - **Schema.** `portals/<org>.yml`, `<org>` matching `[a-z0-9-]+`, decoded
   strictly (unknown keys are errors). Keys: `name` (used as the company),
-  `listing_url`, `method` (`GET` default, or `POST`), `body` (POST only),
+  `listing_url`, `method` (`GET` default, or `POST`, any case), `body` (POST only),
   exactly one of `item_selector` (HTML) or `json_path` (JSON), `fields`
   (`id`, `title`, `url`, `location`, `deadline`, `salary`), `detail_url`
   (a pattern with `{id}`), `ats` (a label: taleo, oracle, successfactors,
@@ -41,7 +41,8 @@ only a YAML file, a fixture and a test.
   for Taleo's positional columns); out of range is an error in
   `json_path` and an empty field otherwise. A string value that is itself
   a JSON array (Taleo's `"[\"Geneva\"]"`) is decoded and joined like an
-  array. No filters or wildcards: portal APIs do not need them, so a full
+  array; an array of objects is not joined, so a config picks one element
+  (`dutyStation.0.description`). No filters or wildcards: portal APIs do not need them, so a full
   JSONPath library is not worth a dependency.
 - **IDs** extend ADR 0016: `portal:<org>:<native id>`, where the native ID
   is `fields.id`, else the `{id}` that `detail_url` captures from the job
@@ -51,7 +52,8 @@ only a YAML file, a fixture and a test.
   query. `--source portal` means every enabled portal and
   `--source portal:<org>` one. A listed org without a file, or a
   `js_rendered: true` config, is a notice, not an error, as is
-  `--source portal:<org>` for an org `sources.portals` does not list. An invalid config
+  `--source portal:<org>` for an org `sources.portals` does not list
+  and `--source portal` with `sources.portals` empty. An invalid config
   is exit 3 with `<file>: <field>: <problem>`.
 - **Search.** Portals run after the boards, in `sources.portals` order,
   so a URL a board already returned is kept as the board's job. Each

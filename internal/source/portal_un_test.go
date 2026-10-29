@@ -24,18 +24,21 @@ func loadUN(t *testing.T) Portal {
 
 // The tracked portals/un.yml parses the saved UN listing: the untitled item
 // is dropped, a null endDate gives no deadline, and the UTC endDate gives its
-// own date. dutyStation (an array of objects) is not mapped.
+// own date. Location is the first duty station only.
 func TestPortalUN(t *testing.T) {
 	d := &portalDoer{t: t, routes: map[string]string{unListing: "un/listing.json"}}
 	got := searchPortal(t, loadUN(t), d)
 	co, src, page := "United Nations", "portal:un", "https://careers.un.org/jobSearchDescription/"
 	want := []Job{
 		{ID: src + ":900101", Source: src, Title: "Programme Management Officer, Fictional Affairs", Company: co,
-			URL: page + "900101?language=en", Deadline: "2026-11-28"},
+			Location: "Nairobi",
+			URL:      page + "900101?language=en", Deadline: "2026-11-28"},
 		{ID: src + ":900102", Source: src, Title: "Statistician (Temporary Job Opening)", Company: co,
-			URL: page + "900102?language=en", Deadline: "2026-12-15"},
+			Location: "New York",
+			URL:      page + "900102?language=en", Deadline: "2026-12-15"},
 		{ID: src + ":900103", Source: src, Title: "Associate Economic Affairs Officer", Company: co,
-			URL: page + "900103?language=en"},
+			Location: "Bangkok",
+			URL:      page + "900103?language=en"},
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got  %+v\nwant %+v", got, want)
