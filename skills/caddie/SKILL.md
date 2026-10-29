@@ -59,6 +59,7 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
 - `caddie verify <doc.md>`: traces every claim of a draft to `history/` and
   answers; exit 1 lists each untraceable claim by line.
 - `caddie keywords <posting.md> <doc.md>`: advisory keyword coverage.
+- `caddie render resume|cover-letter <slug>`: PDF + `handoff/` copy; exit 7: re-run `caddie verify`.
 
 ## Workflows
 
@@ -92,7 +93,7 @@ After filling a form, post the screenshot and exactly this text, then stop:
 | 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
 | 5 | Not found: no job posting at a URL, an unknown slug or a missing file | Check the URL, slug or path |
 | 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
-| 7 | Refused by a safety rule (reserved: unverified render, upload outside `/handoff`) | Stop; never work around it |
-| 8 | External tool or network failure: HTTP (later: `quarto`, `docker`) | Run `caddie doctor`, retry once, then tell the user |
+| 7 | Refused by a safety rule: `render` on an unverified or edited draft (reserved: upload outside `/handoff`) | Stop; never work around it |
+| 8 | External tool or network failure: HTTP, `quarto` (later: `docker`) | Run `caddie doctor`, retry once, then tell the user |
 | 9 | Internal error | Report it to the user |
 <!-- exit-codes:end -->

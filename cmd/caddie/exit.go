@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/lamurian/caddie/internal/config"
+	"github.com/lamurian/caddie/internal/document"
 	"github.com/lamurian/caddie/internal/memory"
 	"github.com/lamurian/caddie/internal/posting"
 	"github.com/lamurian/caddie/internal/profile"
@@ -13,8 +14,7 @@ import (
 )
 
 // Exit codes: the contract documented in cmd/README.md and mirrored in
-// skills/caddie/SKILL.md. Change all three together. Code 7 is reserved
-// for a later phase (refused by a safety rule).
+// skills/caddie/SKILL.md. Change all three together.
 const (
 	exitOK           = 0
 	exitCheckFailed  = 1
@@ -23,6 +23,7 @@ const (
 	exitMalformed    = 4
 	exitNotFound     = 5
 	exitIllegalState = 6
+	exitRefused      = 7
 	exitExternal     = 8
 	exitInternal     = 9
 )
@@ -43,6 +44,7 @@ var exitCodes = []struct {
 }{
 	{errCheckFailed, exitCheckFailed},
 	{errUsage, exitUsage},
+	{document.ErrKind, exitUsage},
 	{config.ErrConfig, exitConfig},
 	{profile.ErrMalformed, exitMalformed},
 	{workspace.ErrBadPosting, exitMalformed},
@@ -51,7 +53,9 @@ var exitCodes = []struct {
 	{workspace.ErrIllegalTransition, exitIllegalState},
 	{posting.ErrNoPosting, exitNotFound},
 	{errNotFound, exitNotFound},
+	{document.ErrNotVerified, exitRefused},
 	{source.ErrFetch, exitExternal},
+	{document.ErrQuarto, exitExternal},
 }
 
 func exitCode(err error) int {
