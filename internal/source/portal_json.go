@@ -105,24 +105,43 @@ func jsonItem(obj map[string]any, f PortalFields, base *url.URL) portalItem {
 	return it
 }
 
-// jsonLookup walks a dotted key path through nested objects. The empty path
-// is the node itself.
+// jsonLookup walks a dotted key path through nested objects; a numeric key
+// indexes an array (`column.0`). The empty path is the node itself.
 func jsonLookup(node any, path string) (any, error) {
 	if path == "" {
 		return node, nil
 	}
 	walked := ""
 	for _, key := range strings.Split(path, ".") {
-		obj, ok := node.(map[string]any)
-		if !ok {
-			return nil, fmt.Errorf("%s is %s, not an object", jsonWhere(walked), jsonKind(node))
+		next, err := jsonStep(node, key, walked)
+		if err != nil {
+			return nil, err
 		}
-		if node, ok = obj[key]; !ok {
-			return nil, fmt.Errorf("key %q not found in %s", key, jsonWhere(walked))
-		}
+		node = next
 		walked = strings.TrimPrefix(walked+"."+key, ".")
 	}
 	return node, nil
+}
+
+// jsonStep reads key from an object, or a numeric key from an array.
+func jsonStep(node any, key, walked string) (any, error) {
+	switch n := node.(type) {
+	case map[string]any:
+		if v, ok := n[key]; ok {
+			return v, nil
+		}
+		return nil, fmt.Errorf("key %q not found in %s", key, jsonWhere(walked))
+	case []any:
+		i, err := strconv.Atoi(key)
+		if err != nil || key[0] == '-' || key[0] == '+' {
+			break
+		}
+		if i >= len(n) {
+			return nil, fmt.Errorf("index %d out of range in %s (length %d)", i, jsonWhere(walked), len(n))
+		}
+		return n[i], nil
+	}
+	return nil, fmt.Errorf("%s is %s, not an object", jsonWhere(walked), jsonKind(node))
 }
 
 func jsonWhere(walked string) string {
@@ -137,6 +156,9 @@ func jsonWhere(walked string) string {
 func jsonText(v any) string {
 	switch v := v.(type) {
 	case string:
+		if arr, ok := jsonArrayString(v); ok {
+			return jsonText(arr)
+		}
 		return strings.Join(strings.Fields(v), " ")
 	case json.Number:
 		return v.String()
@@ -155,6 +177,22 @@ func jsonText(v any) string {
 		return strings.Join(parts, ", ")
 	}
 	return ""
+}
+
+// jsonArrayString decodes a string that is itself a JSON array, as Taleo
+// sends locations (`["Geneva"]`); any other string is not decoded.
+func jsonArrayString(s string) ([]any, bool) {
+	t := strings.TrimSpace(s)
+	if !strings.HasPrefix(t, "[") || !strings.HasSuffix(t, "]") {
+		return nil, false
+	}
+	dec := json.NewDecoder(strings.NewReader(t))
+	dec.UseNumber()
+	var arr []any
+	if dec.Decode(&arr) != nil || dec.More() {
+		return nil, false
+	}
+	return arr, true
 }
 
 // jsonKind names a decoded JSON value's type for error messages.

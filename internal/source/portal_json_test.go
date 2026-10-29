@@ -56,6 +56,20 @@ func TestExtractJSONRootArray(t *testing.T) {
 	}
 }
 
+func TestExtractJSONArrayIndex(t *testing.T) {
+	p := Portal{Org: "taleo", ListingURL: "https://jobs.example.net/api", JSONPath: "data.1.list",
+		Fields: PortalFields{ID: "no", Title: "column.0", Location: "column.1", Deadline: "column.9"}}
+	body := `{"data": [{}, {"list": [{"no": "7", "column": ["Analyst", "[\"Rome\"]"]}, {"column": "Clerk"}]}]}`
+	got, err := extractJSON(p, []byte(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := []portalItem{{"id": "7", "title": "Analyst", "location": "Rome"}}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got  %q\nwant %q", got, want)
+	}
+}
+
 func TestExtractJSONErrors(t *testing.T) {
 	cases := []struct{ path, body, want string }{
 		{"data.results", `{"data": {"items": []}}`, `key "results" not found in "data"`},
@@ -65,6 +79,9 @@ func TestExtractJSONErrors(t *testing.T) {
 		{"data.results", `{"data": {"results": [1]}}`, `item 0 is a number, not an object`},
 		{"data.results", `<html>`, `invalid JSON`},
 		{"", `{"results": []}`, `is an object, not an array`},
+		{"data.2", `{"data": [[], []]}`, `index 2 out of range in "data" (length 2)`},
+		{"data.-1", `{"data": [[]]}`, `"data" is an array, not an object`},
+		{"data.0.x", `{"data": ["s"]}`, `"data.0" is a string, not an object`},
 	}
 	for _, c := range cases {
 		p := Portal{Org: "bank", ListingURL: "https://jobs.example.net/api?key=SECRET",
@@ -86,6 +103,8 @@ func TestJSONText(t *testing.T) {
 	cases := map[string]string{
 		`" a \n b "`: "a b", `12345678901234567890`: "12345678901234567890", `1.5`: "1.5",
 		`false`: "false", `null`: "", `{"a": "b"}`: "", `["x", "", ["y"], "z"]`: "x, z",
+		`"[\"Geneva\", \"Nairobi\"]"`: "Geneva, Nairobi", `"[Draft] Analyst"`: "[Draft] Analyst",
+		`"[\"a\"] [\"b\"]"`: `["a"] ["b"]`, `"{\"a\": 1}"`: `{"a": 1}`,
 	}
 	for in, want := range cases {
 		dec := json.NewDecoder(strings.NewReader(in))

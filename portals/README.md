@@ -31,7 +31,9 @@ errors; `caddie search` exits 3 naming the file and the key.
 
 For HTML a field is a CSS selector inside the item, optionally ending in
 `@attr` (`a@href`; `@data-id` is the item's own attribute). For JSON it is a
-dotted key path inside the item (`location.city`).
+dotted key path inside the item (`location.city`); a number indexes an array
+(`column.0`), and a string holding a JSON array (`"[\"Geneva\"]"`) reads as
+that array, joined with ", ".
 
 ```yaml
 name: Example Health Organization

@@ -30,8 +30,12 @@ only a YAML file, a fixture and a test.
   empty selector before `@` is the item itself (`@data-id`).
 - **JSON** uses an in-house dotted subset: keys separated by `.`;
   `json_path` ends at an array of objects and a field path is read inside
-  one item (`location.city`). No filters, wildcards or indices: portal APIs
-  do not need them, so a full JSONPath library is not worth a dependency.
+  one item (`location.city`). A numeric key indexes an array (`column.0`,
+  for Taleo's positional columns); out of range is an error in
+  `json_path` and an empty field otherwise. A string value that is itself
+  a JSON array (Taleo's `"[\"Geneva\"]"`) is decoded and joined like an
+  array. No filters or wildcards: portal APIs do not need them, so a full
+  JSONPath library is not worth a dependency.
 - **IDs** extend ADR 0016: `portal:<org>:<native id>`, where the native ID
   is `fields.id`, else the `{id}` that `detail_url` captures from the job
   URL, else the 12-hex-digit URL hash used for `url:` IDs.
