@@ -25,7 +25,9 @@ every call.
     browser;
   - no published ports.
 - `docker/proxy/allowlist.conf` seeded with the PRD §9 hosts and the portal
-  hosts from phase 03.
+  hosts from phase 03 (the Hosts table in
+  [`portals/README.md`](../../portals/README.md#hosts); `Portal.Hosts()`
+  lists them per config).
 - `internal/browse`: an argv builder plus an `Exec` interface.
   - `CADDIE_BROWSER_MODE=compose` runs `docker compose exec`; `local` runs
     the binary directly.
@@ -58,3 +60,6 @@ handler, the CI job and an update to `docker/README.md`.
 - [ ] No ports are published, and the volume is not bind-mounted into the
       repo.
 - [ ] The CI compose job is green.
+- [ ] The allowlist holds every host in the `portals/README.md` Hosts table
+      (`careers.who.int`, `careers.un.org`) and the apply hosts its notes
+      name (`inspira.un.org`), or says why one is left out.

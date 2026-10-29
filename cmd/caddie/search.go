@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"strings"
 
 	"github.com/lamurian/caddie/internal/config"
 	"github.com/lamurian/caddie/internal/memory"
@@ -16,14 +15,14 @@ const defaultLimit = 50
 func cmdSearch(args []string, e env) error {
 	fs := newFlags("search", e)
 	fs.Bool("json", true, "print JSON (always on for search)")
-	only := fs.String("source", "", "query only this source: "+strings.Join(source.Names, "|"))
+	only := fs.String("source", "", "query only this source: "+source.SourceUsage)
 	limit := fs.Int("limit", defaultLimit, "print at most n jobs (0 = no limit)")
 	includeSeen := fs.Bool("include-seen", false, "also show jobs already in .caddie/seen.jsonl")
 	if err := parseFlags(fs, args); err != nil {
 		return err
 	}
 	if *only != "" && !source.Known(*only) {
-		return usageErr("unknown source %q (want %s)", *only, strings.Join(source.Names, "|"))
+		return usageErr("unknown source %q (want %s)", *only, source.SourceUsage)
 	}
 	if *limit < 0 {
 		return usageErr("--limit must be 0 or more")
@@ -38,7 +37,13 @@ func cmdSearch(args []string, e env) error {
 		return err
 	}
 	keys := source.Keys{AdzunaAppID: cfg.AdzunaAppID, AdzunaAppKey: cfg.AdzunaAppKey}
-	srcs, notices := source.Build(prefs.Sources, keys, *only, e.client)
+	portals, loadNotices, err := source.LoadPortals(layout.Dir(workspace.DirPortals),
+		source.PortalOrgs(prefs.Sources.Portals, *only))
+	if err != nil {
+		return err
+	}
+	srcs, notices := source.Build(prefs.Sources, keys, *only, e.client, portals)
+	notices = append(notices, loadNotices...)
 	f := source.Filter{ExcludeRoles: prefs.Roles.Exclude, ExcludeCompanies: prefs.Companies.Exclude, Limit: *limit}
 	if !*includeSeen {
 		f.Seen = log.IDs()
@@ -50,7 +55,7 @@ func cmdSearch(args []string, e env) error {
 	for _, p := range log.Problems {
 		notices = append(notices, p.String())
 	}
-	res.Notices = append(notices, res.Notices...)
+	res.Notices = append(append([]string{}, notices...), res.Notices...) // [] not null
 	if err := store.Remember(res.Jobs); err != nil {
 		return err
 	}

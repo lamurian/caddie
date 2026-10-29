@@ -17,6 +17,10 @@ const (
 	Arbeitnow  = "arbeitnow"
 	Greenhouse = "greenhouse-board"
 	Lever      = "lever-board"
+
+	// PortalFamily names every organisation portal; one portal's source
+	// name is "portal:<org>" (ADR 0019).
+	PortalFamily = "portal"
 )
 
 // Names lists every board source in the order search queries them.
@@ -50,14 +54,18 @@ type Source interface {
 	Search(ctx context.Context, terms []string) ([]Job, error)
 }
 
-// Known reports whether name is a board source.
+// SourceUsage lists the valid --source values for help and errors.
+var SourceUsage = strings.Join(Names, "|") + "|portal[:<org>]"
+
+// Known reports whether name is a board source, "portal" (every enabled
+// portal) or "portal:<org>".
 func Known(name string) bool {
 	for _, n := range Names {
 		if n == name {
 			return true
 		}
 	}
-	return false
+	return knownPortal(name)
 }
 
 // Filter is applied to the combined results of every source.

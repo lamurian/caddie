@@ -5,7 +5,7 @@ one file per workflow ([ADR 0012](../../../docs/adr/0012-agentic-docs-and-line-l
 
 | File | Workflow |
 |------|----------|
-| [`discover.md`](discover.md) | Find, rank and save jobs (PRD §6.1, phase 02) |
+| [`discover.md`](discover.md) | Find, rank and save jobs (PRD §6.1, phases 02–03) |
 
 ## Contributing
 

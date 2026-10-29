@@ -19,7 +19,8 @@ phase in [`docs/tasks/`](../docs/tasks/README.md) that owns it. Implemented:
 `profile [--json] [--with-contact]` and `doctor [--json]` (phase 01);
 `search [--source s] [--limit n] [--include-seen]`,
 `seen add <id…> --shown|--rejected`, `seen list [--rejected]` and
-`posting save <url>` (phase 02). Flags may come before or after arguments.
+`posting save <url>` (phase 02); `search --source portal[:<org>]` and `posting save` for portal URLs
+(phase 03). Flags may come before or after arguments.
 
 ## Exit codes
 

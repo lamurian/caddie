@@ -1,6 +1,6 @@
 # 03. Discover: organisation portals
 
-- **Status:** Todo
+- **Status:** Done
 - **PRD milestone:** M2 (part 2)
 
 ## Goal
@@ -43,14 +43,26 @@ needs it, document the limitation in its config and skip it.
 `internal/source/portal*.go`, `portals/who.yml`, `portals/un.yml`,
 `testdata/portals/{who,un}/` and a schema section in `portals/README.md`.
 
+Scope changes (ADR 0019): WHO's Taleo API needed an optional functional
+`headers` key and numeric array indexes in JSON paths (`column.0`), and a
+string holding a JSON array reads as that array. Portal listings carry no
+description, so `roles.include` matches the title only. The WHO listing
+has no closing date, so its jobs have no deadline until saved.
+
 ## Definition of Done
 
-- [ ] Fixture tests parse each organisation's saved listing into the expected
-      jobs (titles, URLs, deadlines).
-- [ ] A config that fails validation (missing listing URL, both selector and
-      JSON path set) gives a clear error naming the file and the field.
-- [ ] Both selector-based and JSON-path-based configs are exercised in tests.
-- [ ] `caddie search --source portal:who` works from a recorded response.
-- [ ] Portal hosts are listed so that phase 06 can seed the allowlist.
-- [ ] Adding an organisation needs only a YAML file, a fixture and a test
-      (demonstrated by the second organisation).
+- [x] Fixture tests parse each organisation's saved listing into the expected
+      jobs (titles, URLs, deadlines): `TestPortalWHO` (no deadline in that
+      listing), `TestPortalUN`.
+- [x] A config that fails validation (missing listing URL, both selector and
+      JSON path set) gives a clear error naming the file and the field:
+      `TestLoadPortalInvalid`, `TestSearchInvalidPortalConfig`.
+- [x] Both selector-based and JSON-path-based configs are exercised in tests:
+      `TestPortalSearchHTML`, `TestPortalSearchJSON`, `TestSearchPortals`.
+- [x] `caddie search --source portal:who` works from a recorded response:
+      `TestSearchPortalWHO`.
+- [x] Portal hosts are listed so that phase 06 can seed the allowlist: the
+      Hosts table in `portals/README.md`; `Portal.Hosts()` (`TestPortalHosts`).
+- [x] Adding an organisation needs only a YAML file, a fixture and a test
+      (demonstrated by the second organisation): the UN commit changed no
+      non-test Go code.

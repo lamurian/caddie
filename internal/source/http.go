@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 // Doer sends HTTP requests; *http.Client satisfies it and tests use a fake
@@ -24,12 +25,30 @@ const (
 // get fetches rawURL and returns the body of a 200 response. Errors wrap
 // ErrFetch and never include the query string, which may hold API keys.
 func get(ctx context.Context, c Doer, rawURL, accept string) ([]byte, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, rawURL, nil)
+	return send(ctx, c, http.MethodGet, rawURL, accept, "", nil)
+}
+
+// send is get for any method; a non-empty body is sent as JSON. headers (a
+// portal's, already validated) are set last, so they may replace Accept or
+// Content-Type but never the User-Agent, which validation refuses.
+func send(ctx context.Context, c Doer, method, rawURL, accept, body string,
+	headers map[string]string) ([]byte, error) {
+	var rd io.Reader
+	if body != "" {
+		rd = strings.NewReader(body)
+	}
+	req, err := http.NewRequestWithContext(ctx, method, rawURL, rd)
 	if err != nil {
 		return nil, fmt.Errorf("%w: %s: %v", ErrFetch, redact(rawURL), err)
 	}
 	req.Header.Set("User-Agent", userAgent)
 	req.Header.Set("Accept", accept)
+	if body != "" {
+		req.Header.Set("Content-Type", "application/json")
+	}
+	for k, v := range headers {
+		req.Header.Set(k, v)
+	}
 	resp, err := c.Do(req)
 	if err != nil {
 		var ue *url.Error
@@ -42,11 +61,11 @@ func get(ctx context.Context, c Doer, rawURL, accept string) ([]byte, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("%w: %s: %w", ErrFetch, redact(rawURL), statusError(resp.StatusCode))
 	}
-	body, err := io.ReadAll(io.LimitReader(resp.Body, maxBody))
+	data, err := io.ReadAll(io.LimitReader(resp.Body, maxBody))
 	if err != nil {
 		return nil, fmt.Errorf("%w: %s: %v", ErrFetch, redact(rawURL), err)
 	}
-	return body, nil
+	return data, nil
 }
 
 func getJSON(ctx context.Context, c Doer, rawURL string, v any) error {

@@ -11,13 +11,19 @@ The job boards behind `caddie search` and the fetcher behind
 | `source.go` | `Job`, the `Source` interface, `Search` (de-dup by URL, filters, seen), `ErrFetch` |
 | `limit.go` | `--limit` shared round-robin across feeds (each board, each other source) |
 | `build.go` | `Build`: the sources enabled in `preferences.yml`; skipped ones become notices |
-| `http.go` | `Doer` (HTTP behind an interface), `get`/`getJSON`, URL redaction |
+| `http.go` | `Doer` (HTTP behind an interface), `get`/`send`/`getJSON`, URL redaction |
 | `boards.go` | `searchBoards`: per-board fetch for Greenhouse and Lever; a bad board is a notice |
 | `adzuna.go`, `remotive.go`, `arbeitnow.go`, `greenhouse.go`, `lever.go` | One adapter each |
 | `fetch.go` | `Fetch` one posting (Greenhouse/Lever API, else a page) and `ID` from a URL |
 | `page.go`, `jsonld.go` | Careers pages: schema.org `JobPosting` JSON-LD, else title and main text |
-| `html.go` | `Blocks`/`Text`: description HTML → paragraphs, headings, list items |
 | `text.go` | `ParseSalary`, `Deadline`, `Date`, `WorkMode`, summaries |
+| `html.go` | `Blocks`/`Text`: description HTML → paragraphs, headings, list items |
+| `portal_config.go` | `Portal`: `portals/<org>.yml` load, validation, `Hosts`, `Matches` (ADR 0019) |
+| `portal_html.go` | `extractHTML`: CSS selectors (cascadia) → raw `portalItem`s, links resolved |
+| `portal_json.go` | `extractJSON`: items at a dotted `json_path`, fields by key path; path checks |
+| `portal.go` | `portalSource`: one GET/POST per portal, items → `Job`; `PortalOrgs`, `--source portal[:<org>]` |
+| `portal_headers.go` | `headers` validation: no credentials, `User-Agent`, transport headers or CR/LF |
+| `portal_match.go` | `LoadAllPortals`, `PortalFor` a URL, `PortalJobID`, `SourceOf` a Job ID |
 
 Every network or upstream problem wraps `ErrFetch` (exit 8) and never
 prints a query string, because the Adzuna keys travel in it. A failing
@@ -26,7 +32,13 @@ fails only when all of its boards do.
 
 Terms match the title or description on Remotive and Arbeitnow, but only
 the title and department/team on Greenhouse and Lever: a company board
-repeats its "About us" text in every job (ADR 0018).
+repeats its "About us" text in every job (ADR 0018). Portals match the
+title only (listings carry no description).
+
+Portals (`portal:<org>`, ADR 0019) run after the boards, in
+`sources.portals` order; each is its own `--limit` feed. A missing or
+`js_rendered` config and a failing portal are notices; an invalid config is
+a config error (exit 3) naming the file and key.
 
 ## Contributing
 

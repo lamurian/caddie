@@ -51,4 +51,12 @@ six `portals/*.yml` files with fixtures, and the skill reference.
       unsupported).
 - [ ] Each PRD §14 scenario has been walked through once with Pi and once
       with Goose, with the results noted in the PR.
+- [ ] `portals/un.yml` verified live from a network careers.un.org does not
+      block: record a real response, confirm the request body and the
+      `data.list`, `jobId`, `postingTitle`, `dutyStation`, `endDate` keys,
+      and update the fixture and the notes' ASSUMED section.
+- [ ] WHO lists only the 25 newest openings: find a page size or add
+      pagination (an ADR 0019 change), or keep it documented.
+- [ ] Portal deadlines: decide whether the UN `endDate` (UTC, can be a day
+      after the New York closing date) is converted to the posted date.
 - [ ] `docs/tasks/README.md` shows every phase as `Done`.

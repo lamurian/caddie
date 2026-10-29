@@ -1,0 +1,6 @@
+name: Example
+listing_url: https://careers.example.org/
+item_selector: li
+fields: {title: a, id: "@data-id"}
+detail_url: https://careers.example.org/job
+ats: bespoke

@@ -16,6 +16,18 @@ rewrites nothing. The golden file is
 `testdata/golden/posting-senior-data-scientist-at-acme.md`
 (`go test ./internal/posting -update`).
 
+## Portal URLs
+
+`Options.Portals` holds every `portals/*.yml`, loaded by the CLI whether or
+not `preferences.yml` enables it ([ADR 0019](../../docs/adr/0019-portal-config-schema.md)).
+A URL a config matches (its `detail_url`, else its listing host) is saved
+with source `portal:<org>`, ID `portal:<org>:<id>` (the URL hash when the
+pattern captures no id), `ats` from the config and the organisation's
+`name` as company unless the page names another. The page itself is read
+like any careers page. An invalid config fails every save with exit 3,
+naming the file: config typos are loud (ADR 0014). Without a remembered
+search, `seen.jsonl` restores the source from the ID (`source.SourceOf`).
+
 ## Contributing
 
 - A new section cue is one word in `cues` plus a case in `sections_test.go`.

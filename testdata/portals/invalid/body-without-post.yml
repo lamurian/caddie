@@ -1,0 +1,6 @@
+name: Example
+listing_url: https://careers.example.org/
+body: '{"page": 1}'
+item_selector: li
+fields: {title: a, url: a@href}
+ats: bespoke

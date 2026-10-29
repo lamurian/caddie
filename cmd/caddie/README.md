@@ -20,7 +20,8 @@ in [`cmd/README.md`](../README.md) and
 Tests run each command in-process against `testdata/` and assert both the
 output and the exit code. `profile_test.go` owns `-update` for
 `testdata/golden/profile.json`. `runWith` answers HTTP from
-`testdata/sources/` so no test touches the network.
+`testdata/sources/` (portal listings from `testdata/portals/`, see
+`search_portal_test.go`) so no test touches the network.
 
 ## Contributing
 

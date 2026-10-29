@@ -27,11 +27,11 @@ func allEnabled() config.Sources {
 }
 
 func TestBuildEnabledSources(t *testing.T) {
-	srcs, notices := Build(allEnabled(), Keys{"id", "key"}, "", nil)
+	srcs, notices := Build(allEnabled(), Keys{"id", "key"}, "", nil, nil)
 	if !reflect.DeepEqual(names(srcs), Names) || len(notices) != 0 {
 		t.Errorf("all enabled: %v, notices %v", names(srcs), notices)
 	}
-	srcs, notices = Build(allEnabled(), Keys{"id", "key"}, Lever, nil)
+	srcs, notices = Build(allEnabled(), Keys{"id", "key"}, Lever, nil, nil)
 	if !reflect.DeepEqual(names(srcs), []string{Lever}) || len(notices) != 0 {
 		t.Errorf("--source lever-board: %v, notices %v", names(srcs), notices)
 	}
@@ -64,7 +64,7 @@ func TestBuildSkipsWithNotice(t *testing.T) {
 	for _, c := range cases {
 		prefs := allEnabled()
 		c.prefs(&prefs)
-		srcs, notices := Build(prefs, c.keys, c.only, nil)
+		srcs, notices := Build(prefs, c.keys, c.only, nil, nil)
 		if len(notices) != 1 || !strings.Contains(notices[0], c.notice) {
 			t.Errorf("%s: notices %v, want %q", c.name, notices, c.notice)
 		}
@@ -152,7 +152,7 @@ func TestSearchFailsOnlyWhenEverySourceFails(t *testing.T) {
 }
 
 func TestKnown(t *testing.T) {
-	if !Known(Greenhouse) || Known("portal") || Known("") {
+	if !Known(Greenhouse) || !Known("portal") || Known("") {
 		t.Error("Known is wrong")
 	}
 }

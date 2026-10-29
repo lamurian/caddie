@@ -16,6 +16,7 @@ const (
 	DirCoverLetters = "cover-letters"
 	DirReviews      = "reviews"
 	DirHistory      = "history"
+	DirPortals      = "portals" // tracked configs, not runtime state
 )
 
 // Layout resolves workspace paths from the configuration.

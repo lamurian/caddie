@@ -1,0 +1,4 @@
+name: Example
+listing_url: https://careers.example.org/
+fields: {title: a, url: a@href}
+ats: bespoke

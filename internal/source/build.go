@@ -10,9 +10,11 @@ type Keys struct {
 }
 
 // Build returns the sources enabled in preferences.yml, restricted to only
-// when it is not empty. A disabled or unconfigured source is not an error:
-// it is skipped and explained in notices.
-func Build(prefs config.Sources, keys Keys, only string, c Doer) ([]Source, []string) {
+// when it is not empty: the boards in Names order, then portals, which are
+// the configs loaded for PortalOrgs in sources.portals order. A disabled or
+// unconfigured source is not an error: it is skipped and explained in
+// notices.
+func Build(prefs config.Sources, keys Keys, only string, c Doer, portals []Portal) ([]Source, []string) {
 	var srcs []Source
 	var notices []string
 	add := func(s Source, skip string) {
@@ -30,7 +32,8 @@ func Build(prefs config.Sources, keys Keys, only string, c Doer) ([]Source, []st
 	add(&greenhouse{client: c, boards: prefs.GreenhouseBoards},
 		listSkip(prefs.GreenhouseBoards, "sources.greenhouse_boards"))
 	add(&lever{client: c, boards: prefs.LeverBoards}, listSkip(prefs.LeverBoards, "sources.lever_boards"))
-	return srcs, notices
+	ps, pn := portalSources(prefs.Portals, portals, only, c)
+	return append(srcs, ps...), append(notices, pn...)
 }
 
 func adzunaSkip(a config.Adzuna, k Keys) string {

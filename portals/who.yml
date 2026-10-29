@@ -1,0 +1,37 @@
+# World Health Organization careers (careers.who.int, Oracle Taleo). Fixture
+# and tests: testdata/portals/who/listing.json, internal/source/portal_who_test.go.
+name: World Health Organization
+listing_url: https://careers.who.int/careersection/rest/jobboard/searchjobs?lang=en&portal=101430233
+method: post
+headers:
+  tz: GMT+00:00
+body: >-
+  {"multilineEnabled":false,
+  "sortingSelection":{"sortBySelectionParam":"3","ascendingSortingOrder":"false"},
+  "fieldData":{"fields":{"KEYWORD":"","LOCATION":""},"valid":true},
+  "filterSelectionParam":{"searchFilterSelections":[]},
+  "advancedSearchFiltersSelectionParam":{"searchFilterSelections":[]},"pageNo":1}
+json_path: requisitionList
+fields:
+  id: contestNo
+  title: column.0
+  location: column.1
+detail_url: https://careers.who.int/careersection/ex/jobdetail.ftl?job={id}&lang=en
+ats: taleo
+notes: >-
+  The career section page (careersection/ex/jobsearch.ftl) draws its list
+  with JavaScript from the Taleo job board API in listing_url, which this
+  config calls directly, so no JavaScript is needed. VERIFIED live
+  2026-10-29 with caddie's own user agent: portal 101430233 and section
+  "ex" come from the page; the POST returns requisitionList[] with
+  contestNo (the job= value of job pages) and positional column[] =
+  [title, JSON-array-of-locations string, posting date]; the API answers
+  500 without a tz (or tzname) header, so headers sets one; job pages are
+  jobdetail.ftl?job=<contestNo>&lang=en. Limitations: only the first page
+  is fetched, the 25 newest openings (about 70 were open); a pageSize in
+  the body or query is not honoured. The listing has no closing date:
+  column 2 is the posting date, so deadline is not mapped and comes from
+  the job page. Grades (P-4, NO-B) appear only inside titles. The RSS
+  feed (careersection/feed/joblist.rss) lists only about 10 openings.
+  careers.who.int has no robots.txt (404); applying needs a Taleo account,
+  so it ends in the manual checklist.
