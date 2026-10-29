@@ -1,6 +1,6 @@
 # 04. Verify, keywords, answers
 
-- **Status:** In progress
+- **Status:** Done
 - **PRD milestone:** M3 (part 1)
 
 ## Goal
@@ -49,13 +49,14 @@ fixtures and golden files, and `skills/caddie/references/{tailor,cover-letter}.m
 
 ## Definition of Done
 
-- [ ] Verify tests cover exact matches, fuzzy matches (e.g. "Jun 2023" vs
+- [x] Verify tests cover exact matches, fuzzy matches (e.g. "Jun 2023" vs
       "June 2023"), false positives (an invented employer or skill caught)
       and answer-sourced claims.
-- [ ] Editing a verified file invalidates its hash.
-- [ ] The keywords report matches the golden file `testdata/golden/keywords-*.txt`.
-- [ ] The answer lookup order is tested across all three scopes;
+- [x] Editing a verified file invalidates its hash.
+- [x] The keywords report matches the golden file `testdata/golden/keywords-*.txt`.
+- [x] The answer lookup order is tested across all three scopes;
       `--for <slug>` returns the merged view.
-- [ ] `answers.yml` round-trips without losing keys or hand comments
-      (or the limitation is documented).
+- [x] `answers.yml` round-trips without losing keys or hand comments
+      (or the limitation is documented): keys and comments survive; blank
+      lines and indentation are normalised (ADR 0020).
 - [x] The skill tells the agent to run `answers show` before asking anything.
