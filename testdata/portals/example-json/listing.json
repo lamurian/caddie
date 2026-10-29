@@ -1,0 +1,41 @@
+{
+  "status": "ok",
+  "data": {
+    "total": 4,
+    "page": 1,
+    "results": [
+      {
+        "jobId": 9007199254740993123,
+        "title": "  Senior Economist,\n    Climate Finance ",
+        "location": {"city": "Manila", "country": "Philippines"},
+        "closingDate": "2026-11-30T23:59:59Z",
+        "compensation": {"text": "USD 120,000 - 150,000 per year", "currency": "USD"},
+        "links": {"apply": "/careers/job/9007199254740993123"},
+        "remote": false
+      },
+      {
+        "jobId": 4502,
+        "title": "Procurement Officer",
+        "location": {"city": ["Abidjan", "Nairobi"], "country": null},
+        "closingDate": "2026-12-15",
+        "compensation": null,
+        "remote": false
+      },
+      {
+        "jobId": 4503,
+        "title": "",
+        "location": {"city": "Tunis"},
+        "closingDate": "2026-12-01",
+        "links": {"apply": "/careers/job/4503"}
+      },
+      {
+        "jobId": 4504,
+        "title": "Data Analyst (Consultant)",
+        "location": null,
+        "closingDate": null,
+        "links": {"apply": "https://jobs.example.net/careers/job/4504?lang=en"},
+        "remote": true
+      }
+    ]
+  }
+}
