@@ -51,9 +51,20 @@ func parseDate(s string) (date, error) {
 	return date{year: year, month: month}, nil
 }
 
-// parseRange accepts "Mon YYYY – Mon YYYY" or "Mon YYYY – Present" (en
+// ParseDate normalises "Aug 2022", "August 2022", "Sept 2014" or "2022" to
+// "YYYY-MM" or "YYYY", the form used in Entry and Work. The document
+// package uses it to compare dates in drafts with the history.
+func ParseDate(s string) (string, error) {
+	d, err := parseDate(s)
+	if err != nil {
+		return "", err
+	}
+	return d.String(), nil
+}
+
+// ParseRange accepts "Mon YYYY – Mon YYYY" or "Mon YYYY – Present" (en
 // dash, em dash or hyphen) and returns normalised start and end strings.
-func parseRange(s string) (start, end string, err error) {
+func ParseRange(s string) (start, end string, err error) {
 	m := rangeSep.FindStringSubmatch(strings.TrimSpace(s))
 	if m == nil {
 		return "", "", fmt.Errorf("bad date range %q, want \"Mon YYYY – Mon YYYY|Present\"", s)

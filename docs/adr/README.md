@@ -27,6 +27,7 @@ accepted ADR without superseding it.
 | [0018](0018-board-matching-and-fair-limit.md) | Company boards match titles; `--limit` shared across feeds | §6.1, §7 |
 | [0019](0019-portal-config-schema.md) | Portal config schema, IDs and enabling | §7, §11, D11 |
 | [0020](0020-answers-scopes-and-form-keys.md) | Answers: scopes, lookup, form keys, round-trip | §6.3–6.4, §12.5 |
+| [0021](0021-claim-extraction-and-non-factual-prose.md) | Claim extraction and non-factual prose | §6.2–6.3, §13, D9 |
 
 ## Writing a new ADR
 

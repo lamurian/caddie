@@ -7,10 +7,20 @@ Checks the agent's tailored Markdown drafts (`resumes/<slug>.md`,
 
 | File | Holds |
 |------|-------|
+| `verify.go` | `Verify`, `Sources`, `Claim`, `Report`: walks frontmatter, headings, skills section, entries and prose |
+| `verify_entry.go` | A `###` block against one history entry or work (title, fields, date range) |
+| `verify_prose.go` | Prose lines (URLs, dates, numbers, term phrases) and skills items |
+| `verify_corpus.go` | What a draft may claim: profile, answers, targets |
+| `verify_dates.go` | Dates in free text → `YYYY-MM-DD`, `YYYY-MM`, `YYYY` via `profile.ParseDate` |
+| `verify_words.go` | Word splitting, case and diacritics folding, numbers, term shape, allowlist |
+| `hash.go` | `Hash`, `RecordVerified`, `IsVerified`: `.caddie/verified/<sha256>` |
 | `keywords.go` | `Keywords(posting, draft, profile)` → `KeywordReport`, its statuses and `Text()` |
 | `keywords_extract.go` | `## Requirements` → de-duplicated keyword phrases, filler stripping |
 | `keywords_match.go` | Folding, tokens, plural stem, phrase boundaries, the history text |
 | `golden_test.go` | The `-update` flag and `checkGolden` shared by every golden test here |
+
+Claim kinds and the non-factual prose rule are in
+[ADR 0021](../../docs/adr/0021-claim-extraction-and-non-factual-prose.md).
 
 ## Keywords
 
