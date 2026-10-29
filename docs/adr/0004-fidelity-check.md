@@ -30,3 +30,5 @@ the user.
 - Any edit after verifying requires verifying again. That is intended.
 - Prose such as "passionate about…" needs a rule: either it is classified as
   non-factual or it must trace to an answer. This is decided in phase 04.
+- Decided in [ADR 0021](0021-claim-extraction-and-non-factual-prose.md):
+  claim kinds, and prose without claim tokens is non-factual.
