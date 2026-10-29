@@ -6,6 +6,7 @@
 
 | File | Scenario |
 |------|----------|
+| `keywords-draft-lead-biostatistician.md` | Resume draft for `postings/lead-biostatistician-at-globex.md`: covers most keywords, omits some the history supports, adds an unbacked one (SAS) |
 
 ## Contributing
 

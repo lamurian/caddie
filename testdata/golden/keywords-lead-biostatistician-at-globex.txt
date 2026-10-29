@@ -1,0 +1,18 @@
+keywords: 7/15 covered, 3 missing, 4 unsupported, 1 unbacked
+covered      msc in biostatistics
+covered      survival analysis
+covered      joint models
+covered      r
+covered      python
+covered      english
+covered      registry data
+missing      epidemiology
+missing      bayesian models
+missing      dutch
+unsupported  phd
+unsupported  stan
+unsupported  kubernetes
+unsupported  cloud deployment
+unbacked     sas
+note: skipped (over 5 words): "explain complex statistical results to non-technical audiences"
+note: unbacked keywords are in the draft but not in history/: run caddie verify and remove them
