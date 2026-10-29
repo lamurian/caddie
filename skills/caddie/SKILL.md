@@ -66,14 +66,14 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
 - **Discover** ("find jobs"): [`references/discover.md`](references/discover.md)
   (`caddie search`, `caddie seen add|list`, `caddie posting save <url>`).
 - **Tailor** ("tailor <slug>"): [`references/tailor.md`](references/tailor.md)
-  (draft, `caddie verify`, `caddie keywords`, iterate).
+  (draft, `caddie verify`, `caddie keywords`, iterate, `caddie render`).
 - **Cover letter** ("cover letter <slug>"):
   [`references/cover-letter.md`](references/cover-letter.md). Interview:
   run `caddie answers show --for <slug>` before asking the user anything,
   then ask at most five questions, batched in one message, only for keys
   not stored. Suggested keys: `why_org`, `why_role`, `lead_story`,
   `start_date`, `constraints`.
-- Rendering, apply and follow up are added as their commands ship.
+- Apply and follow up are added as their commands ship.
 
 ## Gate message
 
