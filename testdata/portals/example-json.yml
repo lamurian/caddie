@@ -1,4 +1,5 @@
 # Fictional JSON-path portal: a POST search API returning a result array.
+# Its saved response is example-json/listing.json.
 name: Example Development Bank
 listing_url: https://jobs.example.net/api/search
 method: post
@@ -7,7 +8,9 @@ json_path: data.results
 fields:
   id: jobId
   title: title
+  url: links.apply
   location: location.city
   deadline: closingDate
+  salary: compensation.text
 detail_url: https://jobs.example.net/careers/job/{id}
 ats: successfactors

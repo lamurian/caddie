@@ -20,6 +20,7 @@ The job boards behind `caddie search` and the fetcher behind
 | `portal_config.go` | `Portal`: `portals/<org>.yml` load, validation, `Hosts`, `Matches` (ADR 0019) |
 | `portal_html.go` | `extractHTML`: CSS selectors (cascadia) → raw `portalItem`s, links resolved |
 | `text.go` | `ParseSalary`, `Deadline`, `Date`, `WorkMode`, summaries |
+| `portal_json.go` | `extractJSON`: items at a dotted `json_path`, fields by key path; path checks |
 
 Every network or upstream problem wraps `ErrFetch` (exit 8) and never
 prints a query string, because the Adzuna keys travel in it. A failing

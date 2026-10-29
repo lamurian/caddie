@@ -1,0 +1,5 @@
+name: Example
+listing_url: https://jobs.example.net/api/search
+json_path: data..results
+fields: {title: title, url: url}
+ats: bespoke
