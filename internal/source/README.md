@@ -18,6 +18,7 @@ The job boards behind `caddie search` and the fetcher behind
 | `page.go`, `jsonld.go` | Careers pages: schema.org `JobPosting` JSON-LD, else title and main text |
 | `html.go` | `Blocks`/`Text`: description HTML → paragraphs, headings, list items |
 | `portal_config.go` | `Portal`: `portals/<org>.yml` load, validation, `Hosts`, `Matches` (ADR 0019) |
+| `portal_html.go` | `extractHTML`: CSS selectors (cascadia) → raw `portalItem`s, links resolved |
 | `text.go` | `ParseSalary`, `Deadline`, `Date`, `WorkMode`, summaries |
 
 Every network or upstream problem wraps `ErrFetch` (exit 8) and never

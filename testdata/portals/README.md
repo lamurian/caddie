@@ -9,6 +9,7 @@ portal tests through a fake HTTP client
 |------|-------|
 | `example-html.yml` | A selector-based config (HTML listing, `detail_url` with a query `{id}`) |
 | `example-json.yml` | A JSON-path config (POST search API with a body) |
+| `example-html/listing.html` | The listing page `example-html.yml` selects on |
 | `invalid/*.yml` | Configs that fail validation, one problem each, named after it |
 | `<org>/` | Saved listing (and one detail) response for `portals/<org>.yml` |
 

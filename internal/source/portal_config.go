@@ -109,7 +109,7 @@ type problem struct{ field, msg string }
 func (p Portal) Validate() error {
 	checks := []func() *problem{p.checkBasics, p.checkRequest}
 	if !p.JSRendered {
-		checks = append(checks, p.checkExtraction, p.checkLinks)
+		checks = append(checks, p.checkExtraction, p.checkLinks, p.checkSelectors)
 	}
 	for _, check := range checks {
 		if pr := check(); pr != nil {
