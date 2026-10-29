@@ -11,13 +11,15 @@ testdata/
 ├── reviews/      # fictional reviews/<company>.md merged into saved postings
 ├── portals/      # portal configs (valid, invalid) and saved listings per organisation
 ├── sources/      # recorded board API responses (adzuna, remotive, …)
+├── documents/    # fictional tailored resumes and cover letters to verify
 └── golden/       # expected outputs: keyword reports, profile JSON, PDF text
 ```
 
 Each directory has its own README: [config](config/README.md),
 [history](history/README.md), [postings](postings/README.md),
 [reviews](reviews/README.md), [portals](portals/README.md),
-[sources](sources/README.md), [golden](golden/README.md).
+[sources](sources/README.md), [documents](documents/README.md),
+[golden](golden/README.md).
 
 ## Rules
 

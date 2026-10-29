@@ -1,6 +1,6 @@
 # 04. Verify, keywords, answers
 
-- **Status:** Todo
+- **Status:** In progress
 - **PRD milestone:** M3 (part 1)
 
 ## Goal
