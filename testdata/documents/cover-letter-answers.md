@@ -1,5 +1,3 @@
-# Cover letter
-
 Dear Hiring Committee,
 
 I am applying for the Senior Biostatistician role at the Example Health
@@ -14,5 +12,3 @@ I am passionate about open science and reproducible work.
 I can start on 1 January 2027.
 
 Kind regards,
-
-Mira Example-Halvorsen
