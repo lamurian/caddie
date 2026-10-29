@@ -19,8 +19,9 @@ Quarto requires the partial names `typst-template.typ` and `typst-show.typ`.
 `caddie render` copies this directory into a temporary one and writes:
 
 - `_caddie-body.md`: the verified `resumes/<slug>.md` or
-  `cover-letters/<slug>.md`, minus any YAML frontmatter. The `.qmd` includes
-  it with `{{< include _caddie-body.md >}}`.
+  `cover-letters/<slug>.md`, minus any YAML frontmatter and escaped so
+  Quarto reads it literally (no shortcodes or YAML blocks; ADR 0022). The
+  `.qmd` includes it with `{{< include _caddie-body.md >}}`.
 - `_caddie.json`: identity from `history/about.md` and contact details from
   `preferences.yml` (**render time only**,
   [ADR 0008](../docs/adr/0008-workspace-tracking.md)). Empty fields are
@@ -58,6 +59,8 @@ pdftotext -layout preview.pdf -   # text must be the body plus the header
   (no smart quotes, citations, math or raw markup) and hyphenation off.
 - Use only fonts bundled with Typst (`quarto typst fonts --ignore-system-fonts`).
 - Keep each file under 300 lines; shared styling goes in `typst-template.typ`.
-- Update the golden text extraction in `testdata/golden/` when the output
-  changes on purpose.
+- Keep `engine: markdown` in each `.qmd` (also in your own
+  `CADDIE_*_TEMPLATE`): code cells in a body must never run.
+- When the output changes on purpose, regenerate the golden text in
+  `testdata/golden/` with `go test ./internal/document -run Real -update`.
 - Rendering must work on a headless server with only `quarto` installed.

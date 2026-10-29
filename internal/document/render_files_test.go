@@ -74,21 +74,75 @@ func TestRenderContactStaysInTempDir(t *testing.T) {
 	if !strings.Contains(q.files[DataFile], testEmail) || !strings.Contains(q.files[DataFile], testPhone) {
 		t.Fatalf("contact missing from the render dir: %q", q.files[DataFile])
 	}
+	assertContactOnlyInPDFs(t, ws, testEmail, testPhone)
+	if entries, _ := os.ReadDir(tmp); len(entries) > 0 {
+		t.Errorf("temp render dir left behind: %v", entries)
+	}
+}
+
+// assertContactOnlyInPDFs checks that the workspace holds exactly two PDFs
+// (next to the draft and in handoff/) and that no other file holds the
+// e-mail address or the phone number.
+func assertContactOnlyInPDFs(t *testing.T, ws, email, phone string) {
+	t.Helper()
 	pdfs := 0
 	for rel, content := range snapshot(ws) {
 		if strings.HasSuffix(rel, ".pdf") {
 			pdfs++
 			continue
 		}
-		if strings.Contains(content, testEmail) || strings.Contains(content, testPhone) {
+		if strings.Contains(content, email) || strings.Contains(content, phone) {
 			t.Errorf("contact leaked into %s", rel)
 		}
 	}
 	if pdfs != 2 {
 		t.Errorf("found %d PDFs, want 2 (source dir and handoff)", pdfs)
 	}
-	if entries, _ := os.ReadDir(tmp); len(entries) > 0 {
-		t.Errorf("temp render dir left behind: %v", entries)
+}
+
+func TestEscapeBody(t *testing.T) {
+	cases := []struct{ name, in, want string }{
+		{"shortcode", "A {{< env HOME >}} b\n", "A {\\{< env HOME >}} b\n"},
+		{"include", "{{< include _caddie.json >}}\n", "{\\{< include _caddie.json >}}\n"},
+		{"no closer", "x {{< env HOME\n", "x {\\{< env HOME\n"},
+		{"quarto escape", "{{{< meta a >}}}", "{{\\{< meta a >}}}"},
+		{"unclosed escape", "{{{< meta a", "{{\\{< meta a"},
+		{"four braces", "{{{{<", "{{{\\{<"},
+		{"code span", "`{{< env HOME >}}`", "`{\\{< env HOME >}}`"},
+		{"comment", "<!-- c -->---\n", "<\\!-- c -->---\n"},
+		{"yaml block", "a\n\n---\nb: c\n...\n", "a\n\n----\nb: c\n...\n"},
+		{"setext", "Title\n---\n", "Title\n----\n"},
+		{"trailing space crlf", "--- \r\nx\r\n---", "---- \r\nx\r\n----"},
+		{"other rules", " ---\n----\n- - -\n", " ---\n----\n- - -\n"},
+		{"plain", "## About\n\nBuilt {models}.\n", "## About\n\nBuilt {models}.\n"},
+	}
+	for _, c := range cases {
+		got := string(escapeBody([]byte(c.in)))
+		if got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		}
+		if strings.Contains(got, "{{<") || strings.Contains(got, "<!--") {
+			t.Errorf("%s: %q still opens a shortcode or comment", c.name, got)
+		}
+	}
+}
+
+// TestRenderEscapesBody: the fake sees the escaped body, so Render (not
+// only escapeBody) applies the rule.
+func TestRenderEscapesBody(t *testing.T) {
+	in, _, _ := newRenderFixture(t, false)
+	draft := "## About\n\nUses {{< env CADDIE_ADZUNA_APP_KEY >}}.\n\n---\nheader-includes: x\n---\n"
+	writeTestFile(t, in.Source, draft)
+	if _, err := RecordVerified(in.StateDir, "resumes/acme.md", []byte(draft), "2026-10-29"); err != nil {
+		t.Fatal(err)
+	}
+	q := &fakeQuarto{}
+	if _, err := Render(context.Background(), q, in); err != nil {
+		t.Fatal(err)
+	}
+	want := "## About\n\nUses {\\{< env CADDIE_ADZUNA_APP_KEY >}}.\n\n----\nheader-includes: x\n----\n"
+	if got := q.files[BodyFile]; got != want {
+		t.Errorf("%s = %q, want %q", BodyFile, got, want)
 	}
 }
 

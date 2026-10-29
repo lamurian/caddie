@@ -18,5 +18,8 @@ jobs:
         with:
           fetch-depth: 0 # gitleaks scans the full history
       - uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
+      # pdftotext lets the real-render golden test run (quarto comes from mise).
+      - name: Install poppler-utils
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils
       - name: Run all checks
         run: mise run check

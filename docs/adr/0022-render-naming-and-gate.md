@@ -42,6 +42,10 @@ split cleanly into first and last.
     Typst partial reads it with `json("_caddie.json")`. It is JSON, not
     pandoc metadata, because pandoc parses metadata as Markdown and turns
     the `@` of an e-mail address into a citation.
+- **Literal body.** Quarto would expand `{{< env/include/meta >}}`, read
+  mid-body YAML blocks and run code cells, so `_caddie-body.md` gets
+  `{{<` → `{\{<`, `<!--` → `<\!--` and `---` lines → `----`, and the
+  templates set `engine: markdown`: only verified text reaches the PDF.
 - **Contact** (e-mail, phone from `preferences.yml`) is written only into
   that temp dir and so only reaches the PDF, never a tracked file (ADR 0008).
 - **Handoff.** The PDF goes next to the draft and is copied to `handoff/`

@@ -52,7 +52,29 @@ func prepareRenderDir(dir string, in RenderInput, content []byte) error {
 	if err := os.WriteFile(filepath.Join(dir, DataFile), data.Bytes(), 0o600); err != nil {
 		return err
 	}
-	return os.WriteFile(filepath.Join(dir, BodyFile), stripFrontmatter(content), 0o600)
+	return os.WriteFile(filepath.Join(dir, BodyFile), escapeBody(stripFrontmatter(content)), 0o600)
+}
+
+// escapeBody makes Quarto read the verified body literally, so nothing
+// verify never saw reaches the PDF (ADR 0022). Quarto scans the included
+// text before Pandoc does, in prose and code alike:
+//   - "{{<" becomes "{\{<": no shortcode ({{< env >}}, {{< include >}},
+//     {{< meta >}}) or escaped one ({{{< >}}}) is ever parsed, closed or
+//     not, and Pandoc prints "{{<" again (in code the backslash shows);
+//   - "<!--" becomes "<\!--": Quarto drops HTML comments before it looks
+//     for YAML blocks, which could turn "<!-- -->---" into an opener;
+//   - a "---" line becomes "----": still a rule or a setext underline, but
+//     never a YAML metadata block (header-includes would be raw Typst).
+func escapeBody(body []byte) []byte {
+	body = bytes.ReplaceAll(body, []byte("{{<"), []byte(`{\{<`))
+	body = bytes.ReplaceAll(body, []byte("<!--"), []byte(`<\!--`))
+	lines := bytes.SplitAfter(body, []byte("\n"))
+	for i, l := range lines {
+		if string(bytes.TrimRight(l, " \t\r\n")) == "---" {
+			lines[i] = append([]byte("-"), l...)
+		}
+	}
+	return bytes.Join(lines, nil)
 }
 
 func newRenderData(in RenderInput) renderData {

@@ -59,7 +59,11 @@ contact, kind, position, company; empty fields omitted, links sorted), runs
 `quarto render <template> --to typst --output <PDFName>` there, and copies
 the PDF next to the draft and into `handoff/` (overwriting). Quarto failures
 wrap `ErrQuarto` (exit 8) with the output's tail. Contact details exist only
-in that temp dir and the PDF. Tests use a fake `Quarto`; see
+in that temp dir and the PDF. The body is escaped so Quarto reads it
+literally: `{{<` → `{\{<` (no shortcode), `<!--` → `<\!--` and a `---`
+line → `----` (no YAML block). Tests use a fake `Quarto`;
+`render_real_test.go` runs the real one (skipped without `quarto` or
+`pdftotext`) against golden text; see
 [ADR 0022](../../docs/adr/0022-render-naming-and-gate.md).
 
 ## Contributing
