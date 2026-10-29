@@ -104,7 +104,7 @@ func TestParseRange(t *testing.T) {
 		{"May 2020 – 2020", "2020-05", "2020"},
 	}
 	for _, c := range cases {
-		s, e, err := parseRange(c.in)
+		s, e, err := ParseRange(c.in)
 		if err != nil || s != c.start || e != c.end {
 			t.Errorf("%q: got %q %q %v", c.in, s, e, err)
 		}
