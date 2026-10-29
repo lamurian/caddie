@@ -6,6 +6,8 @@ import (
 
 	"github.com/lamurian/caddie/internal/memory"
 	"github.com/lamurian/caddie/internal/posting"
+	"github.com/lamurian/caddie/internal/source"
+	"github.com/lamurian/caddie/internal/workspace"
 )
 
 func cmdPosting(args []string, e env) error {
@@ -28,8 +30,13 @@ func cmdPosting(args []string, e env) error {
 	if err != nil {
 		return err
 	}
+	portals, err := source.LoadAllPortals(layout.Dir(workspace.DirPortals))
+	if err != nil {
+		return err
+	}
 	res, err := posting.Save(context.Background(), pos[0], posting.Options{
 		Layout: layout, Store: memory.Store{Dir: layout.State}, Client: e.client, Today: e.today(),
+		Portals: portals,
 	})
 	if err != nil {
 		return err

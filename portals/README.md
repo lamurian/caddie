@@ -46,7 +46,8 @@ detail_url: https://careers.example.org/job?id={id}
 ats: taleo
 ```
 
-Enabled from `preferences.yml` → `sources.portals`.
+Enabled from `preferences.yml` → `sources.portals`. `caddie posting save`
+recognises every config here, enabled or not, and takes `ats` from it.
 
 ## Hosts
 

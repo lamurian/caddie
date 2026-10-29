@@ -24,6 +24,9 @@ type Options struct {
 	Store  memory.Store
 	Client source.Doer
 	Today  string // YYYY-MM-DD, written as saved_at and in seen.jsonl
+	// Portals are the configs in portals/; a URL one of them matches is
+	// saved with that portal's source, ID, company and ats (ADR 0019).
+	Portals []source.Portal
 }
 
 // Result is what `caddie posting save` prints.
@@ -41,8 +44,10 @@ type Result struct {
 // the job saved in seen.jsonl. Saving a URL that is already saved (in
 // postings/, applied/ or manual/) rewrites nothing and returns that slug.
 func Save(ctx context.Context, rawURL string, o Options) (Result, error) {
+	portal, portalID, isPortal := source.PortalFor(o.Portals, rawURL)
 	if res, p, ok := findByURL(o.Layout, rawURL); ok {
-		j, err := o.merge(source.Job{ID: source.ID(rawURL), Title: p.Title, Company: p.Company}, rawURL)
+		j, err := o.merge(source.Job{ID: firstSet(portalID, source.ID(rawURL)), Title: p.Title,
+			Company: p.Company}, rawURL)
 		if err != nil {
 			return Result{}, err
 		}
@@ -55,6 +60,9 @@ func Save(ctx context.Context, rawURL string, o Options) (Result, error) {
 		return Result{}, err
 	}
 	fetchedTitle := d.Job.Title
+	if isPortal {
+		fromPortal(&d.Job, portal, portalID)
+	}
 	job, err := o.merge(d.Job, rawURL)
 	if err != nil {
 		return Result{}, err
@@ -69,6 +77,9 @@ func Save(ctx context.Context, rawURL string, o Options) (Result, error) {
 	}
 	secs := Extract(d.HTML, job.Title, fetchedTitle)
 	p := frontmatter(job, slug, rawURL, o.Today)
+	if isPortal {
+		p.ATS = portal.ATS
+	}
 	content := string(p.Frontmatter()) + "\n" + secs.Markdown() + reviewsSection(review, job.Company)
 	path := filepath.Join(o.Layout.Dir(workspace.DirPostings), slug+".md")
 	if err := writeNew(path, strings.TrimRight(content, "\n")+"\n"); err != nil {
@@ -98,9 +109,7 @@ func (o Options) merge(j source.Job, rawURL string) (source.Job, error) {
 			return j, nil
 		}
 		known = source.Job{ID: e.ID, Title: e.Title, Company: e.Company}
-		if prefix, _, _ := strings.Cut(e.ID, ":"); source.Known(prefix) {
-			known.Source = prefix
-		}
+		known.Source = source.SourceOf(e.ID)
 	}
 	j.ID, j.Source = firstSet(known.ID, j.ID), firstSet(known.Source, j.Source)
 	j.Title, j.Company = firstSet(known.Title, j.Title), firstSet(known.Company, j.Company)
@@ -111,6 +120,20 @@ func (o Options) merge(j source.Job, rawURL string) (source.Job, error) {
 			known.SalaryMin, known.SalaryMax, known.SalaryCurrency, known.SalaryPeriod
 	}
 	return j, nil
+}
+
+// fromPortal marks a job fetched from portal p's page as that portal's,
+// with the organisation as company unless the page names one other than
+// its own host.
+func fromPortal(j *source.Job, p source.Portal, id string) {
+	j.ID, j.Source = id, p.SourceName()
+	host := ""
+	if u, err := url.Parse(j.URL); err == nil {
+		host = strings.TrimPrefix(strings.ToLower(u.Hostname()), "www.")
+	}
+	if j.Company == "" || strings.EqualFold(j.Company, host) {
+		j.Company = p.Name
+	}
 }
 
 func firstSet(vals ...string) string {

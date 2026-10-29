@@ -14,7 +14,7 @@ portal tests through a fake HTTP client
 
 The real configs live in [`portals/`](../../portals/README.md); their
 fixtures go in `<org>/` here (`listing.html` or `listing.json`, plus
-`detail.html`).
+`detail-<id>.html`, which the `posting save` tests replay).
 
 ## Contributing
 
