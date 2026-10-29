@@ -25,11 +25,14 @@ const (
 // get fetches rawURL and returns the body of a 200 response. Errors wrap
 // ErrFetch and never include the query string, which may hold API keys.
 func get(ctx context.Context, c Doer, rawURL, accept string) ([]byte, error) {
-	return send(ctx, c, http.MethodGet, rawURL, accept, "")
+	return send(ctx, c, http.MethodGet, rawURL, accept, "", nil)
 }
 
-// send is get for any method; a non-empty body is sent as JSON.
-func send(ctx context.Context, c Doer, method, rawURL, accept, body string) ([]byte, error) {
+// send is get for any method; a non-empty body is sent as JSON. headers (a
+// portal's, already validated) are set last, so they may replace Accept or
+// Content-Type but never the User-Agent, which validation refuses.
+func send(ctx context.Context, c Doer, method, rawURL, accept, body string,
+	headers map[string]string) ([]byte, error) {
 	var rd io.Reader
 	if body != "" {
 		rd = strings.NewReader(body)
@@ -42,6 +45,9 @@ func send(ctx context.Context, c Doer, method, rawURL, accept, body string) ([]b
 	req.Header.Set("Accept", accept)
 	if body != "" {
 		req.Header.Set("Content-Type", "application/json")
+	}
+	for k, v := range headers {
+		req.Header.Set(k, v)
 	}
 	resp, err := c.Do(req)
 	if err != nil {

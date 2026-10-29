@@ -1,0 +1,36 @@
+{
+  "requisitionList": [
+    {
+      "hotJob": false, "addedToJobCart": false, "draft": false, "alreadyAppliedOn": false, "toReApply": false,
+      "jobId": "990101", "contestNo": "2690101",
+      "column": ["Technical Officer, Fictional Disease Surveillance", "[\"Switzerland-Geneva\"]", "Oct 28, 2026, 10:32:33 AM"],
+      "linkedColumn": 0, "locationsColumns": [1]
+    },
+    {
+      "hotJob": false, "addedToJobCart": false, "draft": false, "alreadyAppliedOn": false, "toReApply": false,
+      "jobId": "990102", "contestNo": "2690102",
+      "column": ["National Consultant : Santé publique imaginaire", "[\"Burkina Faso-Ouagadougou\",\"Mali-Bamako\"]", "Oct 27, 2026, 4:48:13 PM"],
+      "linkedColumn": 0, "locationsColumns": [1]
+    },
+    {
+      "hotJob": false, "addedToJobCart": false, "draft": false, "alreadyAppliedOn": false, "toReApply": false,
+      "jobId": "990103", "contestNo": "2690103",
+      "column": ["", "[\"Denmark-Copenhagen\"]", "Oct 27, 2026, 2:59:27 PM"],
+      "linkedColumn": 0, "locationsColumns": [1]
+    },
+    {
+      "hotJob": true, "addedToJobCart": false, "draft": false, "alreadyAppliedOn": false, "toReApply": false,
+      "jobId": "990104", "contestNo": "2690104",
+      "column": ["Budget and Finance Officer (BFO)", "[]", "Oct 26, 2026, 9:05:00 AM"],
+      "linkedColumn": 0, "locationsColumns": [1]
+    }
+  ],
+  "facetResults": [
+    {"id": "POSTING_DATE", "facetValueResults": [{"id": "1", "text": "Today", "quantity": ""}]},
+    {"id": "LOCATION", "facetValueResults": [{"id": "100000000001", "text": "Switzerland", "quantity": "1", "level": 1}]}
+  ],
+  "pagingData": {"currentPageNo": 1, "pageSize": 25, "totalCount": 4},
+  "queryString": "f=null&s=3|D&a=null&multiline=false",
+  "careerSectionUnAvailable": false,
+  "supportedLanguages": []
+}

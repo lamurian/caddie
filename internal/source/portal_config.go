@@ -25,19 +25,20 @@ import (
 // `@` means the item element itself (`@data-id`). For JSON each is a dotted
 // key path inside the item (`location.city`).
 type Portal struct {
-	Org          string       `yaml:"-"`             // file base name, e.g. "who"
-	File         string       `yaml:"-"`             // path it was loaded from, used in errors
-	Name         string       `yaml:"name"`          // organisation name, used as Job.Company
-	ListingURL   string       `yaml:"listing_url"`   // page or API endpoint listing openings
-	Method       string       `yaml:"method"`        // GET (default) or POST
-	Body         string       `yaml:"body"`          // request body for POST (JSON)
-	ItemSelector string       `yaml:"item_selector"` // CSS selector for one item in HTML
-	JSONPath     string       `yaml:"json_path"`     // dotted path to the item array in JSON
-	Fields       PortalFields `yaml:"fields"`
-	DetailURL    string       `yaml:"detail_url"`  // job page pattern with {id}
-	ATS          string       `yaml:"ats"`         // taleo, oracle, successfactors, workday, inspira, bespoke…
-	JSRendered   bool         `yaml:"js_rendered"` // listing needs JavaScript: skipped with a notice
-	Notes        string       `yaml:"notes"`
+	Org          string            `yaml:"-"`             // file base name, e.g. "who"
+	File         string            `yaml:"-"`             // path it was loaded from, used in errors
+	Name         string            `yaml:"name"`          // organisation name, used as Job.Company
+	ListingURL   string            `yaml:"listing_url"`   // page or API endpoint listing openings
+	Method       string            `yaml:"method"`        // GET (default) or POST
+	Body         string            `yaml:"body"`          // request body for POST (JSON)
+	Headers      map[string]string `yaml:"headers"`       // extra request headers: functional parameters only
+	ItemSelector string            `yaml:"item_selector"` // CSS selector for one item in HTML
+	JSONPath     string            `yaml:"json_path"`     // dotted path to the item array in JSON
+	Fields       PortalFields      `yaml:"fields"`
+	DetailURL    string            `yaml:"detail_url"`  // job page pattern with {id}
+	ATS          string            `yaml:"ats"`         // taleo, oracle, successfactors, workday, inspira, bespoke…
+	JSRendered   bool              `yaml:"js_rendered"` // listing needs JavaScript: skipped with a notice
+	Notes        string            `yaml:"notes"`
 }
 
 // PortalFields maps Job fields to selectors (HTML) or key paths (JSON).
@@ -107,7 +108,7 @@ type problem struct{ field, msg string }
 // "<file>: <field>: <problem>". A js_rendered config is skipped at search
 // time, so it needs only name, listing_url and ats.
 func (p Portal) Validate() error {
-	checks := []func() *problem{p.checkBasics, p.checkRequest}
+	checks := []func() *problem{p.checkBasics, p.checkRequest, p.checkHeaders}
 	if !p.JSRendered {
 		checks = append(checks, p.checkExtraction, p.checkJSONPaths, p.checkLinks, p.checkSelectors)
 	}

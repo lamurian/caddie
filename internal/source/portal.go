@@ -43,7 +43,7 @@ func (s *portalSource) listing(ctx context.Context) ([]portalItem, error) {
 	if s.p.ItemSelector != "" {
 		accept, extract = "text/html", extractHTML
 	}
-	body, err := send(ctx, s.client, s.p.Method, s.p.ListingURL, accept, s.p.Body)
+	body, err := send(ctx, s.client, s.p.Method, s.p.ListingURL, accept, s.p.Body, s.p.Headers)
 	if err != nil {
 		return nil, err
 	}

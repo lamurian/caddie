@@ -23,6 +23,13 @@ only a YAML file, a fixture and a test.
   workday, inspira, bespoke…), `js_rendered` and `notes`. `name`,
   `listing_url` and `ats` are always required; otherwise `fields.title` is,
   and `fields.url` unless `fields.id` and `detail_url` are both set.
+- **`headers`** (optional, name → value) holds functional request
+  parameters only, such as Taleo's required `tz`. Never credentials and
+  never UA spoofing: validation refuses `User-Agent`, `Authorization`,
+  `Proxy-Authorization`, `Cookie`, `Set-Cookie`, `Host`, `Content-Length`,
+  `Forwarded`, `X-Forwarded-*`, any name containing `token`, `auth`,
+  `key` or `secret`, and values with CR or LF. Set after caddie's own, a
+  header may replace `Accept` or `Content-Type`.
 - **HTML** items and fields are CSS selectors, parsed with
   `github.com/andybalholm/cascadia` on top of `golang.org/x/net/html` (the
   parser ADR 0017 chose), never regular expressions. A field selector is

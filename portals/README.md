@@ -4,10 +4,10 @@ Per-organisation configs for the `portal` source adapter, which is a
 config-driven scraper ([ADR 0006](../docs/adr/0006-portals-and-manual.md)).
 These files are tracked and public.
 
-Planned: `who.yml`, `un.yml`, `worldbank.yml`, `adb.yml`, `isdb.yml`,
-`mckinsey.yml`, `bcg.yml`, `bain.yml`. The first two arrive in phase
-[03](../docs/tasks/03-discover-portals.md) and the rest in phase
-[08](../docs/tasks/08-follow-through.md).
+Configured: `who.yml` and `un.yml` (phase
+[03](../docs/tasks/03-discover-portals.md)). Planned for phase
+[08](../docs/tasks/08-follow-through.md): `worldbank.yml`, `adb.yml`,
+`isdb.yml`, `mckinsey.yml`, `bcg.yml`, `bain.yml`.
 
 ## Config shape
 
@@ -21,6 +21,7 @@ errors; `caddie search` exits 3 naming the file and the key.
 | `name` | Organisation name, used as the company (required) |
 | `listing_url` | Absolute http(s) URL of the listing page or API (required) |
 | `method`, `body` | `GET` (default) or `POST`; `body` is the POST's JSON |
+| `headers` | Extra request headers, functional only (`tz`); no credentials or `User-Agent` |
 | `item_selector` | CSS selector for one opening in HTML, **or** … |
 | `json_path` | dotted path to the array of openings in JSON (`data.items`) |
 | `fields` | `id`, `title` (required), `url`, `location`, `deadline`, `salary` |
@@ -71,6 +72,7 @@ The hosts each config contacts (`listing_url`, `detail_url`). They seed
 | Org | Hosts | Notes |
 |-----|-------|-------|
 | `un` | `careers.un.org` | JSON API (POST); applying is on `inspira.un.org` (login) |
+| `who` | `careers.who.int` | Taleo job board API (POST, `tz` header); first 25 newest only; applying needs a Taleo account |
 
 ## Discovery, not application
 

@@ -27,6 +27,7 @@ func TestLoadPortalInvalid(t *testing.T) {
 		"missing-url":            "fields.url: required unless",
 		"detail-url-no-id":       "detail_url: must contain {id}",
 		"unknown-key":            "field selector not found",
+		"credential-header":      "headers.X-Api-Key: looks like a credential",
 	}
 	for name, want := range cases {
 		path := filepath.Join(portalDir, "invalid", name+".yml")
