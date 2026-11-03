@@ -22,7 +22,8 @@ only a YAML file, a fixture and a test.
   exactly one of `item_selector` (HTML) or `json_path` (JSON), `fields`
   (`id`, `title`, `url`, `location`, `deadline`, `salary`), `detail_url`
   (a pattern with `{id}`), `ats` (a label: taleo, oracle, successfactors,
-  workday, inspira, bespoke…), `js_rendered` and `notes`. `name`,
+  workday, inspira, bespoke…), `js_rendered`, `skip_reason` (2026-11:
+  any other reason to skip, quoted in the notice) and `notes`. `name`,
   `listing_url` and `ats` are always required; otherwise `fields.title` is,
   and `fields.url` unless `fields.id` and `detail_url` are both set.
 - **`headers`** (optional, name → value) holds functional request
@@ -53,7 +54,7 @@ only a YAML file, a fixture and a test.
 - **Enabling.** `preferences.yml` `sources.portals` lists the orgs to
   query. `--source portal` means every enabled portal and
   `--source portal:<org>` one. A listed org without a file, or a
-  `js_rendered: true` config, is a notice, not an error, as is
+  `js_rendered: true` or `skip_reason` config, is a notice, not an error, as is
   `--source portal:<org>` for an org `sources.portals` does not list
   and `--source portal` with `sources.portals` empty. An invalid config
   is exit 3 with `<file>: <field>: <problem>`.

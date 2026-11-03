@@ -23,7 +23,7 @@ func loadMcKinsey(t *testing.T) Portal {
 // automated collection, so search skips it with a notice and sends no request.
 func TestPortalMcKinseySkipped(t *testing.T) {
 	p := loadMcKinsey(t)
-	if !p.JSRendered || p.Name != "McKinsey & Company" || p.ATS != "avature" ||
+	if p.SkipReason == "" || p.Name != "McKinsey & Company" || p.ATS != "avature" ||
 		p.JSONPath != "" || p.ItemSelector != "" {
 		t.Fatalf("config: %+v", p)
 	}
@@ -31,7 +31,7 @@ func TestPortalMcKinseySkipped(t *testing.T) {
 	prefs.Portals = []string{"mckinsey"}
 	d := &portalDoer{t: t}
 	srcs, notices := Build(prefs, Keys{"id", "key"}, "portal:mckinsey", d, []Portal{p})
-	want := "portal:mckinsey: skipped: listing needs JavaScript (see portals/mckinsey.yml notes)"
+	want := "portal:mckinsey: skipped: the terms forbid automated collection (see portals/mckinsey.yml notes)"
 	if len(srcs) != 0 || len(notices) != 1 || notices[0] != want || len(d.reqs) != 0 {
 		t.Errorf("sources %v, notices %v, requests %d", names(srcs), notices, len(d.reqs))
 	}

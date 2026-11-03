@@ -146,9 +146,10 @@ func TestPortalSalaryNeedsCurrencyOrPeriod(t *testing.T) {
 func TestBuildPortals(t *testing.T) {
 	html, js := loadExample(t, "example-html"), loadExample(t, "example-json")
 	jsr := Portal{Org: "un", Name: "UN", JSRendered: true}
+	why := Portal{Org: "acme", Name: "Acme", JSRendered: true, SkipReason: "terms forbid it"}
 	prefs := allEnabled()
-	prefs.Portals = []string{"example-html", "example-json", "un"}
-	portals := []Portal{html, js, jsr}
+	prefs.Portals = []string{"example-html", "example-json", "un", "acme"}
+	portals := []Portal{html, js, jsr, why}
 	cases := []struct {
 		only, notice string
 		want         []string
@@ -157,6 +158,7 @@ func TestBuildPortals(t *testing.T) {
 			append(append([]string{}, Names...), "portal:example-html", "portal:example-json")},
 		{"portal", "portal:un: skipped: listing needs JavaScript", []string{"portal:example-html", "portal:example-json"}},
 		{"portal:example-json", "", []string{"portal:example-json"}},
+		{"portal:acme", "portal:acme: skipped: terms forbid it (see portals/acme.yml notes)", nil},
 		{"portal:who", "portal:who: skipped: not in sources.portals in preferences.yml", nil},
 		{Remotive, "", []string{Remotive}},
 	}

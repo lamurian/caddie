@@ -42,7 +42,7 @@ Portals (`portal:<org>`, ADR 0019) run after the boards, in
 `pages` fetches up to that many pages, filling `{page}` with 1, 2… (or
 `{offset}` with 0, `page_size`…, ADR 0030) and stopping at a page with
 nothing new (ADR 0028). A missing or
-`js_rendered` config and a failing portal are notices; an invalid config is
+`js_rendered` or `skip_reason` config and a failing portal are notices; an invalid config is
 a config error (exit 3) naming the file and key.
 
 ## Contributing

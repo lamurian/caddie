@@ -21,7 +21,7 @@ func TestSearchPortalBain(t *testing.T) {
 	vars := portalWorkspace(t, prefs, map[string]string{"bain": "../../portals/bain.yml"})
 	r := runWith(t, vars, bainHTTP, "search", "--source", "portal:bain")
 	if r.code != exitOK || !strings.Contains(r.stdout, `"jobs": []`) ||
-		!strings.Contains(r.stdout, "portal:bain: skipped: listing needs JavaScript") {
+		!strings.Contains(r.stdout, "portal:bain: skipped: the listing API refuses direct access") {
 		t.Fatalf("search: exit %d: %s%s", r.code, r.stdout, r.stderr)
 	}
 	r = runWith(t, vars, bainHTTP, "posting", "save", bainJob)

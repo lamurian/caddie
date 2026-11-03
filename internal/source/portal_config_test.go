@@ -81,6 +81,18 @@ func TestLoadPortalJSRendered(t *testing.T) {
 	}
 }
 
+func TestLoadPortalSkipReason(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "terms.yml")
+	data := "name: Example\nlisting_url: https://careers.example.org/\nats: bespoke\nskip_reason: terms forbid it\n"
+	if err := os.WriteFile(path, []byte(data), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	p, err := LoadPortal(path)
+	if reason, skipped := p.Skip(); err != nil || !skipped || reason != "terms forbid it" {
+		t.Errorf("skip_reason without selectors: got %+v, %v", p, err)
+	}
+}
+
 func TestLoadPortals(t *testing.T) {
 	got, notices, err := LoadPortals(portalDir, []string{"example-json", "bain", "example-html"})
 	if err != nil {

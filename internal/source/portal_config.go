@@ -40,6 +40,7 @@ type Portal struct {
 	DetailURL    string            `yaml:"detail_url"`  // job page pattern with {id}, optional trailing /{slug}
 	ATS          string            `yaml:"ats"`         // taleo, oracle, successfactors, workday, inspira, bespoke…
 	JSRendered   bool              `yaml:"js_rendered"` // listing needs JavaScript: skipped with a notice
+	SkipReason   string            `yaml:"skip_reason"` // any other reason search skips it: the notice says why
 	DeadlineTZ   string            `yaml:"deadline_tz"` // IANA zone for timestamp deadlines (ADR 0029)
 	Notes        string            `yaml:"notes"`
 }
@@ -104,15 +105,24 @@ func LoadPortals(dir string, orgs []string) ([]Portal, []string, error) {
 // SourceName is the portal's Job.Source and --source value, "portal:<org>".
 func (p Portal) SourceName() string { return PortalFamily + ":" + p.Org }
 
+// Skip says why search skips the portal: skip_reason when set, else
+// "listing needs JavaScript" for a js_rendered config.
+func (p Portal) Skip() (string, bool) {
+	if r := strings.TrimSpace(p.SkipReason); r != "" {
+		return r, true
+	}
+	return "listing needs JavaScript", p.JSRendered
+}
+
 // problem is one validation failure: the offending key and what is wrong.
 type problem struct{ field, msg string }
 
 // Validate checks the config; every problem wraps config.ErrConfig and reads
-// "<file>: <field>: <problem>". A js_rendered config is skipped at search
-// time, so it needs only name, listing_url and ats.
+// "<file>: <field>: <problem>". A skipped config (js_rendered or
+// skip_reason) is never fetched, so it needs only name, listing_url and ats.
 func (p Portal) Validate() error {
 	checks := []func() *problem{p.checkBasics, p.checkRequest, p.checkPages, p.checkHeaders, p.checkDeadlineTZ}
-	if !p.JSRendered {
+	if _, skipped := p.Skip(); !skipped {
 		checks = append(checks, p.checkExtraction, p.checkJSONPaths, p.checkLinks, p.checkSelectors)
 	}
 	for _, check := range checks {
