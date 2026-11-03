@@ -29,7 +29,11 @@ phase in [`docs/tasks/`](../docs/tasks/README.md) that owns it. Implemented:
 [ADR 0022](../docs/adr/0022-render-naming-and-gate.md));
 `browse <session> <agent-browser args…>` (phase 06; everything after the
 session goes to agent-browser verbatim, never parsed as caddie flags;
-agent-browser's own non-zero exit is exit 8). Flags may
+agent-browser's own non-zero exit is exit 8);
+`move <slug> applied|manual [--reason "<one line>"]` (JSON) and
+`posting steps <slug> "<step>"…` (phase 07,
+[ADR 0026](../docs/adr/0026-move-archive-and-trace.md); an existing
+archive or an applied posting is exit 6). Flags may
 come before or after arguments. A malformed `answers.yml` is exit 4; an
 unknown `--for` slug or a missing file is exit 5.
 
@@ -49,7 +53,7 @@ Defined in `cmd/caddie/exit.go`, the contract of
 | 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
 | 5 | Not found: no job posting at a URL, an unknown slug or a missing file | Check the URL, slug or path |
 | 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
-| 7 | Refused by a safety rule: `render` on an unverified or edited draft; `browse` with a bad session name or an upload outside `/handoff` | Stop; never work around it |
+| 7 | Refused by a safety rule: `render` on an unverified or edited draft; `browse` with a bad session name, an upload outside `/handoff` or a screenshot outside `/trace` | Stop; never work around it |
 | 8 | External tool or network failure: HTTP, `quarto`, `docker` or agent-browser (whose own error is printed first) | Run `caddie doctor`, retry once, then tell the user |
 | 9 | Internal error | Report it to the user |
 <!-- exit-codes:end -->
@@ -59,7 +63,10 @@ Defined in `cmd/caddie/exit.go`, the contract of
 - Every command supports `--json`. Keep output short and structured, because
   the agent reasons over exactly what is printed.
 - Exit codes are documented in the table above, mirrored verbatim in
-  `.agents/skills/caddie/SKILL.md` (a test compares them). Change both together.
+  `.agents/skills/caddie/SKILL.md` and
+  `.agents/skills/caddie/references/exit-codes.md` (a test compares them).
+  Change all of them together, and update the per-command codes in
+  `exit-codes.md`.
 - One file per subcommand group (e.g. `cmd/caddie/answers.go`) so that
   `main.go` stays small; every file stays under 300 lines.
 - Standard library `flag` (or a single small dependency) is preferred; adding

@@ -12,19 +12,17 @@ description: >-
 
 ## What Caddie is
 
-This skill plus one binary, `caddie`. You supply judgment: ranking,
-tailoring, writing, what to ask. `caddie` supplies the deterministic parts:
-parsing, verification, rendering, memory, file moves, browser commands; it
-makes no LLM calls. Keep to its output and exit codes. The human always
-clicks *Submit*. Run every command from the repository root.
+This skill plus one binary, `caddie`. You supply judgment (ranking,
+tailoring, writing, what to ask); `caddie` supplies parsing, verification,
+rendering, memory, file moves and browser commands, with no LLM calls. Keep
+to its output and exit codes. The human always clicks *Submit*.
 
 ## Directory layout
 
 | Path | Holds |
 |------|-------|
 | `history/` | The user's career history (public CV): `about.md` plus one file per section |
-| `preferences.yml` | Salary, work mode, locations, roles, sources, `apply` rules (private) |
-| `answers.yml` | Stored interview and form answers (private) |
+| `preferences.yml`, `answers.yml` | Preferences and `apply` rules; stored interview and form answers (both private) |
 | `postings/` | Saved postings `<slug>.md` with YAML frontmatter |
 | `resumes/`, `cover-letters/` | Tailored Markdown drafts and rendered PDFs |
 | `handoff/` | Current PDFs, visible to the browser as `/handoff` |
@@ -56,10 +54,11 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
   `preferences`; phone and email only with `--with-contact`, when needed.
 - `caddie answers show [--for <slug>] [--form]`, `caddie answers list` (JSON),
   `caddie answers add --key k --scope global|company:<x>|posting:<slug> "<text>"`.
-- `caddie verify <doc.md>`: traces every claim of a draft to `history/` and
-  answers; exit 1 lists each untraceable claim by line.
+- `caddie verify <doc.md>`: exit 1 lists each claim not traced to `history/` or answers.
 - `caddie keywords <posting.md> <doc.md>`: advisory keyword coverage.
 - `caddie render resume|cover-letter <slug>`: PDF + `handoff/` copy; exit 7: re-run `caddie verify`.
+- `caddie posting steps <slug> "<step>"…`: manual checklist;
+  `caddie move <slug> applied|manual [--reason "<one line>"]`: archive (JSON).
 
 ## Workflows
 
@@ -67,13 +66,12 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
   (`caddie search`, `caddie seen add|list`, `caddie posting save <url>`).
 - **Tailor** ("tailor <slug>"): [`references/tailor.md`](references/tailor.md)
   (draft, `caddie verify`, `caddie keywords`, iterate, `caddie render`).
-- **Cover letter** ("cover letter <slug>"):
-  [`references/cover-letter.md`](references/cover-letter.md). Interview:
-  run `caddie answers show --for <slug>` before asking the user anything,
-  then ask at most five questions, batched in one message, only for keys
-  not stored. Suggested keys: `why_org`, `why_role`, `lead_story`,
-  `start_date`, `constraints`.
-- **Browser**: [`references/browse.md`](references/browse.md); apply and follow-ups ship later.
+- **Cover letter** ("cover letter <slug>"): [`references/cover-letter.md`](references/cover-letter.md).
+  Interview: run `caddie answers show --for <slug>` first, then ask at most five
+  questions, batched in one message, only for keys not stored. Suggested
+  keys: `why_org`, `why_role`, `lead_story`, `start_date`, `constraints`.
+- **Apply** ("apply <slug>"): [`references/apply.md`](references/apply.md)
+  (form, gate, `caddie move`); browser: [`references/browse.md`](references/browse.md).
 
 ## Gate message
 
@@ -82,6 +80,8 @@ After filling a form, post the screenshot and exactly this text, then stop:
 `Form filled. Reply "submit" or "manual".`
 
 ## Exit codes
+
+Per command: [`references/exit-codes.md`](references/exit-codes.md).
 
 <!-- exit-codes:begin -->
 | Code | Meaning | What the agent does |
@@ -93,7 +93,7 @@ After filling a form, post the screenshot and exactly this text, then stop:
 | 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
 | 5 | Not found: no job posting at a URL, an unknown slug or a missing file | Check the URL, slug or path |
 | 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
-| 7 | Refused by a safety rule: `render` on an unverified or edited draft; `browse` with a bad session name or an upload outside `/handoff` | Stop; never work around it |
+| 7 | Refused by a safety rule: `render` on an unverified or edited draft; `browse` with a bad session name, an upload outside `/handoff` or a screenshot outside `/trace` | Stop; never work around it |
 | 8 | External tool or network failure: HTTP, `quarto`, `docker` or agent-browser (whose own error is printed first) | Run `caddie doctor`, retry once, then tell the user |
 | 9 | Internal error | Report it to the user |
 <!-- exit-codes:end -->

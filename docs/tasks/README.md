@@ -13,7 +13,7 @@ M2, M3 and M4 each split in two.
 | 04 | [Verify, keywords, answers](04-verify-and-answers.md) | M3 | Done |
 | 05 | [Render](05-render.md) | M3 | Done |
 | 06 | [Browser sandbox](06-browser-sandbox.md) | M4 | In progress |
-| 07 | [Apply and archive](07-apply-and-archive.md) | M4 | Todo |
+| 07 | [Apply and archive](07-apply-and-archive.md) | M4 | In progress |
 | 08 | [Follow-through](08-follow-through.md) | M5 | Todo |
 
 Status values: `Todo` → `In progress` → `Done`. Update them in this table and

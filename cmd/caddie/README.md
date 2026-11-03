@@ -15,7 +15,9 @@ in [`cmd/README.md`](../README.md) and
 | `doctor.go` | `caddie doctor [--json]`, a thin wrapper over `internal/doctor` |
 | `search.go` | `caddie search [--source s] [--limit n] [--include-seen]`; workspace loading helpers |
 | `seen.go` | `caddie seen add <id…> --shown\|--rejected` and `caddie seen list [--rejected]` |
-| `posting.go` | `caddie posting save <url>` |
+| `posting.go` | `caddie posting save <url>`; `posting` subcommand dispatch |
+| `posting_steps.go` | `caddie posting steps <slug> "<step>"…`: the `## Manual steps` checklist |
+| `move.go` | `caddie move <slug> applied\|manual [--reason …]` over `workspace.Move` |
 | `answers.go` | `caddie answers add\|show\|list` over `answers.yml`; finds a posting by slug |
 | `verify.go` | `caddie verify <doc.md> [--json]`: traces claims, records the verified hash; `readDoc` |
 | `keywords.go` | `caddie keywords <posting.md> <doc.md> [--json]`: advisory keyword coverage |

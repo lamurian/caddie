@@ -15,7 +15,8 @@ import (
 )
 
 // Exit codes: the contract documented in cmd/README.md and mirrored in
-// .agents/skills/caddie/SKILL.md. Change all three together.
+// .agents/skills/caddie/SKILL.md and
+// .agents/skills/caddie/references/exit-codes.md. Change all four together.
 const (
 	exitOK           = 0
 	exitCheckFailed  = 1
@@ -51,12 +52,19 @@ var exitCodes = []struct {
 	{workspace.ErrBadPosting, exitMalformed},
 	{workspace.ErrUnknownStatus, exitMalformed},
 	{memory.ErrMalformedAnswers, exitMalformed},
+	{workspace.ErrBadMove, exitUsage},
+	{posting.ErrNoSteps, exitUsage},
+	{posting.ErrEmptyStep, exitUsage},
 	{workspace.ErrIllegalTransition, exitIllegalState},
+	{workspace.ErrDestExists, exitIllegalState},
 	{posting.ErrNoPosting, exitNotFound},
 	{errNotFound, exitNotFound},
 	{document.ErrNotVerified, exitRefused},
 	{browse.ErrInvalidSession, exitRefused},
 	{browse.ErrUploadOutsideHandoff, exitRefused},
+	{browse.ErrScreenshotOutsideTrace, exitRefused},
+	{browse.ErrBatchRefused, exitRefused},
+	{browse.ErrFlagRefused, exitRefused},
 	{browse.ErrExec, exitExternal},
 	{source.ErrFetch, exitExternal},
 	{document.ErrQuarto, exitExternal},

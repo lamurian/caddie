@@ -7,6 +7,7 @@ The checks behind `caddie doctor`. `Run(Options)` returns a `Report` of
 |-------|-----------|
 | `config` | `.env` or an env var is invalid (later checks are skipped) |
 | `workspace` | a workspace directory is missing |
+| `trace` | `<state>/trace` is missing (`local` mode: `warn`) or not a directory |
 | `preferences` | `preferences.yml` is missing or malformed |
 | `gate` | `apply.require_gate` is not `true` ([ADR 0003](../../docs/adr/0003-human-submit-gate.md)) |
 | `history` | `history/` is malformed (message names file and line) |
@@ -27,6 +28,13 @@ run `docker compose -f <CADDIE_COMPOSE_FILE> config|ps|exec` through
 `browse.Exec`, 45 s per call. They run only in `compose` mode with `docker`
 on PATH; the proxy probes curl from the browser container and only run when
 every service is up.
+
+The `trace` check ([ADR 0026](../../docs/adr/0026-move-archive-and-trace.md))
+stats `<CADDIE_STATE_DIR>/trace`, the source of the browser's `/trace`
+mount. Writability for uid 1000 is only guessed, on Linux, from the mode
+bits: a dir owned by another uid with no group/other write `warn`s (an ACL
+for uid 1000 sets the group mask, so it passes). The compose file mounts
+`../.caddie/trace` whatever `CADDIE_STATE_DIR` says.
 
 Only `fail` makes the report unhealthy; the CLI then exits 1.
 

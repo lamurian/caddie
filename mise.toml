@@ -57,6 +57,22 @@ run = "actionlint"
 description = "Scan committed history for secrets (staged files: pre-commit)"
 run = "gitleaks git --redact --no-banner"
 
+[tasks."stack:up"]
+description = "Start the sandboxed browser stack (prepares .caddie/trace)"
+run = "scripts/stack.sh up"
+
+[tasks."stack:down"]
+description = "Stop the browser stack; the browser-state volume is kept"
+run = "scripts/stack.sh down"
+
+[tasks."stack:status"]
+description = "Show the browser stack's containers"
+run = "scripts/stack.sh status"
+
+[tasks."stack:logs"]
+description = "Show the last 100 log lines of the browser stack"
+run = "scripts/stack.sh logs"
+
 [tasks.lint]
 description = "Run every linter"
 depends = ["lint:*"]
