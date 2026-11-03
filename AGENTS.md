@@ -57,7 +57,7 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 | `history/` | The user's career history (tracked, public) | [README](history/README.md) |
 | `docs/adr/` | Architecture decision records | [README](docs/adr/README.md) |
 | `docs/tasks/` | Development phases with Definitions of Done | [README](docs/tasks/README.md) |
-| `scripts/` | Repo tooling (`check-lines.sh`, `guard-workspace.sh`) | — |
+| `scripts/` | Repo tooling (`check-lines.sh`, `guard-workspace.sh`, `stack.sh` behind `mise run stack:*`) | — |
 | `.github/` | CI workflow and Renovate config | [README](.github/README.md) |
 
 ## Workspace directories

@@ -14,14 +14,17 @@ docker/
 Start it from the repo root, then check it:
 
 ```sh
-mkdir -p .caddie/trace          # the /trace bind source; see below
-docker compose -f docker/compose.yml up -d --build
+mise run stack:up               # scripts/stack.sh: prepares .caddie/trace, then up
 caddie doctor
 ```
 
+`stack:down`, `stack:status` and `stack:logs` stop it (keeping logins),
+list its containers and show its logs.
+
 ## Trace directory
 
-Compose never creates `.caddie/trace/` (`up` fails if it is missing), and
+Compose never creates `.caddie/trace/` (`up` fails if it is missing;
+`stack:up` creates it and runs the `setfacl` below when needed), and
 the browser's `node` user (uid 1000) must be able to write to it. When your
 uid is 1000 (`id -u`), `mkdir -p` is enough. Otherwise grant uid 1000 alone,
 so you still own the directory and `caddie move` can empty it:
