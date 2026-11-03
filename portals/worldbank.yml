@@ -1,0 +1,27 @@
+# World Bank Group careers (worldbankgroup.csod.com, Cornerstone OnDemand).
+# Discovery-only: the listing needs JavaScript and a page-issued token.
+# Fixture and tests: testdata/portals/worldbank/listing.html,
+# internal/source/portal_worldbank_test.go.
+name: World Bank Group
+listing_url: https://worldbankgroup.csod.com/ux/ats/careersite/1/home?c=worldbankgroup
+detail_url: https://worldbankgroup.csod.com/ux/ats/careersite/1/home/requisition/{id}?c=worldbankgroup
+ats: cornerstone
+js_rendered: true
+notes: >-
+  Unsupported for search, so caddie search skips it with a notice; posting
+  save still recognises its job pages. VERIFIED live 2026-11-03 with
+  caddie's own user agent: www.worldbank.org/en/about/careers redirects to
+  /ext/en/careers, whose "find jobs" links go to Cornerstone career site 1
+  in listing_url. That page is an empty JavaScript shell (div#cs-root)
+  whose script draws the list from https://us.api.csod.com/rec-job-search/external/jobs
+  (POST), authorised by a short-lived bearer token embedded in the page;
+  without it the API answers 401 "No Authorization header found". ADR 0019
+  allows one request and no Authorization header, so the listing cannot be
+  fetched; search this portal by hand. worldbank.org has no other job
+  list or feed. ASSUMED: job pages are .../home/requisition/<id>?c=worldbankgroup
+  (the Cornerstone pattern; the shell answers 200 for any id and routes in
+  JavaScript, so a real id was not seen). robots.txt on
+  worldbankgroup.csod.com has no Disallow, only "Crawl-delay: 10200", and
+  the page is marked noindex; no terms on automated access were found.
+  Applying needs a Cornerstone candidate account, so it ends in the manual
+  checklist.
