@@ -1,0 +1,39 @@
+# Boston Consulting Group careers (careers.bcg.com, Phenom People). Fixture
+# and tests: testdata/portals/bcg/listing.json, internal/source/portal_bcg_test.go.
+name: Boston Consulting Group
+listing_url: https://careers.bcg.com/widgets
+method: post
+body: >-
+  {"lang":"en_global","deviceType":"desktop","country":"global",
+  "pageName":"search-results","ddoKey":"refineSearch","from":0,"size":500,
+  "jobs":true,"counts":false,"siteType":"external","keywords":"","global":true,
+  "selected_fields":{}}
+json_path: refineSearch.data.jobs
+fields:
+  id: jobId
+  title: title
+  location: location
+detail_url: https://careers.bcg.com/global/en/job/{id}
+ats: phenom
+notes: >-
+  careers.bcg.com is a Phenom People site. The search-results page embeds
+  only its first 10 openings in a phApp.ddo script and fills the list with
+  JavaScript from the Phenom widgets API in listing_url, which this config
+  calls directly, so no JavaScript is needed. VERIFIED live 2026-11-03 with
+  caddie's own user agent: the POST (ddoKey refineSearch) returns
+  refineSearch.data.jobs[] with string jobId (equal to reqId), title,
+  location (the primary "City, State, Country"), postedDate and applyUrl;
+  job pages answer at /global/en/job/<jobId> (the site links them with a
+  title slug appended, /global/en/job/<jobId>/<slug>, which posting save
+  does not recognise as this portal; trim the slug). Limitations: the API
+  caps size at 500, so one request returns 500 of the 941 open on
+  2026-11-03, in the site's default order (a sortBy in the body changed
+  nothing); there is no paging. There is no closing date or salary in the
+  listing. multi_location lists every city but is not mapped (an array of
+  "City, State, Country" strings would join unreadably). Applying leaves
+  careers.bcg.com for experiencedtalent.bcg.com or studenttalent.bcg.com
+  (Eightfold career hubs) or platinion.avature.net, all needing an account,
+  so it ends in the manual checklist. robots.txt disallows apply, chatbot,
+  jobcart and tracking paths, not /widgets or /global/en/job/. The linked
+  terms (www.bcg.com/about/terms-of-use) allow viewing for personal,
+  noncommercial use and name no rule on automated access.

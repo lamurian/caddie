@@ -1,0 +1,33 @@
+# Asian Development Bank careers (www.adb.org, Drupal; applying on ACES).
+# Fixture and tests: testdata/portals/adb/listing.html,
+# internal/source/portal_adb_test.go.
+name: Asian Development Bank
+listing_url: https://www.adb.org/work-with-us/careers/current-opportunities
+item_selector: table.cols-6 tbody tr
+fields:
+  title: td[headers^="view-title-table-column"] a
+  url: td[headers^="view-title-table-column"] a@href
+  location: td.views-field-field-location
+  deadline: td.views-field-field-date-closing
+detail_url: https://www.adb.org/careers/{id}
+ats: bespoke
+notes: >-
+  VERIFIED live 2026-11-03 with caddie's own user agent: the careers page
+  (work-with-us/careers) shows only the 5 latest vacancies and links "View
+  all vacancies" to listing_url, a server-rendered Drupal page (no
+  JavaScript or XHR needed) with one table per group (international staff,
+  local staff, by category), 14 openings in all and no pager. Each row has
+  a title link to www.adb.org/careers/<number> (the reference number, used
+  as the ID through detail_url), Position Grade, Department, Location,
+  Posting Date and Closing Date ("03 Nov 2026", inside a <time> element).
+  Header ids get a "--2", "--3" suffix per table, hence the ^= selectors.
+  Limitations: the title keeps its reference suffix ("Economist / 260862"),
+  as the schema cannot trim it; the grade (TI2, TL5, M1) is not a salary
+  and the department is not mapped; location is often just "Asian
+  Development Bank Headquarters" (Manila). Closing is 11:59 PM Manila time.
+  Job pages link "Apply for this Vacancy" to aces.adb.org?job=<number>,
+  the ADB Career and Employment System, which needs an account (login
+  page seen; its underlying vendor is not identified, so ats is bespoke),
+  so applying ends in the manual checklist. robots.txt does not disallow
+  /work-with-us/careers or /careers/; the terms of use (www.adb.org/terms-use)
+  allow personal, non-commercial use and say nothing on automated access.

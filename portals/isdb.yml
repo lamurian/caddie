@@ -1,0 +1,35 @@
+# Islamic Development Bank careers (careers.isdb.org, SAP SuccessFactors
+# career site). Fixture and tests: testdata/portals/isdb/listing.html,
+# internal/source/portal_isdb_test.go.
+name: Islamic Development Bank
+listing_url: https://careers.isdb.org/search/?q=&locale=en_GB
+item_selector: ul#job-tile-list li.job-tile
+fields:
+  title: .sub-section-desktop a.jobTitle-link
+  url: "@data-url"
+  location: .sub-section-desktop .section-field.location div
+ats: successfactors
+notes: >-
+  www.isdb.org/careers is a 404; the site's Careers link goes to
+  careers.isdb.org, a SAP SuccessFactors (Recruiting Marketing) career
+  site whose /search/ page is server-rendered HTML, so no JavaScript is
+  needed. VERIFIED live 2026-11-03 with caddie's own user agent: an empty
+  query (q=) lists every opening, 14 at the time, as
+  ul#job-tile-list li.job-tile tiles with data-url="/job/<slug>/<id>/",
+  a.jobTitle-link titles and a Location field holding a country code
+  ("SA"); each tile repeats its title in desktop, tablet and mobile
+  sections, so the selectors use the desktop one. Limitations: one page
+  only, data-per-page="25", so openings past the 25th are cut (the "More
+  Search Results" button loads the rest with JavaScript). The listing has
+  no closing date: the job page shows "Closing Date: 16-Nov-2026" and a
+  schema.org validThrough, so deadline is not mapped. Requisition ID
+  (customfield1) is not used as the ID and there is no detail_url: the
+  <id> sits behind a free-text slug ({id} is one path segment), so IDs are
+  URL hashes, the same in search and posting save, and posting save
+  recognises any careers.isdb.org URL as this portal. robots.txt allows
+  /search/ and /job/ (it disallows /talentcommunity/, /services/ and
+  /applybutton/: the RSS feed under /services/ is not used). The
+  www.isdb.org terms limit reproducing IsDB material; they say nothing on
+  automated access. Applying (/talentcommunity/apply/<id>/) needs a
+  SuccessFactors account on career55.sapsf.eu, so it ends in the manual
+  checklist.
