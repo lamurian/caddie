@@ -65,6 +65,7 @@ func Run(opts Options) Report {
 	r.add("config", StatusOK, "settings loaded (workspace %s)", cfg.Workspace)
 	layout := workspace.New(cfg)
 	checkDirs(&r, layout)
+	checkTrace(&r, layout, cfg.BrowserMode)
 	checkPreferences(&r, layout)
 	checkHistory(&r, layout)
 	checkQuarto(&r, opts, cfg.QuartoBin)

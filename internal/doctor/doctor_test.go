@@ -18,8 +18,8 @@ func newWorkspace(t *testing.T, prefs string, history map[string]string) string 
 	t.Helper()
 	root := t.TempDir()
 	for _, d := range []string{"postings", "applied", "manual", "resumes", "cover-letters",
-		"reviews", "history", "handoff"} {
-		if err := os.Mkdir(filepath.Join(root, d), 0o755); err != nil {
+		"reviews", "history", "handoff", ".caddie/trace"} {
+		if err := os.MkdirAll(filepath.Join(root, d), 0o755); err != nil {
 			t.Fatal(err)
 		}
 	}

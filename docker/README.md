@@ -27,7 +27,8 @@ uid is 1000 (`id -u`), `mkdir -p` is enough. Otherwise grant uid 1000 alone,
 so you still own the directory and `caddie move` can empty it:
 `setfacl -m u:1000:rwx .caddie/trace`. Avoid `chmod 0777`: any local user
 could then plant files that `caddie move` archives. CI, which never moves,
-uses `sudo chown 1000:1000` instead.
+uses `sudo chown 1000:1000` instead. `caddie doctor` fails while the
+directory is missing and warns when uid 1000 looks unable to write it.
 
 ## Services
 
