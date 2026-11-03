@@ -14,7 +14,9 @@ func cmdDoctor(args []string, e env) error {
 	if err := parseFlags(fs, args); err != nil {
 		return err
 	}
-	r := doctor.Run(doctor.Options{DotEnv: e.dotenv, Lookup: e.lookup, LookPath: e.lookPath})
+	r := doctor.Run(doctor.Options{
+		DotEnv: e.dotenv, Lookup: e.lookup, LookPath: e.lookPath, Quarto: e.quarto,
+	})
 	if err := printReport(e.stdout, r, *asJSON); err != nil {
 		return err
 	}

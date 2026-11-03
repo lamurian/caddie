@@ -1,4 +1,6 @@
-# Mira Example-Halvorsen
+## About
+
+Data analyst who cleans and links registry data.
 
 ## Employment
 

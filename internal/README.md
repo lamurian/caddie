@@ -20,7 +20,8 @@ tested against `testdata/` ([ADR 0001](../docs/adr/0001-skill-plus-cli.md)).
 ## Dependency direction
 
 `cmd` → any package. `workspace`, `posting`, `document` may use `config`,
-`profile` and `memory`; `posting` also uses `source` and `workspace`.
+`profile` and `memory`; `posting` also uses `source` and `workspace`;
+`document` also uses `workspace` (for `Slug` in PDF names).
 `doctor` may use every package it checks. `source` uses only `config`,
 returns plain structs and never touches the filesystem layout; `memory`
 stores `source.Job` values in its search cache. `browse` depends only on `config`. No cycles; no package

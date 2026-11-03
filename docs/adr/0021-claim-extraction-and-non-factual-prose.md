@@ -55,7 +55,8 @@ passes ("passionate about open science"). Any claim token inside such a
 sentence must still trace ("passionate about Kubernetes" fails). Opinion
 and motivation need no answer; names, numbers, dates and skills do.
 
-`RecordVerified` writes `.caddie/verified/<sha256>` (JSON: path, date)
+`RecordVerified` writes `.caddie/verified/<sha256>` (JSON: path, date;
+the path is informational and workspace-relative, only the hash counts)
 only after a pass; `IsVerified` checks the exact bytes, so any edit needs a
 new verify.
 

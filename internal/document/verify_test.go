@@ -47,20 +47,20 @@ func TestVerifyFixtures(t *testing.T) {
 	}{
 		{"resume-traceable.md", nil, []Claim{}},
 		{"resume-invented-employer.md", nil, []Claim{
-			{6, KindEntry, "Acme Pharma Analytics"},
-			{12, KindTerm, "Fjordline Clinical Institute"},
+			{8, KindEntry, "Acme Pharma Analytics"},
+			{14, KindTerm, "Fjordline Clinical Institute"},
 		}},
 		{"resume-stretched-dates.md", nil, []Claim{
-			{7, KindEntry, "Sep 2018 – Feb 2023"},
-			{8, KindDate, "June 2018"},
-			{15, KindEntry, "Sep 2017 – Jun 2019"},
-			{16, KindDate, "September 2017"},
+			{9, KindEntry, "Sep 2018 – Feb 2023"},
+			{10, KindDate, "June 2018"},
+			{17, KindEntry, "Sep 2017 – Jun 2019"},
+			{18, KindDate, "September 2017"},
 		}},
 		{"resume-upgraded-title.md", nil, []Claim{
-			{5, KindEntry, "Senior Data Analyst"},
-			{11, KindEntry, "Fjordline Health Research"},
-			{12, KindEntry, "Utrecht, Netherlands"},
-			{13, KindEntry, "Mar 2023 – Present"},
+			{7, KindEntry, "Senior Data Analyst"},
+			{13, KindEntry, "Fjordline Health Research"},
+			{14, KindEntry, "Utrecht, Netherlands"},
+			{15, KindEntry, "Mar 2023 – Present"},
 		}},
 		{"resume-invented-skill.md", nil, []Claim{
 			{3, KindTerm, "PyTorch"},
@@ -70,9 +70,10 @@ func TestVerifyFixtures(t *testing.T) {
 		}},
 		{"cover-letter-answers.md", letterAnswers, []Claim{}},
 		{"cover-letter-answers.md", nil, []Claim{
-			{9, KindTerm, "Bergen Outbreak Taskforce"},
-			{14, KindDate, "1 January 2027"},
+			{7, KindTerm, "Bergen Outbreak Taskforce"},
+			{12, KindDate, "1 January 2027"},
 		}},
+		{"keywords-draft-lead-biostatistician.md", nil, []Claim{{20, KindTerm, "SAS"}}},
 	}
 	for _, c := range cases {
 		src := Sources{Profile: p, Answers: c.answers, Targets: verifyTargets}
@@ -84,6 +85,19 @@ func TestVerifyFixtures(t *testing.T) {
 			t.Errorf("%s: OK %v with %d claims", c.file, r.OK(), r.Claims)
 		}
 	}
+}
+
+// The settled draft format (references/tailor.md): the template adds name
+// and contact, so drafts carry none. #/## heading text is structure and
+// passes whatever it says; contact details in the body are claims and fail.
+func TestVerifyDraftFormat(t *testing.T) {
+	runMatchCases(t, []matchCase{
+		{name: "headings are structure", doc: "# Jane Q. Kubernetes\n\n## Acme Pharma, 2031\n\n" +
+			"Biostatistician who builds pipelines in R."},
+		{name: "contact in the body", doc: "## About\n\nBiostatistician in Utrecht.\n\n" +
+			"mira@example.org · +31 6 98765432",
+			want: []string{"term:mira@example.org", "term:+31", "number:6", "number:98765432"}},
+	})
 }
 
 // The traceable resume exercises every claim kind, so a pass means each

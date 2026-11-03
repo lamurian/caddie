@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/lamurian/caddie/internal/config"
+	"github.com/lamurian/caddie/internal/document"
 	"github.com/lamurian/caddie/internal/source"
 )
 
@@ -24,6 +25,7 @@ type env struct {
 	lookPath       func(string) (string, error)
 	client         source.Doer   // HTTP for search and posting save
 	today          func() string // the date as YYYY-MM-DD
+	quarto         func(bin string) document.Quarto
 }
 
 type command func(args []string, e env) error
@@ -36,6 +38,7 @@ var commands = map[string]command{
 	"answers":  cmdAnswers,
 	"verify":   cmdVerify,
 	"keywords": cmdKeywords,
+	"render":   cmdRender,
 	"doctor":   cmdDoctor,
 }
 
@@ -56,6 +59,8 @@ Commands:
   verify <doc.md> [--json]            trace every claim of a draft to history/ and answers
   keywords <posting.md> <doc.md> [--json]
                                       keyword coverage of a draft against a posting
+  render resume|cover-letter <slug> [--json]
+                                      verified draft to PDF, copied to handoff/
   doctor [--json]                     check configuration, workspace and history
   help                                show this help
 
@@ -68,6 +73,7 @@ func main() {
 		dotenv: ".env", lookPath: exec.LookPath,
 		client: &http.Client{Timeout: 30 * time.Second},
 		today:  func() string { return time.Now().Format("2006-01-02") },
+		quarto: func(bin string) document.Quarto { return document.ExecQuarto{Bin: bin} },
 	}))
 }
 

@@ -51,3 +51,33 @@ func TestVerifiedRecord(t *testing.T) {
 		t.Errorf("verified/ holds %d files, want 1", len(entries))
 	}
 }
+
+// A record names the draft relative to the workspace root, slash-separated,
+// or by its absolute path when it lies outside; relative arguments resolve
+// against the current directory.
+func TestRecordPath(t *testing.T) {
+	t.Chdir(t.TempDir())
+	base, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	ws := filepath.Join(base, "ws")
+	cases := []struct{ root, doc, want string }{
+		{".", "./resumes/x.md", "resumes/x.md"},
+		{".", "resumes/x.md", "resumes/x.md"},
+		{".", filepath.Join(base, "resumes", "x.md"), "resumes/x.md"},
+		{base, "cover-letters/x.md", "cover-letters/x.md"},
+		{".", "..x.md", "..x.md"},
+		{"ws", "ws/resumes/x.md", "resumes/x.md"},
+		{"./ws/", "ws/./resumes/../resumes/x.md", "resumes/x.md"},
+		{ws, filepath.Join(ws, "resumes", "x.md"), "resumes/x.md"},
+		{"ws", "resumes/x.md", filepath.Join(base, "resumes", "x.md")},
+		{"ws", "ws2/x.md", filepath.Join(base, "ws2", "x.md")},
+		{ws, "../outside/x.md", filepath.Join(filepath.Dir(base), "outside", "x.md")},
+	}
+	for _, c := range cases {
+		if got, err := RecordPath(c.root, c.doc); got != c.want || err != nil {
+			t.Errorf("RecordPath(%q, %q) = %q, %v; want %q", c.root, c.doc, got, err, c.want)
+		}
+	}
+}

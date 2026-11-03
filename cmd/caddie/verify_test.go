@@ -124,8 +124,8 @@ func TestVerifyInventedClaims(t *testing.T) {
 		want    []document.Claim
 	}{
 		{"resume-invented-employer.md", []document.Claim{
-			{Line: 6, Kind: document.KindEntry, Text: "Acme Pharma Analytics"},
-			{Line: 12, Kind: document.KindTerm, Text: "Fjordline Clinical Institute"}}},
+			{Line: 8, Kind: document.KindEntry, Text: "Acme Pharma Analytics"},
+			{Line: 14, Kind: document.KindTerm, Text: "Fjordline Clinical Institute"}}},
 		{"resume-invented-skill.md", []document.Claim{
 			{Line: 3, Kind: document.KindTerm, Text: "PyTorch"},
 			{Line: 4, Kind: document.KindTerm, Text: "Kubernetes"},
@@ -163,8 +163,8 @@ func TestVerifyCoverLetterAnswers(t *testing.T) {
 		if scoped && (r.code != exitOK || !out.OK) {
 			t.Errorf("with answers: exit %d: %+v", r.code, out)
 		}
-		want := []document.Claim{{Line: 9, Kind: document.KindTerm, Text: "Bergen Outbreak Taskforce"},
-			{Line: 14, Kind: document.KindDate, Text: "1 January 2027"}}
+		want := []document.Claim{{Line: 7, Kind: document.KindTerm, Text: "Bergen Outbreak Taskforce"},
+			{Line: 12, Kind: document.KindDate, Text: "1 January 2027"}}
 		if !scoped && (r.code != exitCheckFailed || !reflect.DeepEqual(out.Untraceable, want)) {
 			t.Errorf("without answers: exit %d: %+v", r.code, out)
 		}

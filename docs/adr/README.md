@@ -28,6 +28,7 @@ accepted ADR without superseding it.
 | [0019](0019-portal-config-schema.md) | Portal config schema, IDs and enabling | §7, §11, D11 |
 | [0020](0020-answers-scopes-and-form-keys.md) | Answers: scopes, lookup, form keys, round-trip | §6.3–6.4, §12.5 |
 | [0021](0021-claim-extraction-and-non-factual-prose.md) | Claim extraction and non-factual prose | §6.2–6.3, §13, D9 |
+| [0022](0022-render-naming-and-gate.md) | Render: PDF naming, the verified gate, the render directory | §6.2–6.3, §12.6, D9, D18 |
 
 ## Writing a new ADR
 

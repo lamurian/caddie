@@ -51,7 +51,7 @@ func cmdVerify(args []string, e env) error {
 	r := document.Verify(content, src)
 	out := verifyOutput{Path: path, OK: r.OK(), Claims: r.Claims, Untraceable: r.Untraceable, Notices: notices}
 	if out.OK {
-		if out.Hash, err = document.RecordVerified(layout.State, path, content, e.today()); err != nil {
+		if out.Hash, err = recordVerified(layout, path, content, e.today()); err != nil {
 			return err
 		}
 	}
@@ -62,6 +62,16 @@ func cmdVerify(args []string, e env) error {
 		return fmt.Errorf("%w: %d untraceable claim(s) in %s", errCheckFailed, len(out.Untraceable), path)
 	}
 	return nil
+}
+
+// recordVerified records content as verified under the draft's path
+// relative to the workspace root (absolute when outside it).
+func recordVerified(layout workspace.Layout, path string, content []byte, today string) (string, error) {
+	rec, err := document.RecordPath(layout.Root, path)
+	if err != nil {
+		return "", err
+	}
+	return document.RecordVerified(layout.State, rec, content, today)
 }
 
 // readDoc reads a draft or posting named on the command line; a missing

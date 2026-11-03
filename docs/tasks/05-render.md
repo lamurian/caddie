@@ -1,6 +1,6 @@
 # 05. Render
 
-- **Status:** Todo
+- **Status:** Done
 - **PRD milestone:** M3 (part 2)
 
 ## Goal
@@ -43,21 +43,22 @@ text extraction in `testdata/golden/` and skill updates to the render steps.
 
 ## Definition of Done
 
-- [ ] `render` on unverified or edited content exits non-zero with a clear
+- [x] `render` on unverified or edited content exits non-zero with a clear
       message (tested with a fake Quarto).
-- [ ] File naming is tested, including names and companies with spaces,
+- [x] File naming is tested, including names and companies with spaces,
       accents and punctuation.
-- [ ] Contact details appear in the PDF but never in any tracked file or in
+- [x] Contact details appear in the PDF but never in any tracked file or in
       `caddie profile` output.
-- [ ] The real render test is skipped without `quarto`. When it runs, the
+- [x] The real render test is skipped without `quarto`. When it runs, the
       extracted text matches the golden file.
-- [ ] The `handoff/` copy exists after rendering; the posting status becomes
+- [x] The `handoff/` copy exists after rendering; the posting status becomes
       `rendered`.
-- [ ] Rendering works on a headless Linux box with only Quarto installed
-      (noted in the PR).
-- [ ] The resume draft format (name, headline, contact) is settled with
+- [x] Rendering works on a headless Linux box with only Quarto installed
+      (noted in the PR; verified in a headless container with Quarto
+      1.10.19 from mise, no LaTeX, and with the network cut off).
+- [x] The resume draft format (name, headline, contact) is settled with
       `verify`: `#`/`##` heading text is not checked (ADR 0021), so the
       template supplies name and contact and drafts carry none; update
       `references/tailor.md` and the `testdata/documents/` fixtures to match.
-- [ ] One path convention for `.caddie/verified/` records (verify stores the
+- [x] One path convention for `.caddie/verified/` records (verify stores the
       path as given, relative to the current directory).

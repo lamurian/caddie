@@ -8,6 +8,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // VerifiedDir is the directory in the state directory (`.caddie/`) that
@@ -15,7 +16,8 @@ import (
 const VerifiedDir = "verified"
 
 // verifiedRecord is the body of a verified/<hash> file: which draft
-// passed, and when. Only the file name (the hash) is authoritative.
+// passed (as made by RecordPath), and when. Only the file name (the hash)
+// is authoritative; Path is informational.
 type verifiedRecord struct {
 	Path string `json:"path"`
 	At   string `json:"at"`
@@ -27,9 +29,34 @@ func Hash(content []byte) string {
 	return hex.EncodeToString(sum[:])
 }
 
+// RecordPath is the path a verified record names for the draft at
+// docPath: relative to the workspace root and slash-separated
+// ("resumes/<slug>.md"), or the cleaned absolute path when the draft lies
+// outside the workspace. Relative arguments resolve against the current
+// directory.
+func RecordPath(root, docPath string) (string, error) {
+	absRoot, err := filepath.Abs(root)
+	if err != nil {
+		return "", err
+	}
+	absDoc, err := filepath.Abs(docPath)
+	if err != nil {
+		return "", err
+	}
+	rel, err := filepath.Rel(absRoot, absDoc)
+	if err != nil {
+		return absDoc, nil //nolint:nilerr // e.g. another volume: outside the workspace
+	}
+	rel = filepath.ToSlash(rel)
+	if rel == ".." || strings.HasPrefix(rel, "../") {
+		return absDoc, nil
+	}
+	return rel, nil
+}
+
 // RecordVerified marks content as verified by writing
-// <stateDir>/verified/<hash>, naming the draft's path and the date (at).
-// Call it only after Verify reports OK.
+// <stateDir>/verified/<hash>, naming the draft's path (as made by
+// RecordPath) and the date (at). Call it only after Verify reports OK.
 func RecordVerified(stateDir, docPath string, content []byte, at string) (string, error) {
 	hash := Hash(content)
 	dir := filepath.Join(stateDir, VerifiedDir)

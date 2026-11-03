@@ -1,4 +1,4 @@
-# Mira Example-Halvorsen
+## About
 
 Biostatistician who deploys survival models with PyTorch and
 Kubernetes for clinical teams.
