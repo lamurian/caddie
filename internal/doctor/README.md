@@ -29,7 +29,7 @@ run `docker compose -f <CADDIE_COMPOSE_FILE> config|ps|exec` through
 on PATH; the proxy probes curl from the browser container and only run when
 every service is up.
 
-The `trace` check ([ADR 0024](../../docs/adr/0024-move-archive-and-trace.md))
+The `trace` check ([ADR 0026](../../docs/adr/0026-move-archive-and-trace.md))
 stats `<CADDIE_STATE_DIR>/trace`, the source of the browser's `/trace`
 mount. Writability for uid 1000 is only guessed, on Linux, from the mode
 bits: a dir owned by another uid with no group/other write `warn`s (an ACL

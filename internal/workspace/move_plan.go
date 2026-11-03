@@ -93,8 +93,12 @@ func traceFiles(src, dst string) ([]fileMove, error) {
 	return out, nil
 }
 
-// ClearHandoff deletes every non-directory entry of dir except .gitignore.
-// Subdirectories are left alone. A missing dir is nothing to clear.
+// keepInHandoff are the tracked files of handoff/ (ADR 0024): never cleared.
+var keepInHandoff = map[string]bool{".gitignore": true, "README.md": true}
+
+// ClearHandoff deletes every non-directory entry of dir except its tracked
+// .gitignore and README.md. Subdirectories are left alone. A missing dir is
+// nothing to clear.
 func ClearHandoff(dir string) error {
 	entries, err := os.ReadDir(dir)
 	if errors.Is(err, os.ErrNotExist) {
@@ -105,7 +109,7 @@ func ClearHandoff(dir string) error {
 	}
 	var errs []error
 	for _, e := range entries {
-		if e.IsDir() || e.Name() == ".gitignore" {
+		if e.IsDir() || keepInHandoff[e.Name()] {
 			continue
 		}
 		if err := os.Remove(filepath.Join(dir, e.Name())); err != nil {

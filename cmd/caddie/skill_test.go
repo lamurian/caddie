@@ -11,7 +11,7 @@ import (
 // Every `caddie <command>` a workflow reference shows must be a real
 // command. (SKILL.md's verbatim hard rules name later-phase commands.)
 func TestSkillCommandsExist(t *testing.T) {
-	files, _ := filepath.Glob("../../skills/caddie/references/*.md")
+	files, _ := filepath.Glob("../../.agents/skills/caddie/references/*.md")
 	if len(files) == 0 {
 		t.Fatal("no workflow references found")
 	}
@@ -59,10 +59,10 @@ func normalized(t *testing.T, path string) string {
 
 // The gate text and the six hard rules must appear verbatim (PRD §8.3, §8.5).
 func TestSkillGateAndHardRules(t *testing.T) {
-	skill := normalized(t, "../../skills/caddie/SKILL.md")
+	skill := normalized(t, "../../.agents/skills/caddie/SKILL.md")
 	docs := map[string]string{
 		"SKILL.md":            skill,
-		"references/apply.md": normalized(t, "../../skills/caddie/references/apply.md"),
+		"references/apply.md": normalized(t, "../../.agents/skills/caddie/references/apply.md"),
 	}
 	for name, doc := range docs {
 		if !strings.Contains(doc, gateText) {

@@ -7,7 +7,7 @@ import (
 )
 
 // TraceDir is where the browser container sees .caddie/trace/ (read-write),
-// the only place a screenshot may be written (ADR 0024).
+// the only place a screenshot may be written (ADR 0026).
 const TraceDir = "/trace"
 
 // dirFlag is agent-browser's screenshot output-directory flag; its value

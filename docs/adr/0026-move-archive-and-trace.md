@@ -1,4 +1,4 @@
-# 0024. Move: archive layout, rollback, trace mount and manual steps
+# 0026. Move: archive layout, rollback, trace mount and manual steps
 
 - **Status:** Accepted
 - **Date:** 2026-11-03
@@ -40,7 +40,8 @@ work.
   and the source posting removed after it, so a half-moved state never
   shows the posting in two places.
 - **Handoff and trace.** After a successful move the regular files in
-  `handoff/` (except `.gitignore`) are deleted and `.caddie/trace/` is
+  `handoff/` (except its tracked `.gitignore` and `README.md`, ADR 0024)
+  are deleted and `.caddie/trace/` is
   left empty but present (it is a bind-mount source). A failure there is
   reported (exit 9) but does not undo the move.
 - **Manual steps.** `caddie posting steps <slug> "<step>"…` writes or

@@ -35,6 +35,6 @@ golden that `internal/document` owns. `runWith` answers HTTP from
   `main.go`. Handlers are plumbing only: load config, call one `internal/`
   function, print, return an error.
 - A new error kind needs an exit code in `exit.go`, in the table in
-  `cmd/README.md` and in `skills/caddie/SKILL.md` (a test compares them).
+  `cmd/README.md` and in `.agents/skills/caddie/SKILL.md` (a test compares them).
 - Never read `os.Getenv` or `os.Stdout` directly; go through `env` so tests
   can fake them.

@@ -39,7 +39,7 @@ type Checklist struct {
 var itemRe = regexp.MustCompile(`^\s*[-*] \[([ xX])\] (.*)$`)
 
 // SetManualSteps writes or updates the `## Manual steps` checklist of the
-// posting file at path (ADR 0024). The frontmatter bytes are kept as they
+// posting file at path (ADR 0026). The frontmatter bytes are kept as they
 // are; only the body changes, and the file is rewritten only if it does.
 func SetManualSteps(path string, steps []string) (Checklist, error) {
 	data, err := os.ReadFile(path)

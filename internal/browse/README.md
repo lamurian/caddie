@@ -59,7 +59,7 @@ local:   <BrowserBin> --session <session> <args…>
 - **Screenshots** (`ValidateArgs`, `ValidateScreenshotPath`, `trace.go`):
   at the first bare `screenshot` token, every positional after it must be
   strictly inside `/trace` after `path.Clean` (the read-write mount of
-  `.caddie/trace/`, [ADR 0024](../../docs/adr/0024-move-archive-and-trace.md)),
+  `.caddie/trace/`, [ADR 0026](../../docs/adr/0026-move-archive-and-trace.md)),
   and a `--screenshot-dir` value must be `/trace` or inside it. No path at
   all is allowed (agent-browser's temporary default). Flags are skipped;
   `--threshold`, `--screenshot-format` and `--screenshot-quality` take a

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Sentinel errors for Move (ADR 0024).
+// Sentinel errors for Move (ADR 0026).
 var (
 	ErrDestExists = errors.New("destination already exists")
 	ErrBadMove    = errors.New("invalid move options")
@@ -41,7 +41,7 @@ type MoveResult struct {
 }
 
 // Move relocates postings/<slug>.md to <dest>/<slug>.md and its artefacts
-// into <dest>/<slug>/ (ADR 0024), updating the frontmatter. Every check
+// into <dest>/<slug>/ (ADR 0026), updating the frontmatter. Every check
 // runs before anything moves; a failure while moving is rolled back. After
 // success handoff/ is cleared; a failure there is returned with the result
 // and does not undo the move. Errors wrap ErrBadMove, ErrIllegalTransition,
@@ -150,7 +150,7 @@ func checkDest(dest, slug string) error {
 	return nil
 }
 
-// setFrontmatter applies ADR 0024's field updates for the target status.
+// setFrontmatter applies ADR 0026's field updates for the target status.
 func setFrontmatter(p *Posting, o MoveOptions) error {
 	p.Status = o.To
 	if o.To == StatusManual {

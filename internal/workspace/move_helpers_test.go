@@ -45,7 +45,8 @@ func moveWS(t *testing.T, status Status) (Layout, MoveOptions, []byte) {
 		"cover-letters/" + mvLetter:       "%PDF letter",
 		".caddie/trace/01-filled.png":     "png1",
 		".caddie/trace/02-confirmed.png":  "png2",
-		"handoff/.gitignore":              "*\n!.gitignore\n",
+		"handoff/.gitignore":              "*\n!.gitignore\n!README.md\n",
+		"handoff/README.md":               "# handoff/",
 		"handoff/" + mvResume:             "%PDF resume",
 		"handoff/sub/keep.txt":            "kept",
 	}

@@ -15,8 +15,8 @@ import (
 )
 
 // Exit codes: the contract documented in cmd/README.md and mirrored in
-// skills/caddie/SKILL.md and skills/caddie/references/exit-codes.md.
-// Change all four together.
+// .agents/skills/caddie/SKILL.md and
+// .agents/skills/caddie/references/exit-codes.md. Change all four together.
 const (
 	exitOK           = 0
 	exitCheckFailed  = 1

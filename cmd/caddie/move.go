@@ -14,7 +14,7 @@ import (
 const moveUsage = "want `move <slug> applied|manual [--reason \"<one line>\"]`"
 
 // cmdMove archives a posting and its artefacts into applied/ or manual/
-// (ADR 0024). The checks, moves and rollback live in workspace.Move; this
+// (ADR 0026). The checks, moves and rollback live in workspace.Move; this
 // is wiring only. It never touches the browser.
 func cmdMove(args []string, e env) error {
 	fs := newFlags("move", e)

@@ -1,6 +1,6 @@
 # 0001. Skill + single Go CLI; judgment vs mechanics
 
-- **Status:** Accepted
+- **Status:** Accepted; skill path superseded by [0025](0025-skill-in-agents-dir.md)
 - **Date:** 2026-10-28
 - **PRD refs:** §1, §5, D1, D2, D3
 

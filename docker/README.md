@@ -46,7 +46,7 @@ directory is missing and warns when uid 1000 looks unable to write it.
     `/home/node/.agent-browser`, mode 0700: sessions, auth vault, state.
   - The repo's `handoff/` is bind-mounted **read-only** at `/handoff`.
   - `.caddie/trace/` is bind-mounted **read-write** at `/trace`, for trace
-    screenshots only ([ADR 0024](../docs/adr/0024-move-archive-and-trace.md)).
+    screenshots only ([ADR 0026](../docs/adr/0026-move-archive-and-trace.md)).
 - **proxy** ([guide](proxy/README.md)): tinyproxy 1.11 on port 8888, reached
   only on the compose network. It denies every host not matched by
   `proxy/allowlist.conf` (403 "Filtered") and CONNECTs only to port 443.

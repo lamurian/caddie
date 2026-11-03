@@ -32,7 +32,7 @@ session goes to agent-browser verbatim, never parsed as caddie flags;
 agent-browser's own non-zero exit is exit 8);
 `move <slug> applied|manual [--reason "<one line>"]` (JSON) and
 `posting steps <slug> "<step>"…` (phase 07,
-[ADR 0024](../docs/adr/0024-move-archive-and-trace.md); an existing
+[ADR 0026](../docs/adr/0026-move-archive-and-trace.md); an existing
 archive or an applied posting is exit 6). Flags may
 come before or after arguments. A malformed `answers.yml` is exit 4; an
 unknown `--for` slug or a missing file is exit 5.
@@ -63,9 +63,10 @@ Defined in `cmd/caddie/exit.go`, the contract of
 - Every command supports `--json`. Keep output short and structured, because
   the agent reasons over exactly what is printed.
 - Exit codes are documented in the table above, mirrored verbatim in
-  `skills/caddie/SKILL.md` and `skills/caddie/references/exit-codes.md`
-  (a test compares them). Change all of them together, and update the
-  per-command codes in `exit-codes.md`.
+  `.agents/skills/caddie/SKILL.md` and
+  `.agents/skills/caddie/references/exit-codes.md` (a test compares them).
+  Change all of them together, and update the per-command codes in
+  `exit-codes.md`.
 - One file per subcommand group (e.g. `cmd/caddie/answers.go`) so that
   `main.go` stays small; every file stays under 300 lines.
 - Standard library `flag` (or a single small dependency) is preferred; adding
@@ -76,4 +77,4 @@ Defined in `cmd/caddie/exit.go`, the contract of
 1. Add or change the handler in its own file.
 2. Add a test that runs the command against `testdata/`, and assert both the
    output and the exit code.
-3. Update the CLI table in `skills/caddie/SKILL.md` if the surface changed.
+3. Update the CLI table in `.agents/skills/caddie/SKILL.md` if the surface changed.

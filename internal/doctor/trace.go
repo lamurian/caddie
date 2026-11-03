@@ -14,7 +14,7 @@ import (
 const browserUID = 1000
 
 // checkTrace adds `trace`: <state>/trace is the host source of the
-// browser's read-write /trace bind mount (ADR 0024). Compose refuses to
+// browser's read-write /trace bind mount (ADR 0026). Compose refuses to
 // start without it, so a missing directory fails in compose mode; in local
 // mode nothing mounts it and `caddie move` merely has no trace to archive.
 func checkTrace(r *Report, l workspace.Layout, mode string) {

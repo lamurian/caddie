@@ -1,7 +1,7 @@
-# skills/caddie/references/
+# .agents/skills/caddie/references/
 
 Workflow references that `SKILL.md` links to and the agent loads on demand,
-one file per workflow ([ADR 0012](../../../docs/adr/0012-agentic-docs-and-line-limits.md)).
+one file per workflow ([ADR 0012](../../../../docs/adr/0012-agentic-docs-and-line-limits.md)).
 
 | File | Workflow |
 |------|----------|

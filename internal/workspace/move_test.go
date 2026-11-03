@@ -41,7 +41,7 @@ func TestMoveApplied(t *testing.T) {
 			t.Errorf("%s still present", gone)
 		}
 	}
-	for _, kept := range []string{"handoff/.gitignore", "handoff/sub/keep.txt", ".caddie/trace"} {
+	for _, kept := range []string{"handoff/.gitignore", "handoff/README.md", "handoff/sub/keep.txt", ".caddie/trace"} {
 		if _, ok := got[filepath.FromSlash(kept)]; !ok {
 			t.Errorf("%s removed", kept)
 		}

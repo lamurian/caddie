@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Starts, stops or shows the sandboxed browser stack (docker/compose.yml,
 # ADR 0002). `up` first prepares .caddie/trace, the host side of the
-# browser's writable /trace mount (ADR 0024), so the browser's uid 1000
+# browser's writable /trace mount (ADR 0026), so the browser's uid 1000
 # can write screenshots there. It never makes the directory world-writable.
 # Usage: stack.sh up|down|status|logs
 set -euo pipefail

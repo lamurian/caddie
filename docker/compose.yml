@@ -25,7 +25,7 @@ services:
         source: ../handoff
         target: /handoff
         read_only: true
-      # Trace screenshots (ADR 0024), the browser's only writable host path.
+      # Trace screenshots (ADR 0026), the browser's only writable host path.
       # Long syntax never creates the source: `mkdir -p .caddie/trace` first,
       # writable by uid 1000 (docker/README.md, "Trace directory").
       - type: bind

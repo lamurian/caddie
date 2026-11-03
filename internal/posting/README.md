@@ -32,7 +32,7 @@ search, `seen.jsonl` restores the source from the ID (`source.SourceOf`).
 ## Manual steps
 
 `SetManualSteps(path, steps)` (behind `caddie posting steps`,
-[ADR 0024](../../docs/adr/0024-move-archive-and-trace.md)) works on a
+[ADR 0026](../../docs/adr/0026-move-archive-and-trace.md)) works on a
 posting in `postings/` or `manual/`. Frontmatter bytes are kept as written;
 only the body changes. A missing section is appended at the end; an
 existing one keeps its items (order, text, tick) and other lines, and new

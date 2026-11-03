@@ -45,7 +45,7 @@ PDF rendering (phase 05). Form answers are stored here but used in phase 07.
 ## Deliverables
 
 `internal/memory/answers*.go`, `internal/document/{verify,keywords}*.go`,
-fixtures and golden files, and `skills/caddie/references/{tailor,cover-letter}.md`.
+fixtures and golden files, and `.agents/skills/caddie/references/{tailor,cover-letter}.md`.
 
 ## Definition of Done
 

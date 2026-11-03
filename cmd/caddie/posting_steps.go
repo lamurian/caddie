@@ -11,7 +11,7 @@ import (
 )
 
 // postingSteps writes or merges the `## Manual steps` checklist of a posting
-// in postings/ or manual/ (ADR 0024). An applied posting is refused (exit 6).
+// in postings/ or manual/ (ADR 0026). An applied posting is refused (exit 6).
 func postingSteps(args []string, e env) error {
 	fs := newFlags("posting steps", e)
 	fs.Bool("json", true, "print JSON (always on)")
