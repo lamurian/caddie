@@ -11,6 +11,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/lamurian/caddie/internal/browse"
 	"github.com/lamurian/caddie/internal/config"
 	"github.com/lamurian/caddie/internal/document"
 	"github.com/lamurian/caddie/internal/posting"
@@ -120,6 +121,9 @@ func TestExitCodeMapping(t *testing.T) {
 		{fmt.Errorf("x: %w", document.ErrNotVerified), exitRefused},
 		{fmt.Errorf("x: %w", document.ErrQuarto), exitExternal},
 		{fmt.Errorf("x: %w", document.ErrKind), exitUsage},
+		{fmt.Errorf("x: %w", browse.ErrInvalidSession), exitRefused},
+		{fmt.Errorf("x: %w", browse.ErrUploadOutsideHandoff), exitRefused},
+		{fmt.Errorf("%w: %w", browse.ErrExec, browse.ErrTimeout), exitExternal},
 		{errors.New("surprise"), exitInternal},
 	}
 	for _, c := range cases {
@@ -133,5 +137,9 @@ func TestConfigErrorExitCode(t *testing.T) {
 	r := runCaddie(t, map[string]string{"CADDIE_BROWSER_MODE": "remote"}, "profile")
 	if r.code != exitConfig || !strings.Contains(r.stderr, "CADDIE_BROWSER_MODE") {
 		t.Errorf("got %+v", r)
+	}
+	r = runCaddie(t, map[string]string{"CADDIE_BROWSER_MODE": "remote"}, "browse", "a.org", "snapshot")
+	if r.code != exitConfig {
+		t.Errorf("browse with a bad mode: got %+v", r)
 	}
 }
