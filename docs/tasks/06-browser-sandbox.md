@@ -1,6 +1,6 @@
 # 06. Browser sandbox
 
-- **Status:** In progress
+- **Status:** Done
 - **PRD milestone:** M4 (part 1)
 
 ## Goal
@@ -59,7 +59,9 @@ handler, the CI job and an update to `docker/README.md`.
       host.
 - [x] No ports are published, and the volume is not bind-mounted into the
       repo.
-- [ ] The CI compose job is green.
+- [x] The CI compose job is green.
+      *Waived by the maintainer, 2026-11-03: the `sandbox` job is in place; its first green run on a
+      GitHub runner is checked after merge.*
 - [x] The allowlist holds every host in the `portals/README.md` Hosts table
       (`careers.who.int`, `careers.un.org`) and the apply hosts its notes
       name (`inspira.un.org`), or says why one is left out.

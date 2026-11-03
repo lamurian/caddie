@@ -48,8 +48,8 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
 
 ## Commands available now
 
-- `caddie doctor`: run it first in a new session. Exit 0 is healthy (`warn`
-  is fine); otherwise show the user each `fail` line verbatim and stop.
+- First in a new session: the first-run check in [`references/setup.md`](references/setup.md)
+  (`caddie validate`, `caddie init`), then `caddie doctor`; show each `fail` line verbatim and stop.
 - `caddie profile`: JSON `identity`, `about`, `sections` (`history/`) and
   `preferences`; phone and email only with `--with-contact`, when needed.
 - `caddie answers show [--for <slug>] [--form]`, `caddie answers list` (JSON),

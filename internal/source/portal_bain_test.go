@@ -25,14 +25,14 @@ func loadBain(t *testing.T) Portal {
 // direct access, so search skips it with a notice and sends no request.
 func TestPortalBainSkipped(t *testing.T) {
 	p := loadBain(t)
-	if !p.JSRendered || p.Name != "Bain & Company" || p.ATS != "bespoke" {
+	if p.SkipReason == "" || p.Name != "Bain & Company" || p.ATS != "bespoke" {
 		t.Fatalf("config: %+v", p)
 	}
 	prefs := allEnabled()
 	prefs.Portals = []string{"bain"}
 	d := &portalDoer{t: t}
 	srcs, notices := Build(prefs, Keys{"id", "key"}, "portal:bain", d, []Portal{p})
-	want := "portal:bain: skipped: listing needs JavaScript (see portals/bain.yml notes)"
+	want := "portal:bain: skipped: the listing API refuses direct access (see portals/bain.yml notes)"
 	if len(srcs) != 0 || len(notices) != 1 || notices[0] != want || len(d.reqs) != 0 {
 		t.Errorf("sources %v, notices %v, requests %d", names(srcs), notices, len(d.reqs))
 	}

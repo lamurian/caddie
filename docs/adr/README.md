@@ -38,6 +38,7 @@ accepted ADR without superseding it.
 | [0029](0029-portal-deadline-timezone.md) | Portal deadline time zone (`deadline_tz`) | §7, §6.5, D11 |
 | [0030](0030-portal-offset-paging.md) | Portal offset paging: `{offset}` and `page_size` | §7, §11, D11 |
 | [0031](0031-portal-detail-slug.md) | Portal `detail_url`: optional trailing `{slug}` | §7, §11, D11 |
+| [0032](0032-setup-init-and-schemas.md) | First-run setup: `caddie init`, `validate`, JSON schemas | §12.5, §12.7, §13 |
 
 ## Writing a new ADR
 

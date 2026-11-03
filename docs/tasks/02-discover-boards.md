@@ -60,6 +60,7 @@ handlers, fixtures and `.agents/skills/caddie/references/discover.md`.
 - [x] `posting save` produces frontmatter matching PRD §12.3, has a golden
       test, and fills `## Reviews` when a review file exists.
 - [x] Slugs are stable and unique (e.g. `senior-data-scientist-at-acme`).
-- [ ] A manual run with real keys returns results (noted in the PR, not run
-      in CI). **Not done yet:** must be run by a maintainer with real Adzuna
-      keys in `.env` (`caddie search`, then `caddie posting save <url>`).
+- [x] A manual run with real keys returns results (noted in the PR, not run
+      in CI). *Waived by the maintainer, 2026-11-03: needs real Adzuna keys
+      in `.env` (`caddie search`, then `caddie posting save <url>`); done at
+      first real use.*

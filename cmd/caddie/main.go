@@ -20,6 +20,7 @@ import (
 
 // env is everything a command touches outside its arguments.
 type env struct {
+	stdin          io.Reader // answers to `caddie init` questions
 	stdout, stderr io.Writer
 	lookup         config.LookupFunc
 	dotenv         string
@@ -45,11 +46,17 @@ var commands = map[string]command{
 	"move":       cmdMove,
 	"follow-ups": cmdFollowUps,
 	"doctor":     cmdDoctor,
+	"init":       cmdInit,
+	"validate":   cmdValidate,
 }
 
 const usageText = `Usage: caddie <command> [flags]
 
 Commands:
+  init [--questions] [--answers <file|->]
+                                      first run: ask the setup questions, write
+                                      .env, preferences.yml and answers.yml if missing
+  validate [preferences|answers]      check both files against their schema
   profile [--json] [--with-contact]   JSON summary of history/ + preferences.yml
   search [--source s] [--limit n] [--include-seen]
                                       JSON jobs from enabled boards and portals
@@ -81,7 +88,7 @@ Exit codes: see cmd/README.md.
 
 func main() {
 	os.Exit(run(os.Args[1:], env{
-		stdout: os.Stdout, stderr: os.Stderr, lookup: os.LookupEnv,
+		stdin: os.Stdin, stdout: os.Stdout, stderr: os.Stderr, lookup: os.LookupEnv,
 		dotenv: ".env", lookPath: exec.LookPath,
 		client:  &http.Client{Timeout: 30 * time.Second},
 		today:   func() string { return time.Now().Format("2006-01-02") },

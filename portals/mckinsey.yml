@@ -5,7 +5,7 @@ name: McKinsey & Company
 listing_url: https://www.mckinsey.com/careers/search-jobs
 detail_url: https://www.mckinsey.com/careers/search-jobs/jobs/{id}
 ats: avature
-js_rendered: true
+skip_reason: the terms forbid automated collection
 notes: >-
   Unsupported for search because of the terms, not the markup: McKinsey's
   terms of use (section 3, last updated 2025-01-28) say you may not
@@ -13,8 +13,8 @@ notes: >-
   crawling or scraping, from the Site ... by any means (automated or
   otherwise) without McKinsey's express written permission" (read via
   tostracker.app; www.mckinsey.com itself was unreachable). So this config
-  calls nothing (PRD §3); js_rendered is the schema's only way to skip a
-  portal, and the search page does need JavaScript. Browse listing_url by
+  calls nothing (PRD §3) and skips search via skip_reason (the search page
+  also needs JavaScript). Browse listing_url by
   hand and give caddie posting save the job page URL.
   VERIFIED live 2026-11-03 with caddie's own user agent: www.mckinsey.com
   (Akamai) resets this container's connections, robots.txt included, so

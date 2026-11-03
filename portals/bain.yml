@@ -5,7 +5,7 @@ name: Bain & Company
 listing_url: https://www.bain.com/careers/find-a-role/
 detail_url: https://www.bain.com/careers/find-a-role/position/?jobid={id}
 ats: bespoke
-js_rendered: true
+skip_reason: the listing API refuses direct access
 notes: >-
   Discovery-only: search skips this portal with a notice; browse
   listing_url by hand and give caddie posting save the job page URL.

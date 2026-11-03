@@ -16,32 +16,41 @@ through Paseo) can load. It:
 
 ## Status
 
-Pre-alpha. Discovery, verification and rendering (phases 01–05) are done;
-browser sandbox, apply and follow-ups (06–08) are in progress
-([`docs/tasks/`](docs/tasks/README.md)).
+Alpha. Every development phase (01–08) is done
+([`docs/tasks/`](docs/tasks/README.md)): discovery on boards and portals,
+verified tailoring and rendering, the sandboxed browser with the submit
+gate, archiving and follow-ups.
 
 ## Setup
 
 ```bash
-mise install                   # pinned Go, Quarto, linters + git hooks
-cp .env.example .env
-cp preferences.example.yml preferences.yml
-cp answers.example.yml answers.yml
-go install ./cmd/caddie        # needs $(go env GOPATH)/bin on your PATH
-caddie doctor                  # exit 0 is healthy; warn lines are fine
+mise install      # pinned Go, Quarto, linters + git hooks
+mise run init     # compile caddie, then a short Q&A that writes and validates your config
 ```
 
-Then edit the git-ignored copies and your history:
+`mise run init` installs `caddie` into mise's Go (on your PATH wherever mise
+is active; `mise run compile` alone rebuilds it), copies
+`.env.example` to `.env`, then asks a default set of questions (roles,
+salary, work mode, locations, sources, a few reusable form answers) for
+whichever of `preferences.yml` and `answers.yml` is missing. Press Enter
+to keep a default. Both files are validated against
+[`schemas/`](schemas/README.md) and are git-ignored; existing files are
+validated, never overwritten.
 
-- **`preferences.yml`**: `contact`, `salary`, `work_mode`, `locations`,
-  `roles` (search terms), `sources` (boards, the `portals` list), `ranking.top_n`.
-- **`.env`**: API keys, e.g. `CADDIE_ADZUNA_APP_ID`/`_APP_KEY` (else Adzuna is skipped).
-- **`answers.yml`**: reusable form answers; the agent adds more as you answer.
+Prefer to answer in chat? Run `mise run compile` instead, then start your
+agent here: it runs the same first-run check (`caddie validate`, then `caddie init --questions`),
+asks the default questions plus a few of its own, and writes both files.
+
+Then:
+
 - **`history/`**: the only source of facts for every resume and letter:
   `about.md` plus one file per section ([schema](history/README.md)).
+- **`.env`**: API keys, e.g. `CADDIE_ADZUNA_APP_ID`/`_APP_KEY` (else Adzuna is skipped).
+- Edit `preferences.yml` or `answers.yml` any time; run `caddie validate` after.
 
 Quarto (PDFs) comes with `mise install`. Applying also needs Docker: run
-`mise run stack:up` for the [browser stack](docker/README.md), then `caddie doctor`.
+`mise run stack:up` for the [browser stack](docker/README.md), then `caddie doctor`
+(exit 0 is healthy; `warn` lines are fine).
 
 ## Using it
 
@@ -77,18 +86,8 @@ The agent drives it, but every command also works by hand. Full list and
 exit codes: [`cmd/README.md`](cmd/README.md).
 
 ```bash
+caddie validate
 caddie search --source portal:who --limit 20
 caddie seen list --rejected
 caddie follow-ups
 ```
-
-## Documentation
-
-- [`PROPOSAL.md`](PROPOSAL.md): the full product requirements document.
-- [`AGENTS.md`](AGENTS.md): contributor entry point, rules, directory map.
-- [`docs/adr/`](docs/adr/README.md): architecture decisions.
-- [`docs/tasks/`](docs/tasks/README.md): development phases.
-
-## Licence
-
-MIT. See [LICENSE](LICENSE).

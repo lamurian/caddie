@@ -100,7 +100,7 @@ func PortalOrgs(enabled []string, only string) []string {
 }
 
 // portalSources turns the loaded portals that only selects into sources. A
-// js_rendered portal, or a --source portal that preferences.yml does not
+// skipped portal (js_rendered or skip_reason), or a --source portal that preferences.yml does not
 // enable, is a notice.
 func portalSources(enabled []string, portals []Portal, only string, c Doer) ([]Source, []string) {
 	var srcs []Source
@@ -113,14 +113,15 @@ func portalSources(enabled []string, portals []Portal, only string, c Doer) ([]S
 		notices = append(notices, only+": skipped: not in sources.portals in preferences.yml")
 	}
 	for _, p := range portals {
-		switch {
-		case !selects(only, p.SourceName()):
-		case p.JSRendered:
-			notices = append(notices, fmt.Sprintf("%s: skipped: listing needs JavaScript (see portals/%s.yml notes)",
-				p.SourceName(), p.Org))
-		default:
-			srcs = append(srcs, &portalSource{p: p, client: c})
+		if !selects(only, p.SourceName()) {
+			continue
 		}
+		if reason, skipped := p.Skip(); skipped {
+			notices = append(notices, fmt.Sprintf("%s: skipped: %s (see portals/%s.yml notes)",
+				p.SourceName(), reason, p.Org))
+			continue
+		}
+		srcs = append(srcs, &portalSource{p: p, client: c})
 	}
 	return srcs, notices
 }

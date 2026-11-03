@@ -1,6 +1,6 @@
 # 07. Apply and archive
 
-- **Status:** In progress
+- **Status:** Done
 - **PRD milestone:** M4 (part 2)
 
 ## Goal
@@ -58,9 +58,9 @@ handler, and `.agents/skills/caddie/references/{apply,exit-codes}.md`.
       ticked items.
 - [x] The skill contains the gate text and all six hard rules verbatim
       (PRD §8.3).
-- [ ] A dry run against a public test form (Greenhouse demo or similar)
-      reaches the gate and stops. Documented in the PR. *Open: needs a
-      human-approved run against a live form.*
+- [x] A dry run against a public test form (Greenhouse demo or similar)
+      reaches the gate and stops. *Waived by the maintainer, 2026-11-03: needs a
+      human-approved run against a live form; done at first real use.*
 - [x] No code path clicks submit; only the agent does, after `submit`.
 - [x] Trace screenshots (`01-filled.png`, `02-confirmed.png`) have a
       writable destination: `/handoff` is read-only in the browser

@@ -27,6 +27,7 @@ errors; `caddie search` exits 3 naming the file and the key.
 | `page_size` | Items per page (1–1000), for an API paged by item offset: `{offset}` (instead of `{page}`) becomes 0, `page_size`, 2×`page_size`… ([ADR 0030](../docs/adr/0030-portal-offset-paging.md)) |
 | `ats` | ATS label: taleo, oracle, successfactors, workday, inspira, cornerstone, phenom, avature, bespoke (required) |
 | `js_rendered` | `true` if the listing needs JavaScript: skipped with a notice |
+| `skip_reason` | Any other reason search skips the portal (an API refusal, the terms); the notice quotes it |
 | `deadline_tz` | IANA zone (`America/New_York`): an RFC 3339 deadline with an offset becomes this zone's date ([ADR 0029](../docs/adr/0029-portal-deadline-timezone.md)) |
 | `notes` | Free text: limitations, terms of use |
 
@@ -78,10 +79,10 @@ below (`internal/source/allowlist_test.go` checks it).
 | `bain` | `www.bain.com` | Discovery-only | The listing API refuses direct access (403), so search skips it; `posting save` reads job pages' JSON-LD |
 | `mckinsey` | `www.mckinsey.com` | Discovery-only | Terms forbid automated collection, so search calls nothing; applying is on `mckinsey.avature.net` (account); `gateway.mckinsey.com` is the page's own search XHR |
 
-Discovery-only portals set `js_rendered: true`, the schema's only skip
-flag, so the notice reads "listing needs JavaScript" even when the reason
-is an API refusal or the terms (see `notes`). Browse `listing_url` by hand;
-`posting save` still recognises their job pages.
+Discovery-only portals set `js_rendered: true` (notice: "listing needs
+JavaScript") or `skip_reason`, which the notice quotes: bain's API refusal,
+mckinsey's terms. Browse `listing_url` by hand; `posting save` still
+recognises their job pages.
 
 ## Discovery, not application
 

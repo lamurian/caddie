@@ -5,6 +5,7 @@ one file per workflow ([ADR 0012](../../../../docs/adr/0012-agentic-docs-and-lin
 
 | File | Workflow |
 |------|----------|
+| [`setup.md`](setup.md) | First run: create and validate `preferences.yml` and `answers.yml` ([ADR 0032](../../../../docs/adr/0032-setup-init-and-schemas.md)) |
 | [`discover.md`](discover.md) | Find, rank and save jobs (PRD §6.1, phases 02–03) |
 | [`tailor.md`](tailor.md) | Draft, verify and keyword-check a resume (PRD §6.2, phase 04) |
 | [`cover-letter.md`](cover-letter.md) | Answers, interview, draft and verify a cover letter (PRD §6.3, phase 04) |

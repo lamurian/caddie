@@ -8,8 +8,10 @@ Loads Caddie's settings ([PRD §12.7–12.8](../../PROPOSAL.md)).
   default. Defaults equal `.env.example` (a test checks this). A malformed
   line is an error naming the file and line; an unknown key is an error too.
 - **`preferences.yml`** (`preferences.go`): `LoadPreferences` parses it
-  strictly (typos are errors). `apply.require_gate` defaults to `true` when
-  omitted. The `contact` block never serialises to JSON, so phone and email
+  strictly (typos are errors; negative amounts and day counts too).
+  `apply.require_gate` defaults to `true` when omitted.
+  [`schemas/preferences.schema.json`](../../schemas/README.md) mirrors the
+  struct; `schema_test.go` keeps them in step. The `contact` block never serialises to JSON, so phone and email
   cannot leak by accident.
 - `Config.Resolve` turns a path relative to `CADDIE_WORKSPACE` into a real path.
 
@@ -18,8 +20,9 @@ exit code 3 ([ADR 0014](../../docs/adr/0014-cli-contract.md)).
 
 ## Contributing
 
-- A new setting goes in `.env.example` (or `preferences.example.yml`), the
-  defaults here and a test, in the same change.
+- A new setting goes in `.env.example` (or `preferences.example.yml`, the
+  schema and, if users should be asked, `internal/setup`), the defaults
+  here and a test, in the same change.
 - Never log or print secret values; never add a real value to a fixture.
 - Never let a default weaken the submit gate
   ([ADR 0003](../../docs/adr/0003-human-submit-gate.md)).
