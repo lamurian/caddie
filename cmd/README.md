@@ -29,7 +29,11 @@ phase in [`docs/tasks/`](../docs/tasks/README.md) that owns it. Implemented:
 [ADR 0022](../docs/adr/0022-render-naming-and-gate.md));
 `browse <session> <agent-browser args…>` (phase 06; everything after the
 session goes to agent-browser verbatim, never parsed as caddie flags;
-agent-browser's own non-zero exit is exit 8). Flags may
+agent-browser's own non-zero exit is exit 8);
+`move <slug> applied|manual [--reason "<one line>"]` (JSON) and
+`posting steps <slug> "<step>"…` (phase 07,
+[ADR 0024](../docs/adr/0024-move-archive-and-trace.md); an existing
+archive or an applied posting is exit 6). Flags may
 come before or after arguments. A malformed `answers.yml` is exit 4; an
 unknown `--for` slug or a missing file is exit 5.
 
