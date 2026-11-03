@@ -8,22 +8,17 @@ N/A
 
 2020
 
-:::aside
-Seminar session
-:::
+- Seminar session
 
 ### 7^th^ Science & Technology Exchange Program
 
-Psychological distress among Greater Jakarta Area residents amidst COVID-19
-pandemic
+Psychological distress among Greater Jakarta Area residents amidst COVID-19 pandemic
 
 N/A
 
 2020
 
-:::aside
-Oral sesssion
-:::
+- Oral sesssion
 
 ### National Conference of Schizophrenia
 
@@ -33,9 +28,7 @@ N/A
 
 2017
 
-:::aside
-Poster session
-:::
+- Poster session
 
 ### International Conference on Global Health
 
@@ -45,9 +38,7 @@ N/A
 
 2016
 
-:::aside
-Poster session
-:::
+- Poster session
 
 ### 24^th^ European Student Conference
 
@@ -57,7 +48,5 @@ N/A
 
 2013
 
-:::aside
-Poster session
-:::
+- Poster session
 

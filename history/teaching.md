@@ -39,8 +39,5 @@ Mar 2017 - Jun 2017
 
 - Thermodynamics
 - The anatomy of gastrointestinal system
-
-::: aside
-Basic Matriculation Module 2016/17
-:::
+- Basic Matriculation Module 2016/17
 
