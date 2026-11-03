@@ -86,3 +86,4 @@ page could not be fetched; retry once, then give the user the URL.
 For "save the top 5 to postings/ without asking": do steps 1–4, save the
 top 5 with `caddie posting save <url>`, report the slugs and stop. Never
 tailor, render or apply in a scheduled run.
+Full rule: [`follow-up.md`](follow-up.md#scheduled-search).

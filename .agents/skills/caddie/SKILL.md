@@ -54,11 +54,11 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
   `preferences`; phone and email only with `--with-contact`, when needed.
 - `caddie answers show [--for <slug>] [--form]`, `caddie answers list` (JSON),
   `caddie answers add --key k --scope global|company:<x>|posting:<slug> "<text>"`.
-- `caddie verify <doc.md>`: exit 1 lists each claim not traced to `history/` or answers.
-- `caddie keywords <posting.md> <doc.md>`: advisory keyword coverage.
+- `caddie verify <doc.md>`: exit 1 lists untraced claims; `caddie keywords <posting.md> <doc.md>`: advisory.
 - `caddie render resume|cover-letter <slug>`: PDF + `handoff/` copy; exit 7: re-run `caddie verify`.
 - `caddie posting steps <slug> "<step>"…`: manual checklist;
   `caddie move <slug> applied|manual [--reason "<one line>"]`: archive (JSON).
+- `caddie follow-ups [--json]`: overdue replies, open checklists, near deadlines.
 
 ## Workflows
 
@@ -67,11 +67,11 @@ Never edit `.caddie/`, `.env` or a posting's `status` by hand.
 - **Tailor** ("tailor <slug>"): [`references/tailor.md`](references/tailor.md)
   (draft, `caddie verify`, `caddie keywords`, iterate, `caddie render`).
 - **Cover letter** ("cover letter <slug>"): [`references/cover-letter.md`](references/cover-letter.md).
-  Interview: run `caddie answers show --for <slug>` first, then ask at most five
-  questions, batched in one message, only for keys not stored. Suggested
-  keys: `why_org`, `why_role`, `lead_story`, `start_date`, `constraints`.
+  Interview: `caddie answers show --for <slug>` first, then at most five questions in one
+  message, only for keys not stored (`why_org`, `why_role`, `lead_story`, `start_date`, `constraints`).
 - **Apply** ("apply <slug>"): [`references/apply.md`](references/apply.md)
   (form, gate, `caddie move`); browser: [`references/browse.md`](references/browse.md).
+- **Follow-ups** ("follow-ups"), scheduled search (top N, never apply): [`references/follow-up.md`](references/follow-up.md).
 
 ## Gate message
 
