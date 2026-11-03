@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/lamurian/caddie/internal/config"
@@ -79,4 +80,30 @@ func SourceOf(id string) string {
 		return prefix
 	}
 	return ""
+}
+
+// slugSuffix ends a detail_url whose job pages may carry one extra path
+// segment after the id, such as a title slug (ADR 0031).
+const slugSuffix = "/{slug}"
+
+// checkDetailSlug allows {slug} only once, as detail_url's last path
+// segment (so after {id}) and with no query.
+func checkDetailSlug(detail string) *problem {
+	n := strings.Count(detail, "{slug}")
+	if n == 0 {
+		return nil
+	}
+	if n > 1 || !strings.HasSuffix(detail, slugSuffix) || strings.Contains(detail, "?") {
+		return &problem{"detail_url", "{slug} is only allowed once, as the last path segment after {id}, with no query"}
+	}
+	return nil
+}
+
+// detailPattern is the regexp a job URL's path and query must match:
+// {id} captures one segment or query value; a trailing /{slug} matches one
+// optional segment.
+func detailPattern(detail string) string {
+	expr := regexp.QuoteMeta(urlTail(detail))
+	expr = strings.Replace(expr, regexp.QuoteMeta(slugSuffix), `(?:/[^/?#]*)?`, 1)
+	return `^` + strings.ReplaceAll(expr, `\{id\}`, `([^/?#&]+)`) + `$`
 }

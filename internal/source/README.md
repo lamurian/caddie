@@ -22,7 +22,7 @@ The job boards behind `caddie search` and the fetcher behind
 | `portal_html.go` | `extractHTML`: CSS selectors (cascadia) → raw `portalItem`s, links resolved |
 | `portal_json.go` | `extractJSON`: items at a dotted `json_path`, fields by key path; path checks |
 | `portal.go` | `portalSource`: one GET/POST per portal, items → `Job`; `PortalOrgs`, `--source portal[:<org>]` |
-| `portal_pages.go` | `pages` validation and the paged fetch: `{page}` = 1, 2…, stop at a page with nothing new (ADR 0028) |
+| `portal_pages.go` | `pages`/`page_size` validation and the paged fetch: `{page}` = 1, 2… or `{offset}` = 0, `page_size`…, stop at a page with nothing new (ADR 0028, 0030) |
 | `portal_deadline.go` | `deadline_tz` validation and timestamp → posted-zone date (ADR 0029) |
 | `portal_headers.go` | `headers` validation: no credentials, `User-Agent`, transport headers or CR/LF |
 | `portal_match.go` | `LoadAllPortals`, `PortalFor` a URL, `PortalJobID`, `SourceOf` a Job ID |
@@ -39,8 +39,9 @@ title only (listings carry no description).
 
 Portals (`portal:<org>`, ADR 0019) run after the boards, in
 `sources.portals` order; each is its own `--limit` feed. A config with
-`pages` fetches up to that many pages, filling `{page}` with 1, 2… and
-stopping at a page with nothing new (ADR 0028). A missing or
+`pages` fetches up to that many pages, filling `{page}` with 1, 2… (or
+`{offset}` with 0, `page_size`…, ADR 0030) and stopping at a page with
+nothing new (ADR 0028). A missing or
 `js_rendered` config and a failing portal are notices; an invalid config is
 a config error (exit 3) naming the file and key.
 

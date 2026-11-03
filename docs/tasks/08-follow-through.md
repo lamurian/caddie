@@ -67,11 +67,14 @@ six `portals/*.yml` files with fixtures, and the skill reference.
       ([ADR 0029](../adr/0029-portal-deadline-timezone.md): `deadline_tz`.)
 - [ ] `docs/tasks/README.md` shows every phase as `Done`.
       *Open: phases 06 and 07 are still In progress.*
-- [ ] BCG lists only the first 500 of ~940 openings: `pages` counts from 1,
+- [x] BCG lists only the first 500 of ~940 openings: `pages` counts from 1,
       and the widgets API pages by a `from` offset; an offset mode needs an
       ADR 0028 change.
-- [ ] `posting save` does not match BCG's slugged job URLs
-      (`/global/en/job/<id>/<slug>`); only `/global/en/job/<id>`.
+      ([ADR 0030](../adr/0030-portal-offset-paging.md): `{offset}`,
+      `page_size: 500`, `pages: 4`.)
+- [x] `posting save` matches BCG's slugged job URLs
+      (`/global/en/job/<id>/<slug>`) as well as `/global/en/job/<id>`.
+      ([ADR 0031](../adr/0031-portal-detail-slug.md): trailing `/{slug}`.)
 - [ ] Skips for other reasons (bain's API refusal, mckinsey's terms,
       worldbank's token API) reuse `js_rendered`, so the notice says
       "listing needs JavaScript"; a distinct skip-reason key would say why.

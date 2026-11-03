@@ -13,10 +13,12 @@ import (
 )
 
 // pageDoer answers a paginated portal: pages maps the request's URL+body to
-// an inline JSON response; anything else fails. It records each key asked.
+// an inline JSON response; anything else fails. It records each request
+// and key asked.
 type pageDoer struct {
 	pages map[string]string
 	asked []string
+	reqs  []*http.Request
 }
 
 func (d *pageDoer) Do(req *http.Request) (*http.Response, error) {
@@ -26,6 +28,7 @@ func (d *pageDoer) Do(req *http.Request) (*http.Response, error) {
 		key += " " + string(b)
 	}
 	d.asked = append(d.asked, key)
+	d.reqs = append(d.reqs, req)
 	resp, ok := d.pages[key]
 	if !ok {
 		return nil, errors.New("connection refused")
@@ -101,6 +104,17 @@ func TestPortalPagesQuery(t *testing.T) {
 	p = pagedPortal(t, "listing_url: "+u+"{page}\npages: 2\n")
 	if got := pagedIDs(t, p, capped); !reflect.DeepEqual(got, []string{"1", "2"}) || len(capped.asked) != 2 {
 		t.Errorf("capped: ids %v, asked %q", got, capped.asked)
+	}
+}
+
+// {offset} counts items from 0 in steps of page_size (ADR 0030); the same
+// stop rule ends paging at an empty page.
+func TestPortalPagesOffset(t *testing.T) {
+	u := "https://jobs.example.org/api?size=2&from="
+	d := &pageDoer{pages: map[string]string{u + "0": jobsJSON("1", "2"), u + "2": jobsJSON("3"), u + "4": jobsJSON()}}
+	p := pagedPortal(t, "listing_url: "+u+"{offset}\npages: 5\npage_size: 2\n")
+	if got := pagedIDs(t, p, d); !reflect.DeepEqual(got, []string{"1", "2", "3"}) || len(d.asked) != 3 {
+		t.Errorf("ids %v, asked %q", got, d.asked)
 	}
 }
 

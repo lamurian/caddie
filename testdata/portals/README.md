@@ -17,6 +17,8 @@ portal tests through a fake HTTP client
 | `adb/listing.html` | `portals/adb.yml`'s Drupal listing: one table per group, suffixed header ids, an untitled row, an empty location, a closing date without `<time>` |
 | `isdb/listing.html` | `portals/isdb.yml`'s SuccessFactors search page: titles repeated in desktop/tablet/mobile sections, a relative `data-url`, a tile without Location |
 | `bcg/listing.json` | `portals/bcg.yml`'s Phenom widgets response: `refineSearch.data.jobs[]`, an item without `location`, an untitled item |
+| `bcg/listing-2.json` | Its second page (`"from":500`): a repeat of a page-1 item (the unstable order) and one new item |
+| `bcg/detail-900201.html` | `portals/bcg.yml`'s job page, saved from its slugged link (`/job/<id>/<slug>`): `JobPosting` JSON-LD |
 | `worldbank/listing.html` | `portals/worldbank.yml`'s Cornerstone page: an empty JavaScript shell (`div#cs-root`), why the config is `js_rendered` |
 | `bain/detail-70101.html` | `portals/bain.yml`'s job page (discovery-only, no listing): an empty React mount plus the `JobPosting` JSON-LD `posting save` reads |
 

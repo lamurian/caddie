@@ -1,19 +1,22 @@
 # Boston Consulting Group careers (careers.bcg.com, Phenom People). Fixture
-# and tests: testdata/portals/bcg/listing.json, internal/source/portal_bcg_test.go.
+# and tests: testdata/portals/bcg/listing.json, listing-2.json,
+# internal/source/portal_bcg_test.go.
 name: Boston Consulting Group
 listing_url: https://careers.bcg.com/widgets
 method: post
 body: >-
   {"lang":"en_global","deviceType":"desktop","country":"global",
-  "pageName":"search-results","ddoKey":"refineSearch","from":0,"size":500,
+  "pageName":"search-results","ddoKey":"refineSearch","from":{offset},"size":500,
   "jobs":true,"counts":false,"siteType":"external","keywords":"","global":true,
   "selected_fields":{}}
+pages: 4
+page_size: 500
 json_path: refineSearch.data.jobs
 fields:
   id: jobId
   title: title
   location: location
-detail_url: https://careers.bcg.com/global/en/job/{id}
+detail_url: https://careers.bcg.com/global/en/job/{id}/{slug}
 ats: phenom
 notes: >-
   careers.bcg.com is a Phenom People site. The search-results page embeds
@@ -23,12 +26,18 @@ notes: >-
   caddie's own user agent: the POST (ddoKey refineSearch) returns
   refineSearch.data.jobs[] with string jobId (equal to reqId), title,
   location (the primary "City, State, Country"), postedDate and applyUrl;
-  job pages answer at /global/en/job/<jobId> (the site links them with a
-  title slug appended, /global/en/job/<jobId>/<slug>, which posting save
-  does not recognise as this portal; trim the slug). Limitations: the API
-  caps size at 500, so one request returns 500 of the 941 open on
-  2026-11-03, in the site's default order (a sortBy in the body changed
-  nothing); there is no paging. There is no closing date or salary in the
+  job pages answer at /global/en/job/<jobId>, and the site links them with
+  a title slug appended, /global/en/job/<jobId>/<slug>; the trailing {slug}
+  in detail_url lets posting save recognise both (ADR 0031), while search
+  builds the slugless form. Paging: the API
+  caps size at 500 and pages by the item offset "from" (ADR 0030); checked
+  live 2026-11-03, from 0 returned 500 and from 500 the other 440 of 940
+  (from 1000 none, which stops paging), so pages 4 covers up to 2000.
+  Limitations: the default order is not stable between requests (a sortBy
+  in the body changed nothing), so in four of seven two-request runs about 30
+  openings appeared on both pages and as many on neither (910 of 940
+  listed); duplicates are dropped and the missed ones show up on a later
+  search. There is no closing date or salary in the
   listing. multi_location lists every city but is not mapped (an array of
   "City, State, Country" strings would join unreadably). Applying leaves
   careers.bcg.com for experiencedtalent.bcg.com or studenttalent.bcg.com

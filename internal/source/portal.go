@@ -67,13 +67,13 @@ func (p Portal) job(it portalItem) (Job, bool) {
 }
 
 // detailFor fills detail_url's {id}, escaped for the query when {id} is in
-// it and for the path otherwise.
+// it and for the path otherwise, and drops a trailing /{slug} (ADR 0031).
 func (p Portal) detailFor(id string) string {
 	esc := url.PathEscape
 	if q := strings.Index(p.DetailURL, "?"); q >= 0 && q < strings.Index(p.DetailURL, "{id}") {
 		esc = url.QueryEscape
 	}
-	return strings.ReplaceAll(p.DetailURL, "{id}", esc(id))
+	return strings.ReplaceAll(strings.TrimSuffix(p.DetailURL, slugSuffix), "{id}", esc(id))
 }
 
 // knownPortal reports whether name is "portal" or "portal:<org>".

@@ -26,11 +26,17 @@ func TestLoadPortalInvalid(t *testing.T) {
 		"missing-title":             "fields.title: required",
 		"missing-url":               "fields.url: required unless",
 		"detail-url-no-id":          "detail_url: must contain {id}",
+		"detail-url-slug-not-last":  "detail_url: {slug} is only allowed once, as the last path segment",
 		"unknown-key":               "field selector not found",
 		"credential-header":         "headers.X-Api-Key: looks like a credential",
 		"pages-out-of-range":        "pages: must be between 1 and 10",
-		"pages-without-placeholder": "pages: needs {page} in listing_url or body",
+		"pages-without-placeholder": "pages: needs {page} or {offset} in listing_url or body",
 		"placeholder-without-pages": "body: {page} is only allowed with pages",
+		"offset-without-pages":      "body: {offset} is only allowed with pages",
+		"offset-without-page-size":  "page_size: required with {offset}",
+		"page-size-without-offset":  "page_size: is only allowed with {offset}",
+		"page-size-out-of-range":    "page_size: must be between 1 and 1000",
+		"page-and-offset":           "body: use {page} or {offset}, not both",
 		"bad-deadline-tz":           "deadline_tz: Mars/Olympus_Mons is not an IANA time zone",
 	}
 	for name, want := range cases {

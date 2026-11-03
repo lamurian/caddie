@@ -1,6 +1,7 @@
 # 0028. Portal pagination: `pages` and `{page}`
 
-- **Status:** Accepted
+- **Status:** Accepted; amended by [0030](0030-portal-offset-paging.md)
+  (offset paging: `{offset}`, `page_size`)
 - **Date:** 2026-11-03
 - **PRD refs:** §7, §11, D11
 

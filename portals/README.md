@@ -22,8 +22,9 @@ errors; `caddie search` exits 3 naming the file and the key.
 | `item_selector` | CSS selector for one opening in HTML, **or** … |
 | `json_path` | dotted path to the array of openings in JSON (`data.items`) |
 | `fields` | `id`, `title` (required), `url`, `location`, `deadline`, `salary` |
-| `detail_url` | Job page pattern with `{id}`; required without `fields.url` |
+| `detail_url` | Job page pattern with `{id}`, optionally ending `/{slug}` for one ignored extra segment ([ADR 0031](../docs/adr/0031-portal-detail-slug.md)); required without `fields.url` |
 | `pages` | Pages to fetch at most (1–10); `{page}` in `listing_url` or `body` becomes 1, 2…; stops at a page with nothing new ([ADR 0028](../docs/adr/0028-portal-pagination.md)) |
+| `page_size` | Items per page (1–1000), for an API paged by item offset: `{offset}` (instead of `{page}`) becomes 0, `page_size`, 2×`page_size`… ([ADR 0030](../docs/adr/0030-portal-offset-paging.md)) |
 | `ats` | ATS label: taleo, oracle, successfactors, workday, inspira, cornerstone, phenom, avature, bespoke (required) |
 | `js_rendered` | `true` if the listing needs JavaScript: skipped with a notice |
 | `deadline_tz` | IANA zone (`America/New_York`): an RFC 3339 deadline with an offset becomes this zone's date ([ADR 0029](../docs/adr/0029-portal-deadline-timezone.md)) |
@@ -72,7 +73,7 @@ below (`internal/source/allowlist_test.go` checks it).
 | `who` | `careers.who.int` | Searched | Taleo job board API (POST, `tz` header), paged by `pageNo` (25 per page, ADR 0028); applying needs a Taleo account |
 | `adb` | `www.adb.org` | Searched | Server-rendered HTML, all openings on one page; titles keep " / <ref>"; applying is on `aces.adb.org` (login) |
 | `isdb` | `careers.isdb.org` | Searched | SuccessFactors HTML `/search/`; first 25 only; no deadline in the listing; URL-hash IDs; applying is on `career55.sapsf.eu` (account) |
-| `bcg` | `careers.bcg.com` | Searched | Phenom widgets API (POST); first 500 of ~940 only; applying is on `experiencedtalent.bcg.com`, `studenttalent.bcg.com` or `platinion.avature.net` (account) |
+| `bcg` | `careers.bcg.com` | Searched | Phenom widgets API (POST), paged by offset 500 at a time (unstable order: a run may miss ~30); applying is on `experiencedtalent.bcg.com`, `studenttalent.bcg.com` or `platinion.avature.net` (account) |
 | `worldbank` | `worldbankgroup.csod.com` | Discovery-only | Cornerstone: the list comes from a token-authorised API (401 without it) that ADR 0019 cannot call; applying needs a Cornerstone account |
 | `bain` | `www.bain.com` | Discovery-only | The listing API refuses direct access (403), so search skips it; `posting save` reads job pages' JSON-LD |
 | `mckinsey` | `www.mckinsey.com` | Discovery-only | Terms forbid automated collection, so search calls nothing; applying is on `mckinsey.avature.net` (account); `gateway.mckinsey.com` is the page's own search XHR |
