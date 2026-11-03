@@ -39,7 +39,7 @@ Every phase's Definition of Done also implicitly includes these items:
 - `golangci-lint` passes: every function's cyclomatic and cognitive
   complexity is ≤ 15.
 - Every new directory has a README linked from `AGENTS.md`.
-- The relevant `skills/caddie` section is updated, and every command it shows
+- The relevant `.agents/skills/caddie` section is updated, and every command it shows
   works exactly as written.
 
 ## Working a phase

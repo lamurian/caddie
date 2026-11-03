@@ -1,5 +1,5 @@
 // Command caddie is the deterministic half of Caddie: parsing, checks and
-// file mechanics for the agent that drives skills/caddie/SKILL.md.
+// file mechanics for the agent that drives .agents/skills/caddie/SKILL.md.
 package main
 
 import (

@@ -39,6 +39,10 @@ cp answers.example.yml answers.yml
 go build ./cmd/caddie && ./caddie doctor   # then fill in history/
 ```
 
+Then start your agent in this directory. It finds the skill in
+[`.agents/skills/caddie/`](.agents/skills/README.md) without an install step
+([ADR 0025](docs/adr/0025-skill-in-agents-dir.md)).
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE).

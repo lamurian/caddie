@@ -130,7 +130,7 @@ func (blockingBrowser) Run(ctx context.Context, _ []string, _, _ io.Writer) erro
 
 // Every concrete `caddie browse` example in the skill passes validation.
 func TestSkillBrowseExamplesValidate(t *testing.T) {
-	data, err := os.ReadFile("../../skills/caddie/references/browse.md")
+	data, err := os.ReadFile("../../.agents/skills/caddie/references/browse.md")
 	if err != nil {
 		t.Fatal(err)
 	}

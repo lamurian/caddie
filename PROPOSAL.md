@@ -190,7 +190,7 @@ Rules:
   selector or JSON path, field mappings, detail URL pattern) used for the
   international organisations.
 
-## 8. Skill specification (`skills/caddie/SKILL.md`)
+## 8. Skill specification (`.agents/skills/caddie/SKILL.md`)
 
 In order:
 1. What caddie is; directory layout.
@@ -254,7 +254,7 @@ caddie/
 │   ├── memory/        # seen.jsonl, answers.yml
 │   ├── document/      # verify, keywords, render (quarto)
 │   └── browse/        # agent-browser argv builder + Exec interface
-├── skills/caddie/SKILL.md
+├── .agents/skills/caddie/SKILL.md
 ├── templates/
 │   ├── resume.qmd
 │   └── cover-letter.qmd

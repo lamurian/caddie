@@ -31,6 +31,7 @@ accepted ADR without superseding it.
 | [0022](0022-render-naming-and-gate.md) | Render: PDF naming, the verified gate, the render directory | §6.2–6.3, §12.6, D9, D18 |
 | [0023](0023-doctor-browser-stack.md) | Doctor checks the browser stack; a stopped stack fails | §9, §10, §13 |
 | [0024](0024-workspace-readmes.md) | Workspace directories carry a tracked README | §11, D14 |
+| [0025](0025-skill-in-agents-dir.md) | The skill lives in `.agents/skills/` | §8, §11, D1 |
 
 ## Writing a new ADR
 

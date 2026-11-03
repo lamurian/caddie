@@ -47,7 +47,7 @@ done in code.
 ## Deliverables
 
 `internal/source/*`, `internal/memory/seen.go`, `internal/posting/*`, CLI
-handlers, fixtures and `skills/caddie/references/discover.md`.
+handlers, fixtures and `.agents/skills/caddie/references/discover.md`.
 
 ## Definition of Done
 

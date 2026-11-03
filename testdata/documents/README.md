@@ -5,8 +5,8 @@
 `testdata/postings/` and fictional answers.
 
 Each follows the draft format in
-[`tailor.md`](../../skills/caddie/references/tailor.md) and
-[`cover-letter.md`](../../skills/caddie/references/cover-letter.md): no
+[`tailor.md`](../../.agents/skills/caddie/references/tailor.md) and
+[`cover-letter.md`](../../.agents/skills/caddie/references/cover-letter.md): no
 frontmatter, title, name, contact details or links (the render template
 adds them). A resume starts at `## About`; a letter at its salutation.
 

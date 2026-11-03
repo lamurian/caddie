@@ -46,7 +46,7 @@ routes the posting to `manual/`.
 ## Deliverables
 
 `internal/workspace/move*.go`, `internal/posting/manual*.go`, the CLI
-handler, and `skills/caddie/references/{apply,exit-codes}.md`.
+handler, and `.agents/skills/caddie/references/{apply,exit-codes}.md`.
 
 ## Definition of Done
 

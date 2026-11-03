@@ -24,7 +24,7 @@ func exitTable(t *testing.T, path string) string {
 // The skill must carry the exit-code table verbatim (cmd/README.md).
 func TestExitTableMirroredInSkill(t *testing.T) {
 	readme := exitTable(t, "../README.md")
-	skill := exitTable(t, "../../skills/caddie/SKILL.md")
+	skill := exitTable(t, "../../.agents/skills/caddie/SKILL.md")
 	if readme != skill {
 		t.Errorf("exit-code tables differ:\ncmd/README.md:\n%s\n\nSKILL.md:\n%s", readme, skill)
 	}
