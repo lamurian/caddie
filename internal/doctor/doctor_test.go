@@ -69,7 +69,8 @@ func options(root string, found bool, q *fakeQuarto) Options {
 			}
 			return "", errors.New("not found")
 		},
-		Quarto: func(bin string) document.Quarto { q.bin = bin; return q },
+		Quarto:  func(bin string) document.Quarto { q.bin = bin; return q },
+		Browser: healthyStack(),
 	}
 }
 

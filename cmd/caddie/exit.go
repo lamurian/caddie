@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/lamurian/caddie/internal/browse"
 	"github.com/lamurian/caddie/internal/config"
 	"github.com/lamurian/caddie/internal/document"
 	"github.com/lamurian/caddie/internal/memory"
@@ -54,6 +55,9 @@ var exitCodes = []struct {
 	{posting.ErrNoPosting, exitNotFound},
 	{errNotFound, exitNotFound},
 	{document.ErrNotVerified, exitRefused},
+	{browse.ErrInvalidSession, exitRefused},
+	{browse.ErrUploadOutsideHandoff, exitRefused},
+	{browse.ErrExec, exitExternal},
 	{source.ErrFetch, exitExternal},
 	{document.ErrQuarto, exitExternal},
 }

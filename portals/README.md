@@ -65,9 +65,10 @@ takes `ats` from it.
 
 ## Hosts
 
-The hosts each config contacts (`listing_url`, `detail_url`). They seed
-`docker/proxy/allowlist.conf` in phase
-[06](../docs/tasks/06-browser-sandbox.md).
+The hosts each config contacts (`listing_url`, `detail_url`). Each is on
+the browser's [`docker/proxy/allowlist.conf`](../docker/proxy/README.md),
+with the apply hosts the notes name; `internal/source/allowlist_test.go`
+checks it.
 
 | Org | Hosts | Notes |
 |-----|-------|-------|
@@ -86,6 +87,6 @@ designed outcome, not a failure.
    `testdata/portals/<org>/`. Strip anything personal.
 2. Write `portals/<org>.yml` against the schema.
 3. Add a test that parses the fixture into the expected postings.
-4. List its hosts in the table above (`docker/proxy/allowlist.conf` from
-   phase 06).
+4. List its hosts in the table above and add them to
+   `docker/proxy/allowlist.conf`.
 5. Only scrape sites whose terms allow automated access (PRD §3).

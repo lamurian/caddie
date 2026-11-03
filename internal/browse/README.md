@@ -1,0 +1,70 @@
+# internal/browse/
+
+Runs agent-browser (Vercel Labs) for `caddie browse <session> <args…>`, the
+only way the agent drives the sandboxed browser
+([PRD §7, §9](../../PROPOSAL.md),
+[ADR 0002](../../docs/adr/0002-sandboxed-browser.md),
+[ADR 0005](../../docs/adr/0005-credentials.md)). Depends only on `config`.
+
+| File | Holds |
+|------|-------|
+| `browse.go` | Sentinel errors, `Exec` interface, `OSExec` (os/exec), `Browse` |
+| `argv.go` | `Argv`: the compose or local command line |
+| `validate.go` | `ValidateSession`, `ValidateArgs`, `ValidateUploadPath`, `HandoffDir` |
+
+## Browse
+
+`Browse(ctx, cfg, exec, session, args, stdout, stderr)` validates, builds
+the argv, wraps `ctx` in `context.WithTimeout(cfg.BrowseTimeout)` and runs
+it, streaming output. Nothing runs unless validation passes.
+
+Argv, with the session as agent-browser's global `--session <name>` flag
+and the caller's args appended verbatim:
+
+```
+compose: docker compose -f <workspace>/<ComposeFile> exec -T <ComposeService> agent-browser --session <session> <args…>
+local:   <BrowserBin> --session <session> <args…>
+```
+
+`-T` disables TTY allocation so output pipes cleanly. Any other
+`CADDIE_BROWSER_MODE` wraps `config.ErrConfig`.
+
+## What is validated
+
+- **Session name** (`ValidateSession`): hostname-like, i.e. dot-separated
+  labels of 1–63 characters from `a-z 0-9 -`, no label starting or ending
+  with `-`, no empty label (so no leading, trailing or double dot), at most
+  253 characters. **Uppercase is rejected**, not folded, so one portal maps
+  to one session and one state file in the browser volume.
+- **No session override** (`ValidateArgs`): `--session x` or `--session=x`
+  in the args is rejected, since it would bypass the check above.
+- **Uploads** (`ValidateArgs`, `ValidateUploadPath`): at the first bare
+  `upload` token, `upload <selector> <file…>` needs at least one file and
+  every argument after the selector must, after `path.Clean`, be absolute
+  and strictly inside `/handoff` (the container's read-only mount of
+  `handoff/`). Rejected: relative paths, `/handoff` itself,
+  `/handoffx/a.pdf`, `/handoff/../etc/passwd`. A bare `upload` token used
+  as a value also triggers the check; that is deliberate.
+
+Not validated: other commands that read or write files (`screenshot`,
+`pdf`, `download`, `state save|load`). They act inside the container,
+whose only host mount is the read-only `/handoff`, so they cannot reach
+the repo. Page and posting content stays data; nothing here interprets it.
+
+## Errors
+
+| Error | Meaning | Exit (CLI) |
+|-------|---------|------------|
+| `ErrInvalidSession` | bad session name or `--session` in args | 7 |
+| `ErrUploadOutsideHandoff` | an upload path outside `/handoff` | 7 |
+| `ErrExec` | agent-browser could not start or exited non-zero | 8 |
+| `ErrTimeout` | `CADDIE_BROWSE_TIMEOUT` expired; always wrapped with `ErrExec` | 8 |
+
+## Contributing
+
+- Every new check gets a table-driven case in `validate_test.go`, and must
+  reject before `Exec` runs (see `TestBrowseRejectsBeforeExec`).
+- Tests use the fake `Exec` in `browse_test.go`; they never start Docker,
+  a browser or the network.
+- Never loosen a check to make a workflow pass; extend `handoff/` or the
+  proxy allowlist instead ([ADR 0002](../../docs/adr/0002-sandboxed-browser.md)).

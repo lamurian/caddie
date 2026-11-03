@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"time"
 
+	"github.com/lamurian/caddie/internal/browse"
 	"github.com/lamurian/caddie/internal/config"
 	"github.com/lamurian/caddie/internal/document"
 	"github.com/lamurian/caddie/internal/source"
@@ -26,6 +27,7 @@ type env struct {
 	client         source.Doer   // HTTP for search and posting save
 	today          func() string // the date as YYYY-MM-DD
 	quarto         func(bin string) document.Quarto
+	browser        browse.Exec // runs agent-browser for `caddie browse`
 }
 
 type command func(args []string, e env) error
@@ -39,6 +41,7 @@ var commands = map[string]command{
 	"verify":   cmdVerify,
 	"keywords": cmdKeywords,
 	"render":   cmdRender,
+	"browse":   cmdBrowse,
 	"doctor":   cmdDoctor,
 }
 
@@ -61,6 +64,9 @@ Commands:
                                       keyword coverage of a draft against a posting
   render resume|cover-letter <slug> [--json]
                                       verified draft to PDF, copied to handoff/
+  browse <session> <agent-browser args…>
+                                      run agent-browser in the sandbox; session =
+                                      portal hostname, uploads only from /handoff
   doctor [--json]                     check configuration, workspace and history
   help                                show this help
 
@@ -71,9 +77,10 @@ func main() {
 	os.Exit(run(os.Args[1:], env{
 		stdout: os.Stdout, stderr: os.Stderr, lookup: os.LookupEnv,
 		dotenv: ".env", lookPath: exec.LookPath,
-		client: &http.Client{Timeout: 30 * time.Second},
-		today:  func() string { return time.Now().Format("2006-01-02") },
-		quarto: func(bin string) document.Quarto { return document.ExecQuarto{Bin: bin} },
+		client:  &http.Client{Timeout: 30 * time.Second},
+		today:   func() string { return time.Now().Format("2006-01-02") },
+		quarto:  func(bin string) document.Quarto { return document.ExecQuarto{Bin: bin} },
+		browser: browse.OSExec{},
 	}))
 }
 

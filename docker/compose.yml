@@ -1,0 +1,51 @@
+# The sandboxed browser stack (ADR 0002, PRD §9). Start it from the repo root:
+#   docker compose -f docker/compose.yml up -d --build
+# Invariants (PRD §10): no published ports anywhere; the browser reaches the
+# internet only through the proxy; browser state lives in a named volume.
+name: caddie
+
+services:
+  browser:
+    build: ./browser
+    image: caddie-browser:local
+    init: true
+    restart: unless-stopped
+    environment:
+      HTTP_PROXY: http://proxy:8888
+      HTTPS_PROXY: http://proxy:8888
+      http_proxy: http://proxy:8888
+      https_proxy: http://proxy:8888
+      NO_PROXY: localhost,127.0.0.1
+      no_proxy: localhost,127.0.0.1
+      AGENT_BROWSER_PROXY: http://proxy:8888
+    volumes:
+      - browser-state:/home/node/.agent-browser
+      - type: bind
+        source: ../handoff
+        target: /handoff
+        read_only: true
+    networks:
+      - sandbox
+    depends_on:
+      - proxy
+
+  proxy:
+    build: ./proxy
+    image: caddie-proxy:local
+    init: true
+    restart: unless-stopped
+    networks:
+      - sandbox
+      - egress
+
+networks:
+  # No route out: the browser and the proxy only.
+  sandbox:
+    internal: true
+  # The proxy's way out to the allowlisted hosts.
+  egress: {}
+
+volumes:
+  # ~/.agent-browser: sessions, auth vault, state (ADR 0005). Mode 0700,
+  # owned by the browser's user; never bind-mounted into the repo.
+  browser-state: {}

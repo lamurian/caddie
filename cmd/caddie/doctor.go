@@ -16,6 +16,7 @@ func cmdDoctor(args []string, e env) error {
 	}
 	r := doctor.Run(doctor.Options{
 		DotEnv: e.dotenv, Lookup: e.lookup, LookPath: e.lookPath, Quarto: e.quarto,
+		Browser: e.browser,
 	})
 	if err := printReport(e.stdout, r, *asJSON); err != nil {
 		return err
@@ -32,7 +33,7 @@ func printReport(w io.Writer, r doctor.Report, asJSON bool) error {
 	}
 	var b strings.Builder
 	for _, c := range r.Checks {
-		fmt.Fprintf(&b, "%-4s  %-11s  %s\n", c.Status, c.Name, c.Message)
+		fmt.Fprintf(&b, "%-4s  %-13s  %s\n", c.Status, c.Name, c.Message)
 	}
 	_, err := io.WriteString(w, b.String())
 	return err
