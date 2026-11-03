@@ -1,12 +1,12 @@
-# skills/
+# .agents/skills/
 
 The Agent Skill that Pi, Goose or any other agent loads to drive Caddie:
-`skills/caddie/SKILL.md` ([PRD §8](../PROPOSAL.md#8-skill-specification-skillscaddieskillmd)).
+`.agents/skills/caddie/SKILL.md` ([PRD §8](../../PROPOSAL.md#8-skill-specification-agentsskillscaddieskillmd)).
 
 ## Layout
 
 ```
-skills/caddie/
+.agents/skills/caddie/
 ├── README.md           # for contributors; agents read SKILL.md
 ├── SKILL.md            # entry: what caddie is, hard rules, workflow index
 └── references/         # one file per workflow or table, loaded on demand
@@ -20,7 +20,7 @@ skills/caddie/
 
 [`SKILL.md`](caddie/SKILL.md) must stay under 100 lines like every other doc,
 so detail goes into [`references/`](caddie/references/README.md)
-([ADR 0012](../docs/adr/0012-agentic-docs-and-line-limits.md)).
+([ADR 0012](../../docs/adr/0012-agentic-docs-and-line-limits.md)).
 Each phase in `docs/tasks/` adds its own section. The exit-code table is
 mirrored verbatim from `cmd/README.md`, and a Go test keeps them equal.
 
@@ -41,9 +41,14 @@ The gate message is also verbatim: `Form filled. Reply "submit" or "manual".`
 
 ## Contributing
 
+- This path is where agents started in the clone find the skill
+  ([ADR 0025](../../docs/adr/0025-skill-in-agents-dir.md)). Your own coding
+  agent will load it too while you work on Caddie; ignore it unless you are
+  testing the workflow.
+
 - Judgment only. If an instruction says "make sure X is consistent", ask
   whether the binary should enforce X instead
-  ([ADR 0001](../docs/adr/0001-skill-plus-cli.md)).
+  ([ADR 0001](../../docs/adr/0001-skill-plus-cli.md)).
 - Every command shown must exist in the CLI with exactly that syntax.
 - Agent-neutral wording; nothing specific to Pi or Goose.
 - No secrets and no personal data.

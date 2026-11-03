@@ -1,6 +1,6 @@
 # 0008. Tracked workspace dirs; public history, private contact
 
-- **Status:** Accepted
+- **Status:** Accepted; README clause superseded by [0024](0024-workspace-readmes.md)
 - **Date:** 2026-10-28
 - **PRD refs:** §11, §12.2, D14, D15
 

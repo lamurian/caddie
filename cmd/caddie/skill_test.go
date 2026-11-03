@@ -10,7 +10,7 @@ import (
 // Every `caddie <command>` a workflow reference shows must be a real
 // command. (SKILL.md's verbatim hard rules name later-phase commands.)
 func TestSkillCommandsExist(t *testing.T) {
-	files, _ := filepath.Glob("../../skills/caddie/references/*.md")
+	files, _ := filepath.Glob("../../.agents/skills/caddie/references/*.md")
 	if len(files) == 0 {
 		t.Fatal("no workflow references found")
 	}

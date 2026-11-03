@@ -6,7 +6,7 @@ human contributor working on Caddie.
 ## What Caddie is
 
 An AI-assisted job application workflow: **one Go binary (`caddie`) plus an
-Agent Skill (`skills/caddie/SKILL.md`)**. The agent driving the skill supplies
+Agent Skill (`.agents/skills/caddie/SKILL.md`)**. The agent driving the skill supplies
 judgment: ranking, tailoring, writing. The binary supplies everything that
 must be deterministic: parsing, verification, rendering, memory, file moves
 and browser argv. The binary makes no LLM calls. The final *Submit* click
@@ -49,7 +49,7 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 |------|---------|-------|
 | `cmd/` | CLI entry point (`cmd/caddie`), exit codes | [README](cmd/README.md), [caddie](cmd/caddie/README.md) |
 | `internal/` | All Go packages: config, workspace, profile, doctor, posting, source, memory, document, browse | [README](internal/README.md); one per package |
-| `skills/` | The Agent Skill the agent loads (`skills/caddie/SKILL.md`) | [README](skills/README.md), [caddie](skills/caddie/README.md), [references](skills/caddie/references/README.md) |
+| `.agents/skills/` | The Agent Skill the agent loads (`.agents/skills/caddie/SKILL.md`), found automatically ([ADR 0025](docs/adr/0025-skill-in-agents-dir.md)) | [.agents](.agents/README.md), [skills](.agents/skills/README.md), [caddie](.agents/skills/caddie/README.md), [references](.agents/skills/caddie/references/README.md) |
 | `templates/` | Quarto templates for resume and cover letter | [README](templates/README.md) |
 | `docker/` | Browser + egress proxy compose stack | [README](docker/README.md), [browser](docker/browser/README.md), [proxy](docker/proxy/README.md) |
 | `portals/` | Per-organisation portal adapter configs | [README](portals/README.md) |
@@ -62,19 +62,20 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 
 ## Workspace directories
 
-These are runtime state. Each is tracked but holds only a `.gitignore`
-(`*` / `!.gitignore`), so nothing in it is ever committed and it gets no
-README ([ADR 0008](docs/adr/0008-workspace-tracking.md)).
+These are runtime state. Each tracks only a `.gitignore` and a `README.md`;
+nothing else in it is ever committed
+([ADR 0008](docs/adr/0008-workspace-tracking.md),
+[0024](docs/adr/0024-workspace-readmes.md)).
 
-| Path | Holds |
-|------|-------|
-| `postings/` | Saved postings `<slug>.md` with YAML frontmatter |
-| `applied/` | Submitted postings + resume, letter and `trace/` |
-| `manual/` | Postings routed to a manual checklist |
-| `resumes/`, `cover-letters/` | Tailored Markdown drafts and rendered PDFs |
-| `handoff/` | Current PDFs mounted read-only into the browser |
-| `reviews/` | User-maintained `reviews/<company>.md` |
-| `.caddie/` | `seen.jsonl`, `verified/` hashes (ignored entirely) |
+| Path | Holds | Guide |
+|------|-------|-------|
+| `postings/` | Saved postings `<slug>.md` with YAML frontmatter | [postings](postings/README.md) |
+| `applied/` | Submitted postings + resume, letter and `trace/` | [applied](applied/README.md) |
+| `manual/` | Postings routed to a manual checklist | [manual](manual/README.md) |
+| `resumes/`, `cover-letters/` | Tailored Markdown drafts and rendered PDFs | [resumes](resumes/README.md), [cover-letters](cover-letters/README.md) |
+| `handoff/` | Current PDFs mounted read-only into the browser | [handoff](handoff/README.md) |
+| `reviews/` | User-maintained `reviews/<company>.md` | [reviews](reviews/README.md) |
+| `.caddie/` | `seen.jsonl`, `verified/` hashes (ignored entirely) | — |
 
 ## Configuration files
 

@@ -24,7 +24,8 @@ routes the posting to `manual/`.
     together, as atomically as the filesystem allows.
   - Updates `status`, `applied_at`, `follow_up_after` (from
     `apply.follow_up_days`) and `manual_reason`.
-  - Clears `handoff/`.
+  - Clears `handoff/`, keeping its tracked `README.md` and `.gitignore`
+    ([ADR 0024](../adr/0024-workspace-readmes.md)).
 - `internal/posting`: a helper that writes or updates the `## Manual steps`
   checklist (`- [ ]` items) in a posting.
 - Form answers: `caddie answers show --for <slug> --form` drives the form;
@@ -45,7 +46,7 @@ routes the posting to `manual/`.
 ## Deliverables
 
 `internal/workspace/move*.go`, `internal/posting/manual*.go`, the CLI
-handler, and `skills/caddie/references/{apply,exit-codes}.md`.
+handler, and `.agents/skills/caddie/references/{apply,exit-codes}.md`.
 
 ## Definition of Done
 
