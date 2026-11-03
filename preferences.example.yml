@@ -57,8 +57,8 @@ sources:
     - acme
     - globex
   lever_boards: []
-  # See portals/. Configured: who, un. The rest arrive in phase 08; until
-  # then each is skipped with a notice (no portals/<org>.yml).
+  # See portals/. All eight are configured; worldbank, bain and mckinsey
+  # are discovery-only, so search skips them with a notice.
   portals:
     - who
     - un
