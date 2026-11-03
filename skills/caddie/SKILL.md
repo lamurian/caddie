@@ -93,7 +93,7 @@ After filling a form, post the screenshot and exactly this text, then stop:
 | 4 | Malformed input: `history/` or a posting breaks its schema; the message names file and line | Show the file and line to the user |
 | 5 | Not found: no job posting at a URL, an unknown slug or a missing file | Check the URL, slug or path |
 | 6 | Illegal posting status transition | Do not edit `status` by hand; follow the workflow |
-| 7 | Refused by a safety rule: `render` on an unverified or edited draft; `browse` with a bad session name or an upload outside `/handoff` | Stop; never work around it |
+| 7 | Refused by a safety rule: `render` on an unverified or edited draft; `browse` with a bad session name, an upload outside `/handoff` or a screenshot outside `/trace` | Stop; never work around it |
 | 8 | External tool or network failure: HTTP, `quarto`, `docker` or agent-browser (whose own error is printed first) | Run `caddie doctor`, retry once, then tell the user |
 | 9 | Internal error | Report it to the user |
 <!-- exit-codes:end -->

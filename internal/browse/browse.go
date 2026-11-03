@@ -19,6 +19,9 @@ var (
 	// ErrUploadOutsideHandoff: an upload names a file outside /handoff
 	// (exit 7).
 	ErrUploadOutsideHandoff = errors.New("upload path outside /handoff")
+	// ErrScreenshotOutsideTrace: a screenshot would be written outside
+	// /trace (exit 7).
+	ErrScreenshotOutsideTrace = errors.New("screenshot path outside /trace")
 	// ErrExec: agent-browser could not run or exited non-zero (exit 8).
 	ErrExec = errors.New("agent-browser failed")
 	// ErrTimeout: CADDIE_BROWSE_TIMEOUT expired. It always comes wrapped

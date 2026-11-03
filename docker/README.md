@@ -14,9 +14,20 @@ docker/
 Start it from the repo root, then check it:
 
 ```sh
+mkdir -p .caddie/trace          # the /trace bind source; see below
 docker compose -f docker/compose.yml up -d --build
 caddie doctor
 ```
+
+## Trace directory
+
+Compose never creates `.caddie/trace/` (`up` fails if it is missing), and
+the browser's `node` user (uid 1000) must be able to write to it. When your
+uid is 1000 (`id -u`), `mkdir -p` is enough. Otherwise grant uid 1000 alone,
+so you still own the directory and `caddie move` can empty it:
+`setfacl -m u:1000:rwx .caddie/trace`. Avoid `chmod 0777`: any local user
+could then plant files that `caddie move` archives. CI, which never moves,
+uses `sudo chown 1000:1000` instead.
 
 ## Services
 
@@ -30,6 +41,8 @@ caddie doctor
   - Named volume `browser-state` (`caddie_browser-state`) at
     `/home/node/.agent-browser`, mode 0700: sessions, auth vault, state.
   - The repo's `handoff/` is bind-mounted **read-only** at `/handoff`.
+  - `.caddie/trace/` is bind-mounted **read-write** at `/trace`, for trace
+    screenshots only ([ADR 0024](../docs/adr/0024-move-archive-and-trace.md)).
 - **proxy** ([guide](proxy/README.md)): tinyproxy 1.11 on port 8888, reached
   only on the compose network. It denies every host not matched by
   `proxy/allowlist.conf` (403 "Filtered") and CONNECTs only to port 443.
@@ -76,6 +89,6 @@ docker compose -f $f ps --format '{{.Publishers}}' | grep -v '^\[\]$'
   `docker compose -f docker/compose.yml up -d --build proxy`.
 - Pin every version: base images by tag **and** digest, agent-browser and
   Chrome by exact version (Chrome also by sha256). Never use `latest`.
-- Never add `ports:`, a bind mount of the browser volume, or another network
-  to `browser`.
+- Never add `ports:`, a bind mount of the browser volume, another writable
+  mount besides `/trace`, or another network to `browser`.
 - `caddie doctor` must still pass inside the stack (the CI `sandbox` job runs it).

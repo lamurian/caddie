@@ -57,6 +57,7 @@ var exitCodes = []struct {
 	{document.ErrNotVerified, exitRefused},
 	{browse.ErrInvalidSession, exitRefused},
 	{browse.ErrUploadOutsideHandoff, exitRefused},
+	{browse.ErrScreenshotOutsideTrace, exitRefused},
 	{browse.ErrExec, exitExternal},
 	{source.ErrFetch, exitExternal},
 	{document.ErrQuarto, exitExternal},
