@@ -1,47 +1,80 @@
 # Copy to preferences.yml (git-ignored) and edit.
 contact:
   email: you@example.org
-  phone: "+31 6 00000000"
-
+  phone: +31 6 00000000
 salary:
   currency: EUR
   period: year # year | month | hour
   minimum: 70000
   target: 85000
-
-work_mode: [wfa, wfh, hybrid, wfo] # in order of preference
-
+# In order of preference.
+work_mode:
+  - wfa
+  - wfh
+  - hybrid
+  - wfo
 locations:
-  preferred: [Groningen, NL, Netherlands, Remote (EU)]
-  acceptable: [Germany, Belgium, Switzerland]
-  excluded: [United States]
-
+  preferred:
+    - Groningen
+    - NL
+    - Netherlands
+    - Remote (EU)
+  acceptable:
+    - Germany
+    - Belgium
+    - Switzerland
+  excluded:
+    - United States
 # caddie search sends roles.include as search terms (Greenhouse and Lever
 # boards match them on title and department only) and drops jobs whose
 # title contains a roles.exclude entry or whose company is excluded.
 roles:
-  include: [data scientist, biostatistician, epidemiologist, research scientist, statistical consultant]
-  exclude: [sales engineer]
-
+  include:
+    - data scientist
+    - biostatistician
+    - epidemiologist
+    - research scientist
+    - statistical consultant
+  exclude:
+    - sales engineer
 companies:
-  exclude: [ExampleCorp]
-
+  exclude:
+    - ExampleCorp
 # A disabled source, or adzuna without CADDIE_ADZUNA_APP_ID/APP_KEY in
 # .env, is skipped with a notice. Boards are company slugs from their URLs.
 sources:
-  adzuna: {enabled: true, countries: [nl, de, be]}
-  remotive: {enabled: true}
-  arbeitnow: {enabled: true}
-  greenhouse_boards: [acme, globex]
+  adzuna:
+    enabled: true
+    countries:
+      - nl
+      - de
+      - be
+  remotive:
+    enabled: true
+  arbeitnow:
+    enabled: true
+  greenhouse_boards:
+    - acme
+    - globex
   lever_boards: []
-  # Configured: who, un. The rest arrive in phase 08; until then each is
-  # skipped with a notice (no portals/<org>.yml).
-  portals: [who, un, worldbank, adb, isdb, mckinsey, bcg, bain] # see portals/
-
+  # See portals/. Configured: who, un. The rest arrive in phase 08; until
+  # then each is skipped with a notice (no portals/<org>.yml).
+  portals:
+    - who
+    - un
+    - worldbank
+    - adb
+    - isdb
+    - mckinsey
+    - bcg
+    - bain
 ranking:
   top_n: 10
-  weights: {skills_match: 0.4, salary_fit: 0.2, work_mode_fit: 0.2, location_fit: 0.2}
-
+  weights:
+    skills_match: 0.4
+    salary_fit: 0.2
+    work_mode_fit: 0.2
+    location_fit: 0.2
 apply:
   require_gate: true # must stay true; cron runs never apply
   follow_up_days: 21
