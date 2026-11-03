@@ -15,19 +15,23 @@ const portalDir = "../../testdata/portals"
 
 func TestLoadPortalInvalid(t *testing.T) {
 	cases := map[string]string{ // file in invalid/ → field the error names
-		"missing-name":           "name: required",
-		"missing-listing-url":    "listing_url: required",
-		"relative-listing-url":   "listing_url: must be an absolute",
-		"missing-ats":            "ats: required",
-		"bad-method":             `method: "PUT" is not one of GET|POST`,
-		"body-without-post":      "body: only allowed with method: POST",
-		"both-selector-and-json": "item_selector, json_path: set exactly one, not both",
-		"no-selector-or-json":    "item_selector, json_path: set exactly one",
-		"missing-title":          "fields.title: required",
-		"missing-url":            "fields.url: required unless",
-		"detail-url-no-id":       "detail_url: must contain {id}",
-		"unknown-key":            "field selector not found",
-		"credential-header":      "headers.X-Api-Key: looks like a credential",
+		"missing-name":              "name: required",
+		"missing-listing-url":       "listing_url: required",
+		"relative-listing-url":      "listing_url: must be an absolute",
+		"missing-ats":               "ats: required",
+		"bad-method":                `method: "PUT" is not one of GET|POST`,
+		"body-without-post":         "body: only allowed with method: POST",
+		"both-selector-and-json":    "item_selector, json_path: set exactly one, not both",
+		"no-selector-or-json":       "item_selector, json_path: set exactly one",
+		"missing-title":             "fields.title: required",
+		"missing-url":               "fields.url: required unless",
+		"detail-url-no-id":          "detail_url: must contain {id}",
+		"unknown-key":               "field selector not found",
+		"credential-header":         "headers.X-Api-Key: looks like a credential",
+		"pages-out-of-range":        "pages: must be between 1 and 10",
+		"pages-without-placeholder": "pages: needs {page} in listing_url or body",
+		"placeholder-without-pages": "body: {page} is only allowed with pages",
+		"bad-deadline-tz":           "deadline_tz: Mars/Olympus_Mons is not an IANA time zone",
 	}
 	for name, want := range cases {
 		path := filepath.Join(portalDir, "invalid", name+".yml")

@@ -10,7 +10,8 @@ body: >-
   "sortingSelection":{"sortBySelectionParam":"3","ascendingSortingOrder":"false"},
   "fieldData":{"fields":{"KEYWORD":"","LOCATION":""},"valid":true},
   "filterSelectionParam":{"searchFilterSelections":[]},
-  "advancedSearchFiltersSelectionParam":{"searchFilterSelections":[]},"pageNo":1}
+  "advancedSearchFiltersSelectionParam":{"searchFilterSelections":[]},"pageNo":{page}}
+pages: 6
 json_path: requisitionList
 fields:
   id: contestNo
@@ -27,9 +28,14 @@ notes: >-
   contestNo (the job= value of job pages) and positional column[] =
   [title, JSON-array-of-locations string, posting date]; the API answers
   500 without a tz (or tzname) header, so headers sets one; job pages are
-  jobdetail.ftl?job=<contestNo>&lang=en. Limitations: only the first page
-  is fetched, the 25 newest openings (about 70 were open); a pageSize in
-  the body or query is not honoured. The listing has no closing date:
+  jobdetail.ftl?job=<contestNo>&lang=en. Paging (ADR 0028), re-checked
+  live 2026-11-03: the API returns 25 items per page with pagingData {currentPageNo, pageSize: 25,
+  totalCount}; a pageSize or itemsPerPage in the query is ignored, and
+  "pageSize":100 or "pagingData":{"pageSize":100} in the body is echoed
+  (or answered 400) but still returns 25 items. pageNo 2 and 3 returned
+  the next 25 and the last 4 (54 unique of totalCount 57); pageNo 4, past
+  the end, repeated page 3, which stops paging. pages: 6 covers 150
+  openings in at most 4 requests today. The listing has no closing date:
   column 2 is the posting date, so deadline is not mapped and comes from
   the job page. Grades (P-4, NO-B) appear only inside titles. The RSS
   feed (careersection/feed/joblist.rss) lists only about 10 openings.

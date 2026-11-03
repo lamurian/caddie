@@ -32,12 +32,14 @@ type Portal struct {
 	Method       string            `yaml:"method"`        // GET (default) or POST
 	Body         string            `yaml:"body"`          // request body for POST (JSON)
 	Headers      map[string]string `yaml:"headers"`       // extra request headers: functional parameters only
+	Pages        int               `yaml:"pages"`         // pages to fetch at most, {page} = 1, 2… (ADR 0028)
 	ItemSelector string            `yaml:"item_selector"` // CSS selector for one item in HTML
 	JSONPath     string            `yaml:"json_path"`     // dotted path to the item array in JSON
 	Fields       PortalFields      `yaml:"fields"`
 	DetailURL    string            `yaml:"detail_url"`  // job page pattern with {id}
 	ATS          string            `yaml:"ats"`         // taleo, oracle, successfactors, workday, inspira, bespoke…
 	JSRendered   bool              `yaml:"js_rendered"` // listing needs JavaScript: skipped with a notice
+	DeadlineTZ   string            `yaml:"deadline_tz"` // IANA zone for timestamp deadlines (ADR 0029)
 	Notes        string            `yaml:"notes"`
 }
 
@@ -108,7 +110,7 @@ type problem struct{ field, msg string }
 // "<file>: <field>: <problem>". A js_rendered config is skipped at search
 // time, so it needs only name, listing_url and ats.
 func (p Portal) Validate() error {
-	checks := []func() *problem{p.checkBasics, p.checkRequest, p.checkHeaders}
+	checks := []func() *problem{p.checkBasics, p.checkRequest, p.checkPages, p.checkHeaders, p.checkDeadlineTZ}
 	if !p.JSRendered {
 		checks = append(checks, p.checkExtraction, p.checkJSONPaths, p.checkLinks, p.checkSelectors)
 	}

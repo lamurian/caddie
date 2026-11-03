@@ -9,7 +9,8 @@ import (
 )
 
 // portalSource searches one organisation portal (ADR 0019): one request to
-// its listing, items extracted by CSS selector or JSON path.
+// its listing (or up to `pages`, ADR 0028), items extracted by CSS selector
+// or JSON path.
 type portalSource struct {
 	p      Portal
 	client Doer
@@ -37,19 +38,6 @@ func (s *portalSource) Search(ctx context.Context, terms []string) ([]Job, error
 	return jobs, nil
 }
 
-// listing sends the configured GET or POST and extracts the raw items.
-func (s *portalSource) listing(ctx context.Context) ([]portalItem, error) {
-	accept, extract := "application/json", extractJSON
-	if s.p.ItemSelector != "" {
-		accept, extract = "text/html", extractHTML
-	}
-	body, err := send(ctx, s.client, s.p.Method, s.p.ListingURL, accept, s.p.Body, s.p.Headers)
-	if err != nil {
-		return nil, err
-	}
-	return extract(s.p, body)
-}
-
 // job normalises one item. The URL is the item's, else detail_url with its
 // id; an item with neither is dropped. The native ID is the item's id, else
 // the {id} detail_url captures from the URL, else a hash of the URL.
@@ -68,7 +56,7 @@ func (p Portal) job(it portalItem) (Job, bool) {
 	j := Job{
 		ID: PortalJobID(p, native, link), Source: p.SourceName(),
 		Title: it["title"], Company: p.Name, URL: link, Location: it["location"],
-		WorkMode: WorkMode(it["location"], it["title"]), Deadline: findDate(it["deadline"]),
+		WorkMode: WorkMode(it["location"], it["title"]), Deadline: p.deadline(it["deadline"]),
 	}
 	// A salary field often holds a grade ("P-3"): keep only an amount
 	// stated with a currency or a pay period.

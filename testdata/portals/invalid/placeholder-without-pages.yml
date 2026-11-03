@@ -1,0 +1,7 @@
+name: Example
+listing_url: https://careers.example.org/api/jobs
+method: post
+body: '{"page": {page}}'
+json_path: jobs
+fields: {title: title, url: url}
+ats: bespoke

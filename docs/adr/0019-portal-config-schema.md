@@ -1,6 +1,7 @@
 # 0019. Portal config schema, IDs and enabling
 
-- **Status:** Accepted
+- **Status:** Accepted; "no pagination" clause superseded by [0028](0028-portal-pagination.md);
+  `deadline` rule amended by [0029](0029-portal-deadline-timezone.md) (`deadline_tz`)
 - **Date:** 2026-10-28
 - **PRD refs:** §7, §11, D11
 
