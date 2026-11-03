@@ -15,12 +15,16 @@ The workspace's shape and the posting lifecycle
 | `move.go` | `Move`, `MoveOptions`, `MoveResult`, `ErrDestExists`, `ErrBadMove`: preconditions and frontmatter of `caddie move` ([ADR 0026](../../docs/adr/0026-move-archive-and-trace.md)) |
 | `move_plan.go` | Which artefacts exist and land in `<dest>/<slug>/`; `ClearHandoff` |
 | `move_exec.go` | The journal: renames (copy + remove across devices), posting written last, rollback in reverse |
+| `followups.go` | `FollowUps`, `FollowUpReport` and its entries: due follow-ups, open manual steps, near or past deadlines ([ADR 0027](../../docs/adr/0027-follow-ups.md)) |
+| `followups_scan.go` | Reads `<dir>/*.md` postings (missing dir = none) and the open `- [ ]` items of `## Manual steps` |
 
 `AdvanceStatus` changes only the frontmatter in place. `Move` relocates the
 posting to `<dest>/<slug>.md` and its artefacts to `<dest>/<slug>/`; every
 check runs first and a failure mid-move is undone. Afterwards it deletes
 the files in `handoff/` (not the tracked `.gitignore` and `README.md`, not subdirectories) and leaves
 the trace directory present but empty.
+
+`FollowUps` only reads; its clock is passed in, so tests fix the date.
 
 ## Contributing
 
