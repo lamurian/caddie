@@ -24,6 +24,13 @@ the message. A code not listed for a command is exit 9: report it.
 Every command exits 0 on success, 2 on a bad flag or argument and 3 on an
 invalid `.env`; those are left out below unless something else causes them.
 
+- `caddie init`: 2 a reply that does not fit its question (or, with
+  `--answers`, an unknown question id or bad JSON): ask again; 3 or 4 an
+  existing `preferences.yml` or `answers.yml` is invalid (file named);
+  5 the `--answers` file is missing.
+- `caddie validate [preferences|answers]`: 3 a file is missing (run the
+  first-run check in `setup.md`) or `preferences.yml` is invalid, including
+  `apply.require_gate: false`; 4 `answers.yml` is malformed.
 - `caddie doctor`: 1 a `fail` line: show it verbatim and stop (`warn` is
   fine).
 - `caddie profile`: 3 `preferences.yml` missing or invalid; 4 `history/`

@@ -2,11 +2,13 @@ package doctor
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/lamurian/caddie/internal/browse"
 	"github.com/lamurian/caddie/internal/config"
 	"github.com/lamurian/caddie/internal/document"
+	"github.com/lamurian/caddie/internal/memory"
 	"github.com/lamurian/caddie/internal/profile"
 	"github.com/lamurian/caddie/internal/workspace"
 )
@@ -67,6 +69,7 @@ func Run(opts Options) Report {
 	checkDirs(&r, layout)
 	checkTrace(&r, layout, cfg.BrowserMode)
 	checkPreferences(&r, layout)
+	checkAnswers(&r, layout)
 	checkHistory(&r, layout)
 	checkQuarto(&r, opts, cfg.QuartoBin)
 	checkBrowser(&r, opts, cfg)
@@ -95,6 +98,20 @@ func checkPreferences(r *Report, l workspace.Layout) {
 		return
 	}
 	r.add("gate", StatusOK, "apply.require_gate is true")
+}
+
+// checkAnswers warns while answers.yml is missing (the agent's first-run
+// check or `caddie init` creates it) and fails when it is malformed.
+func checkAnswers(r *Report, l workspace.Layout) {
+	if _, err := os.Stat(l.Answers); err != nil {
+		r.add("answers", StatusWarn, "%s not found: run caddie init", l.Answers)
+		return
+	}
+	if _, err := memory.LoadAnswers(l.Answers); err != nil {
+		r.add("answers", StatusFail, "%v", err)
+		return
+	}
+	r.add("answers", StatusOK, "%s parsed", l.Answers)
 }
 
 func checkHistory(r *Report, l workspace.Layout) {

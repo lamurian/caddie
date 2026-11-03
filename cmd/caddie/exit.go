@@ -10,6 +10,7 @@ import (
 	"github.com/lamurian/caddie/internal/memory"
 	"github.com/lamurian/caddie/internal/posting"
 	"github.com/lamurian/caddie/internal/profile"
+	"github.com/lamurian/caddie/internal/setup"
 	"github.com/lamurian/caddie/internal/source"
 	"github.com/lamurian/caddie/internal/workspace"
 )
@@ -47,6 +48,7 @@ var exitCodes = []struct {
 	{errCheckFailed, exitCheckFailed},
 	{errUsage, exitUsage},
 	{document.ErrKind, exitUsage},
+	{setup.ErrAnswer, exitUsage},
 	{config.ErrConfig, exitConfig},
 	{profile.ErrMalformed, exitMalformed},
 	{workspace.ErrBadPosting, exitMalformed},

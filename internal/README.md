@@ -16,6 +16,7 @@ tested against `testdata/` ([ADR 0001](../docs/adr/0001-skill-plus-cli.md)).
 | [`memory`](memory/README.md) | `.caddie/seen.jsonl`, the last-search cache, `answers.yml` | §12.5 |
 | [`document`](document/README.md) | `Verify`, `Keywords`, `Render` (Quarto) + verified hashes | §6.2–6.3 |
 | [`browse`](browse/README.md) | agent-browser argv builder behind an `Exec` interface | §9 |
+| [`setup`](setup/README.md) | First run: setup questions, `preferences.yml`/`answers.yml` writing and checks | §12.5, §12.7 |
 
 ## Dependency direction
 
@@ -24,7 +25,7 @@ tested against `testdata/` ([ADR 0001](../docs/adr/0001-skill-plus-cli.md)).
 `document` also uses `workspace` (for `Slug` in PDF names).
 `doctor` may use every package it checks. `source` uses only `config`,
 returns plain structs and never touches the filesystem layout; `memory`
-stores `source.Job` values in its search cache. `browse` depends only on `config`. No cycles; no package
+stores `source.Job` values in its search cache. `browse` depends only on `config`; `setup` uses `config` and `memory`. No cycles; no package
 imports `cmd`.
 
 ## Conventions

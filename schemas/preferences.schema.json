@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lamurian/caddie/schemas/preferences.schema.json",
+  "title": "Caddie preferences.yml",
+  "description": "Search, ranking and apply preferences (PRD §12.7). Enforced by caddie validate; internal/config/schema_test.go keeps this file in step with the Go loader.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "email": { "type": "string" },
+        "phone": { "type": "string" }
+      }
+    },
+    "salary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "currency": { "type": "string" },
+        "period": { "enum": ["year", "month", "hour"] },
+        "minimum": { "type": "integer", "minimum": 0 },
+        "target": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "work_mode": {
+      "description": "In order of preference.",
+      "type": "array",
+      "items": { "enum": ["wfo", "hybrid", "wfh", "wfa"] }
+    },
+    "locations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preferred": { "$ref": "#/$defs/strings" },
+        "acceptable": { "$ref": "#/$defs/strings" },
+        "excluded": { "$ref": "#/$defs/strings" }
+      }
+    },
+    "roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "include": { "$ref": "#/$defs/strings" },
+        "exclude": { "$ref": "#/$defs/strings" }
+      }
+    },
+    "companies": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "exclude": { "$ref": "#/$defs/strings" }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "adzuna": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "countries": { "$ref": "#/$defs/strings" }
+          }
+        },
+        "remotive": { "$ref": "#/$defs/toggle" },
+        "arbeitnow": { "$ref": "#/$defs/toggle" },
+        "greenhouse_boards": { "$ref": "#/$defs/strings" },
+        "lever_boards": { "$ref": "#/$defs/strings" },
+        "portals": { "$ref": "#/$defs/strings" }
+      }
+    },
+    "ranking": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "top_n": { "type": "integer", "minimum": 1 },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "skills_match": { "type": "number" },
+            "salary_fit": { "type": "number" },
+            "work_mode_fit": { "type": "number" },
+            "location_fit": { "type": "number" }
+          }
+        }
+      }
+    },
+    "apply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "require_gate": { "const": true, "description": "The human submit gate cannot be disabled (ADR 0003)." },
+        "follow_up_days": { "type": "integer", "minimum": 0 },
+        "deadline_warning_days": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "$defs": {
+    "strings": { "type": "array", "items": { "type": "string" } },
+    "toggle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "enabled": { "type": "boolean" } }
+    }
+  }
+}

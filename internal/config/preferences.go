@@ -156,5 +156,24 @@ func (p Preferences) validate() error {
 	if p.Ranking.TopN < 1 {
 		return fmt.Errorf("ranking.top_n: must be at least 1")
 	}
+	return p.checkNonNegative()
+}
+
+// checkNonNegative rejects negative amounts and day counts, matching the
+// schema's minimum: 0.
+func (p Preferences) checkNonNegative() error {
+	for _, f := range []struct {
+		key string
+		n   int
+	}{
+		{"salary.minimum", p.Salary.Minimum},
+		{"salary.target", p.Salary.Target},
+		{"apply.follow_up_days", p.Apply.FollowUpDays},
+		{"apply.deadline_warning_days", p.Apply.DeadlineWarningDays},
+	} {
+		if f.n < 0 {
+			return fmt.Errorf("%s: must not be negative", f.key)
+		}
+	}
 	return nil
 }

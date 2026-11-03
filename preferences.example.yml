@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=schemas/preferences.schema.json
 # Copy to preferences.yml (git-ignored) and edit.
 contact:
   email: you@example.org

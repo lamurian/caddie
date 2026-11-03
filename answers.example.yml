@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=schemas/answers.schema.json
 # Copy to answers.yml (git-ignored). Caddie writes here via `caddie answers add`.
 # Lookup order for a key: posting:<slug> -> company:<x> -> global.
 global:

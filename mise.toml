@@ -25,6 +25,24 @@ postinstall = "lefthook install"
 description = "Compile every Go package"
 run = "go build ./..."
 
+[tasks.compile]
+description = "Install the caddie binary into go env GOBIN (else GOPATH/bin)"
+run = """
+go install ./cmd/caddie
+bin=$(go env GOBIN); bin=${bin:-$(go env GOPATH)/bin}
+echo "caddie installed at $bin/caddie"
+"""
+
+[tasks.init]
+description = "Initialise the repo: compile, then Q&A for preferences.yml and answers.yml (ADR 0032)"
+depends = ["compile"]
+raw = true # the Q&A reads the terminal
+run = """
+bin=$(go env GOBIN); bin=${bin:-$(go env GOPATH)/bin}
+"$bin/caddie" init && "$bin/caddie" validate || exit
+"$bin/caddie" doctor || echo "doctor: fix the fail lines above (history/ first), then rerun caddie doctor"
+"""
+
 [tasks.vet]
 description = "Run go vet"
 run = "go vet ./..."

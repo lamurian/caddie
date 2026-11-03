@@ -148,3 +148,19 @@ func TestBadConfigStops(t *testing.T) {
 		t.Errorf("got %+v", r)
 	}
 }
+
+func TestAnswersCheck(t *testing.T) {
+	root := newWorkspace(t, gateOn, nil)
+	if c := status(run(root, true), "answers"); c.Status != StatusWarn || !strings.Contains(c.Message, "caddie init") {
+		t.Errorf("missing answers.yml: %+v", c)
+	}
+	path := filepath.Join(root, "answers.yml")
+	for content, want := range map[string]Status{"global:\n  k: v\n": StatusOK, "global: [x]\n": StatusFail} {
+		if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
+			t.Fatal(err)
+		}
+		if c := status(run(root, true), "answers"); c.Status != want {
+			t.Errorf("%q: %+v", content, c)
+		}
+	}
+}

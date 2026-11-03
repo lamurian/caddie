@@ -14,7 +14,7 @@ The `caddie` CLI entry point lives in `cmd/caddie/main.go`
 ## Subcommands
 
 `profile`, `search`, `seen`, `posting save`, `answers`, `verify`, `keywords`,
-`render`, `browse`, `move`, `follow-ups`, `doctor`. Each is introduced by the
+`render`, `browse`, `move`, `follow-ups`, `doctor`, `init`, `validate`. Each is introduced by the
 phase in [`docs/tasks/`](../docs/tasks/README.md) that owns it. Implemented:
 `profile [--json] [--with-contact]` and `doctor [--json]` (phase 01);
 `search [--source s] [--limit n] [--include-seen]`,
@@ -35,7 +35,9 @@ agent-browser's own non-zero exit is exit 8);
 [ADR 0026](../docs/adr/0026-move-archive-and-trace.md); an existing
 archive or an applied posting is exit 6); `follow-ups [--json]` (phase 08,
 [ADR 0027](../docs/adr/0027-follow-ups.md); a malformed posting or date is
-exit 4). Flags may
+exit 4); `init [--questions] [--answers <file|->]` and
+`validate [preferences|answers]` (first-run setup,
+[ADR 0032](../docs/adr/0032-setup-init-and-schemas.md)). Flags may
 come before or after arguments. A malformed `answers.yml` is exit 4; an
 unknown `--for` slug or a missing file is exit 5.
 

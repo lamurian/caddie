@@ -48,8 +48,9 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 | Path | Purpose | Guide |
 |------|---------|-------|
 | `cmd/` | CLI entry point (`cmd/caddie`), exit codes | [README](cmd/README.md), [caddie](cmd/caddie/README.md) |
-| `internal/` | All Go packages: config, workspace, profile, doctor, posting, source, memory, document, browse | [README](internal/README.md); one per package |
+| `internal/` | All Go packages: config, workspace, profile, doctor, posting, source, memory, document, browse, setup | [README](internal/README.md); one per package |
 | `.agents/skills/` | The Agent Skill the agent loads (`.agents/skills/caddie/SKILL.md`), found automatically ([ADR 0025](docs/adr/0025-skill-in-agents-dir.md)) | [.agents](.agents/README.md), [skills](.agents/skills/README.md), [caddie](.agents/skills/caddie/README.md), [references](.agents/skills/caddie/references/README.md) |
+| `schemas/` | JSON Schemas for `preferences.yml` and `answers.yml` ([ADR 0032](docs/adr/0032-setup-init-and-schemas.md)) | [README](schemas/README.md) |
 | `templates/` | Quarto templates for resume and cover letter | [README](templates/README.md) |
 | `docker/` | Browser + egress proxy compose stack | [README](docker/README.md), [browser](docker/browser/README.md), [proxy](docker/proxy/README.md) |
 | `portals/` | Per-organisation portal adapter configs | [README](portals/README.md) |
@@ -80,4 +81,5 @@ nothing else in it is ever committed
 ## Configuration files
 
 `.env.example`, `preferences.example.yml` and `answers.example.yml` are
-templates. Copy each without `.example` to use it; the copies are ignored.
+templates. `mise run init` (or `caddie init`) creates the git-ignored copies
+from a short Q&A and validates them against `schemas/`.
