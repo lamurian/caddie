@@ -33,7 +33,9 @@ agent-browser's own non-zero exit is exit 8);
 `move <slug> applied|manual [--reason "<one line>"]` (JSON) and
 `posting steps <slug> "<step>"…` (phase 07,
 [ADR 0026](../docs/adr/0026-move-archive-and-trace.md); an existing
-archive or an applied posting is exit 6). Flags may
+archive or an applied posting is exit 6); `follow-ups [--json]` (phase 08,
+[ADR 0027](../docs/adr/0027-follow-ups.md); a malformed posting or date is
+exit 4). Flags may
 come before or after arguments. A malformed `answers.yml` is exit 4; an
 unknown `--for` slug or a missing file is exit 5.
 
