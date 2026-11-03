@@ -11,6 +11,7 @@ only way the agent drives the sandboxed browser
 | `browse.go` | Sentinel errors, `Exec` interface, `OSExec` (os/exec), `Browse` |
 | `argv.go` | `Argv`: the compose or local command line |
 | `validate.go` | `ValidateSession`, `ValidateArgs`, `ValidateUploadPath`, `HandoffDir` |
+| `trace.go` | `ValidateScreenshotPath`, `TraceDir` |
 
 ## Browse
 
@@ -44,12 +45,23 @@ local:   <BrowserBin> --session <session> <args…>
   and strictly inside `/handoff` (the container's read-only mount of
   `handoff/`). Rejected: relative paths, `/handoff` itself,
   `/handoffx/a.pdf`, `/handoff/../etc/passwd`. A bare `upload` token used
-  as a value also triggers the check; that is deliberate.
+  as a value also triggers the check; that is deliberate. `/trace/…` is
+  refused too: uploads come from `/handoff` only.
+- **Screenshots** (`ValidateArgs`, `ValidateScreenshotPath`, `trace.go`):
+  at the first bare `screenshot` token, every positional after it must be
+  strictly inside `/trace` after `path.Clean` (the read-write mount of
+  `.caddie/trace/`, [ADR 0024](../../docs/adr/0024-move-archive-and-trace.md)),
+  and a `--screenshot-dir` value must be `/trace` or inside it. No path at
+  all is allowed (agent-browser's temporary default). Flags are skipped;
+  `--threshold`, `--screenshot-format` and `--screenshot-quality` take a
+  value (agent-browser 0.39.2); any other flag is assumed to take none, so
+  an unknown flag's value is checked as a path and refused. Rejected:
+  `/handoff/x.png`, `trace/x.png`, `/trace/../etc/x.png`, `/tracex/a.png`.
 
-Not validated: other commands that read or write files (`screenshot`,
-`pdf`, `download`, `state save|load`). They act inside the container,
-whose only host mount is the read-only `/handoff`, so they cannot reach
-the repo. Page and posting content stays data; nothing here interprets it.
+Not validated: `pdf`, `download`, `state save|load` and `batch`. They act
+inside the container, whose host mounts are the read-only `/handoff` and
+`/trace`, so at worst they write into `.caddie/trace/`. Page and posting
+content stays data; nothing here interprets it.
 
 ## Errors
 
@@ -57,6 +69,7 @@ the repo. Page and posting content stays data; nothing here interprets it.
 |-------|---------|------------|
 | `ErrInvalidSession` | bad session name or `--session` in args | 7 |
 | `ErrUploadOutsideHandoff` | an upload path outside `/handoff` | 7 |
+| `ErrScreenshotOutsideTrace` | a screenshot path outside `/trace` | 7 |
 | `ErrExec` | agent-browser could not start or exited non-zero | 8 |
 | `ErrTimeout` | `CADDIE_BROWSE_TIMEOUT` expired; always wrapped with `ErrExec` | 8 |
 

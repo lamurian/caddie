@@ -61,6 +61,14 @@ caddie browse careers.who.int snapshot -i
   `/handoff/<file>.pdf`. Relative paths, `..`, or any path outside
   `/handoff` are refused (exit 7). Never copy files to get around this.
 
+## Screenshots
+
+- Screenshots go to `/trace` only, the browser's one writable folder
+  (`.caddie/trace/` in the repo): `caddie browse <host> screenshot
+  /trace/01-filled.png`. Any other path is refused (exit 7).
+- Never upload from `/trace`; it is the trace that gets archived with the
+  application.
+
 ## Logins
 
 - Public forms need no login.
@@ -77,7 +85,8 @@ caddie browse careers.who.int snapshot -i
 
 - 0: agent-browser succeeded; its output is printed as is.
 - 2: missing session or command; fix the command line.
-- 7: bad session name or upload path; fix it, never work around it.
+- 7: bad session name, upload path or screenshot path; fix it, never
+  work around it.
 - 8: agent-browser or Docker failed, or `CADDIE_BROWSE_TIMEOUT` expired.
   agent-browser's own message comes first on stderr. If it is about the
   page (an unknown ref, a missing element), take a fresh `snapshot -i` and

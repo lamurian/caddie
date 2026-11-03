@@ -57,10 +57,13 @@ func isSessionRune(r rune) bool {
 //     would bypass ValidateSession; this wraps ErrInvalidSession;
 //   - for the first bare `upload` token, `upload <selector> <file…>` needs
 //     at least one file and every argument after the selector must pass
-//     ValidateUploadPath; this wraps ErrUploadOutsideHandoff.
+//     ValidateUploadPath; this wraps ErrUploadOutsideHandoff;
+//   - for the first bare `screenshot` token, every positional after it and
+//     any --screenshot-dir value must be under /trace (see trace.go); this
+//     wraps ErrScreenshotOutsideTrace.
 //
-// The upload check is deliberately conservative: a bare `upload` token
-// anywhere (even as a value) triggers it.
+// Both checks are deliberately conservative: a bare `upload` or
+// `screenshot` token anywhere (even as a value) triggers it.
 func ValidateArgs(args []string) error {
 	for _, a := range args {
 		if a == "--session" || strings.HasPrefix(a, "--session=") {
@@ -68,12 +71,24 @@ func ValidateArgs(args []string) error {
 				ErrInvalidSession, a)
 		}
 	}
-	for i, a := range args {
-		if a == "upload" {
-			return validateUpload(args[i+1:])
+	if i := indexOf(args, "upload"); i >= 0 {
+		if err := validateUpload(args[i+1:]); err != nil {
+			return err
 		}
 	}
+	if i := indexOf(args, "screenshot"); i >= 0 {
+		return validateScreenshot(args[i+1:])
+	}
 	return nil
+}
+
+func indexOf(args []string, token string) int {
+	for i, a := range args {
+		if a == token {
+			return i
+		}
+	}
+	return -1
 }
 
 func validateUpload(rest []string) error {

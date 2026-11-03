@@ -41,6 +41,12 @@ jobs:
           cp preferences.example.yml preferences.yml
           find testdata/history -maxdepth 1 -name '*.md' ! -name README.md \
             -exec cp {} history/ \;
+      # The /trace bind source must exist. The runner's uid is not 1000, so
+      # hand the directory to the browser's node user (docker/README.md).
+      - name: Create the trace directory
+        run: |
+          mkdir -p .caddie/trace
+          sudo chown 1000:1000 .caddie/trace
       - name: Start the compose stack
         run: docker compose -f docker/compose.yml up -d --build --wait
       - name: Run caddie doctor

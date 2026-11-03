@@ -1,4 +1,5 @@
 # The sandboxed browser stack (ADR 0002, PRD §9). Start it from the repo root:
+#   mkdir -p .caddie/trace
 #   docker compose -f docker/compose.yml up -d --build
 # Invariants (PRD §10): no published ports anywhere; the browser reaches the
 # internet only through the proxy; browser state lives in a named volume.
@@ -24,6 +25,12 @@ services:
         source: ../handoff
         target: /handoff
         read_only: true
+      # Trace screenshots (ADR 0024), the browser's only writable host path.
+      # Long syntax never creates the source: `mkdir -p .caddie/trace` first,
+      # writable by uid 1000 (docker/README.md, "Trace directory").
+      - type: bind
+        source: ../.caddie/trace
+        target: /trace
     networks:
       - sandbox
     depends_on:
