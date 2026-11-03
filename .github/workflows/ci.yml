@@ -23,3 +23,31 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils
       - name: Run all checks
         run: mise run check
+
+  # Phase 06: prove the browser sandbox live. `caddie doctor` exits 1 unless
+  # the stack is up, the proxy denies example.com and allows careers.who.int,
+  # and no port is published (ADR 0023), so its exit code is the verdict.
+  sandbox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
+      - name: Build caddie
+        run: go build -o caddie ./cmd/caddie
+      # Ephemeral runner only: never commit these. The repo's history/ has
+      # no about.md, so doctor gets the fictional fixtures instead.
+      - name: Prepare the workspace
+        run: |
+          cp preferences.example.yml preferences.yml
+          find testdata/history -maxdepth 1 -name '*.md' ! -name README.md \
+            -exec cp {} history/ \;
+      - name: Start the compose stack
+        run: docker compose -f docker/compose.yml up -d --build --wait
+      - name: Run caddie doctor
+        run: ./caddie doctor
+      - name: Dump compose logs
+        if: failure()
+        run: docker compose -f docker/compose.yml logs --no-color
+      - name: Stop the compose stack
+        if: always()
+        run: docker compose -f docker/compose.yml down -v

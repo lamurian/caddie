@@ -78,4 +78,4 @@ docker compose -f $f ps --format '{{.Publishers}}' | grep -v '^\[\]$'
   Chrome by exact version (Chrome also by sha256). Never use `latest`.
 - Never add `ports:`, a bind mount of the browser volume, or another network
   to `browser`.
-- `caddie doctor` must still pass inside the stack (CI runs it there).
+- `caddie doctor` must still pass inside the stack (the CI `sandbox` job runs it).
