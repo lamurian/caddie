@@ -19,9 +19,10 @@ pre-commit:
       glob: "*.sh"
       run: mise exec -- shellcheck {staged_files}
 
-    - name: yamllint
+    - name: yamlfmt
       glob: "*.{yml,yaml}"
-      run: mise exec -- yamllint --strict {staged_files}
+      run: mise exec -- yamlfmt {staged_files}
+      stage_fixed: true
 
     - name: actionlint
       glob: ".github/workflows/*.{yml,yaml}"

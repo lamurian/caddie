@@ -5,11 +5,11 @@ contact:
 
 salary:
   currency: EUR
-  period: year                 # year | month | hour
+  period: year # year | month | hour
   minimum: 70000
   target: 85000
 
-work_mode: [wfa, wfh, hybrid, wfo]   # in order of preference
+work_mode: [wfa, wfh, hybrid, wfo] # in order of preference
 
 locations:
   preferred: [Groningen, NL, Netherlands, Remote (EU)]
@@ -20,9 +20,7 @@ locations:
 # boards match them on title and department only) and drops jobs whose
 # title contains a roles.exclude entry or whose company is excluded.
 roles:
-  include:
-    [data scientist, biostatistician, epidemiologist, research scientist,
-     statistical consultant]
+  include: [data scientist, biostatistician, epidemiologist, research scientist, statistical consultant]
   exclude: [sales engineer]
 
 companies:
@@ -38,13 +36,13 @@ sources:
   lever_boards: []
   # Configured: who, un. The rest arrive in phase 08; until then each is
   # skipped with a notice (no portals/<org>.yml).
-  portals: [who, un, worldbank, adb, isdb, mckinsey, bcg, bain]  # see portals/
+  portals: [who, un, worldbank, adb, isdb, mckinsey, bcg, bain] # see portals/
 
 ranking:
   top_n: 10
   weights: {skills_match: 0.4, salary_fit: 0.2, work_mode_fit: 0.2, location_fit: 0.2}
 
 apply:
-  require_gate: true           # must stay true; cron runs never apply
+  require_gate: true # must stay true; cron runs never apply
   follow_up_days: 21
   deadline_warning_days: 7

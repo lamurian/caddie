@@ -14,8 +14,10 @@ dependencies that stay current without manual chores. PRD §11 lists a
 ## Decision
 
 - **mise** (`mise.toml`) pins every dev and runtime tool at an exact version
-  (Go, golangci-lint, lefthook, gitleaks, shellcheck, actionlint, yamllint,
-  Quarto) and records checksums in the committed `mise.lock`.
+  (Go, golangci-lint, lefthook, gitleaks, shellcheck, actionlint, yamlfmt,
+  Quarto) and records checksums in the committed `mise.lock`. Every tool is
+  a single release binary, so `mise.lock` is the only lock file; tools that
+  mise installs from PyPI would add a nested uv lock under `.mise/locks/`.
 - **mise tasks replace the Makefile.** `mise run check` is the single entry
   point that CI, the pre-push hook and contributors all run. Go tasks
   (`build`, `test`, `vet`) join it in phase 01.
@@ -27,7 +29,7 @@ dependencies that stay current without manual chores. PRD §11 lists a
   env > `.env` > defaults. `GOTOOLCHAIN=local` keeps mise's Go authoritative.
 - **lefthook** (`lefthook.yml`) runs fast, staged-file checks on pre-commit:
   gitleaks on staged changes, a workspace-directory guard
-  (`scripts/guard-workspace.sh`), gofmt, shellcheck, yamllint, actionlint and
+  (`scripts/guard-workspace.sh`), gofmt, yamlfmt, shellcheck, actionlint and
   the line limits. pre-push runs `mise run check`. `mise install` installs the
   hooks.
 - **Renovate** (`renovate.json` at the repo root) updates mise tools, Go modules,
@@ -46,3 +48,6 @@ dependencies that stay current without manual chores. PRD §11 lists a
   Dependency Dashboard and git history are the audit trail.
 - Hooks can be bypassed with `--no-verify`; CI remains authoritative.
 - Contributors need mise installed; everything else follows from it.
+- YAML gets a formatting check only (yamlfmt replaced yamllint, 2026-11),
+  so truthy values and style are not linted. The Go loaders (yaml v3 with
+  `KnownFields`) still reject duplicate and unknown keys in config files.
