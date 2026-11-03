@@ -1,10 +1,11 @@
 # .github/
 
 CI and dependency automation ([ADR 0013](../docs/adr/0013-dev-tooling.md)).
+The Renovate config itself lives at the repo root in
+[`renovate.json`](../renovate.json), where Renovate looks first.
 
 ```
 .github/
-├── renovate.json5      # Renovate: automatic dependency updates
 └── workflows/ci.yml    # the `check` job: mise install + mise run check
 ```
 
@@ -20,8 +21,9 @@ runs. `main` must require this job: Renovate automerges on it.
   images, weekly, 3 days after release. Vulnerability fixes go out at once.
 - Every update automerges once `check` passes. The Dependency Dashboard
   issue lists pending and merged updates.
-- Validate edits with
-  `npx --package renovate -- renovate-config-validator .github/renovate.json5`.
+- `renovate.json` is strict JSON (no comments); put notes in `description`.
+- Validate edits from the repo root with
+  `npx --package renovate -- renovate-config-validator`.
 
 ## Contributing
 

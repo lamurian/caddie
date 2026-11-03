@@ -30,7 +30,7 @@ dependencies that stay current without manual chores. PRD §11 lists a
   (`scripts/guard-workspace.sh`), gofmt, shellcheck, yamllint, actionlint and
   the line limits. pre-push runs `mise run check`. `mise install` installs the
   hooks.
-- **Renovate** (`.github/renovate.json5`) updates mise tools, Go modules,
+- **Renovate** (`renovate.json` at the repo root) updates mise tools, Go modules,
   GitHub Actions (pinned by digest) and, from phase 06, compose images. It
   waits 3 days after a release, runs weekly, groups the Go toolchain
   (mise + `go.mod`) into one PR, and **automerges every update, majors

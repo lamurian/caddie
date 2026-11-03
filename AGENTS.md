@@ -58,7 +58,7 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 | `docs/adr/` | Architecture decision records | [README](docs/adr/README.md) |
 | `docs/tasks/` | Development phases with Definitions of Done | [README](docs/tasks/README.md) |
 | `scripts/` | Repo tooling (`check-lines.sh`, `guard-workspace.sh`) | — |
-| `.github/` | CI workflow and Renovate config | [README](.github/README.md) |
+| `.github/` | CI workflow; Renovate is configured in root `renovate.json` | [README](.github/README.md) |
 
 ## Workspace directories
 
