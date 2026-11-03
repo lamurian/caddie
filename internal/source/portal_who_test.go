@@ -3,6 +3,7 @@ package source
 import (
 	"net/http"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -44,6 +45,11 @@ func TestPortalWHO(t *testing.T) {
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got  %+v\nwant %+v", got, want)
+	}
+	// The fixture is served for every page, so page 2 repeats page 1 and
+	// stops paging (ADR 0028).
+	if len(d.reqs) != 2 || d.bodies[1] != strings.Replace(whoBody, `"pageNo":1}`, `"pageNo":2}`, 1) {
+		t.Errorf("want pages 1 and 2, got bodies %q", d.bodies)
 	}
 	r := d.reqs[0]
 	if r.Method != http.MethodPost || d.bodies[0] != whoBody || r.Header.Get("tz") != "GMT+00:00" ||

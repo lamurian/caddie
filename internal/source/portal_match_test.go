@@ -89,3 +89,37 @@ func TestSourceOf(t *testing.T) {
 		}
 	}
 }
+
+// A trailing /{slug} matches the bare job page and one extra segment, and
+// is dropped when building a job URL from an id (ADR 0031).
+func TestPortalDetailSlug(t *testing.T) {
+	p := Portal{File: "x.yml", Name: "Example", ListingURL: "https://jobs.example.net/api", Method: "GET", ATS: "bespoke",
+		JSONPath: "jobs", Fields: PortalFields{ID: "id", Title: "t"},
+		DetailURL: "https://jobs.example.net/en/job/{id}/{slug}"}
+	if err := p.Validate(); err != nil {
+		t.Fatal(err)
+	}
+	cases := map[string]string{
+		"https://jobs.example.net/en/job/J-7":              "J-7",
+		"https://jobs.example.net/en/job/J-7/Analyst-Role": "J-7",
+		"https://jobs.example.net/en/job/J-7/Analyst#top":  "J-7",
+		"https://jobs.example.net/en/job/J-7/a/b":          "",
+		"https://jobs.example.net/en/job/J-7/a?x=1":        "",
+		"https://jobs.example.net/fr/job/J-7/a":            "",
+	}
+	for u, want := range cases {
+		if id, ok := p.Matches(u); id != want || ok != (want != "") {
+			t.Errorf("%s: got (%q, %v), want %q", u, id, ok, want)
+		}
+	}
+	if got := p.detailFor("J 7"); got != "https://jobs.example.net/en/job/J%207" {
+		t.Errorf("detailFor = %q", got)
+	}
+	for _, bad := range []string{"https://jobs.example.net/job/{id}/{slug}?x=1",
+		"https://jobs.example.net/job/{slug}/{id}/{slug}", "https://jobs.example.net/job/{id}-{slug}"} {
+		p.DetailURL = bad
+		if err := p.Validate(); !errors.Is(err, config.ErrConfig) || !strings.Contains(err.Error(), "{slug}") {
+			t.Errorf("%s: got %v", bad, err)
+		}
+	}
+}

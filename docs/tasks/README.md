@@ -14,7 +14,7 @@ M2, M3 and M4 each split in two.
 | 05 | [Render](05-render.md) | M3 | Done |
 | 06 | [Browser sandbox](06-browser-sandbox.md) | M4 | In progress |
 | 07 | [Apply and archive](07-apply-and-archive.md) | M4 | In progress |
-| 08 | [Follow-through](08-follow-through.md) | M5 | Todo |
+| 08 | [Follow-through](08-follow-through.md) | M5 | In progress |
 
 Status values: `Todo` → `In progress` → `Done`. Update them in this table and
 in the phase file.

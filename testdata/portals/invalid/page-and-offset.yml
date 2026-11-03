@@ -1,0 +1,9 @@
+name: Example
+listing_url: https://careers.example.org/api/jobs?page={page}
+method: post
+body: '{"from": {offset}}'
+pages: 3
+page_size: 50
+json_path: jobs
+fields: {title: title, url: url}
+ats: bespoke

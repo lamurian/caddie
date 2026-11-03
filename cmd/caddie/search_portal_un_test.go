@@ -25,19 +25,19 @@ func TestSearchPortalUN(t *testing.T) {
     {
       "id": "portal:un:900101",
       "source": "portal:un",
-      "title": "Programme Management Officer, Fictional Affairs",
+      "title": "Programme Management Officer, Fictional Affairs, P3",
       "company": "United Nations",
       "url": "https://careers.un.org/jobSearchDescription/900101?language=en",
-      "location": "Nairobi",
-      "deadline": "2026-11-28"
+      "location": "NAIROBI",
+      "deadline": "2026-11-27"
     },
     {
       "id": "portal:un:900103",
       "source": "portal:un",
-      "title": "Associate Economic Affairs Officer",
+      "title": "Associate Economic Affairs Officer, P2",
       "company": "United Nations",
       "url": "https://careers.un.org/jobSearchDescription/900103?language=en",
-      "location": "Bangkok"
+      "location": "BANGKOK"
     }
   ],
   "hidden_seen": 0,

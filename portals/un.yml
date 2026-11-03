@@ -13,26 +13,33 @@ fields:
   location: dutyStation.0.description
   deadline: endDate
 detail_url: https://careers.un.org/jobSearchDescription/{id}?language=en
+# endDate is 23:59 New York time sent as UTC: convert it (ADR 0029).
+deadline_tz: America/New_York
 ats: inspira
 notes: >-
   careers.un.org is an Angular SPA; its job list comes from the JSON API in
   listing_url, which this config calls directly, so no JavaScript is needed.
   Applications go through Inspira (inspira.un.org, login required), so
   applying ends in the manual checklist.
-  VERIFIED (third-party, 2026-10): the filteredV2 POST path is the one the
-  SPA calls; job pages are /jobSearchDescription/<id>?language=en; the
-  per-job API /api/public/opening/jo/<id>/en returns ISO UTC endDate values
-  ("2026-10-21T03:59:59.000Z") and fields jobTitle, dutyStation, jobLevel.
-  ASSUMED (not seen first-hand: careers.un.org answered this project's
-  datacenter with a CDN 403): the request body, the data.list array and the
-  list item keys jobId, postingTitle, dutyStation, endDate. If search returns a json_path
-  or empty-title error, record a real response and fix these keys.
+  VERIFIED first-hand 2026-11-03 (through a web-fetch service outside
+  this project's network): GET /api/public/opening/jo/<id>/en returns data.jobId,
+  postingTitle ("..., D1"), dutyStation [{code, description: "GENEVA"}] and
+  endDate "2026-11-14T04:59:59.000Z" for a job the RSS feed shows closing
+  "11/13/2026 23:59:59 PM (New York time)"; hence deadline_tz. That GET
+  also bumps the job's view count, so caddie never calls it.
+  VERIFIED third-party 2026-11-03 (three open-source scrapers call this
+  POST): the request body shape, data.list, and list items with jobId,
+  postingTitle, dutyStation[].description, endDate and totalCount.
+  ASSUMED (not seen first-hand: careers.un.org answers this project's
+  datacenter with a CloudFront 403 on every path, and a POST cannot be sent
+  any other way here): that the live list matches, and that itemPerPage 500
+  is honoured (those scrapers page at 50 or 100). If search returns a
+  json_path or empty-title error, record a real response and fix these keys.
   itemPerPage 500 aims to cover every opening (about 465 in 2026-10) in one
   request; there is no paging, so a server cap would cut the list short.
-  Limitations: location is the first duty station only (dutyStation is an
-  array of objects, which a dotted path cannot join). jobLevel is a grade (P-3), not
-  a salary, so it is not mapped. endDate is 23:59 New York time in UTC, so
-  the deadline date can read one day later than the posted one.
+  Limitations: location is the first duty station only, in capitals
+  (dutyStation is an array of objects, which a dotted path cannot join).
+  jobLevel is a grade (P-3), not a salary, so it is not mapped.
   Alternative: the public RSS feed https://careers.un.org/jobfeed lists
   every opening, but its dates are MM/DD/YYYY, which caddie ignores as
   ambiguous. robots.txt is not a real file (the SPA answers it), so there

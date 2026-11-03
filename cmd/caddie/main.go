@@ -33,17 +33,18 @@ type env struct {
 type command func(args []string, e env) error
 
 var commands = map[string]command{
-	"profile":  cmdProfile,
-	"search":   cmdSearch,
-	"seen":     cmdSeen,
-	"posting":  cmdPosting,
-	"answers":  cmdAnswers,
-	"verify":   cmdVerify,
-	"keywords": cmdKeywords,
-	"render":   cmdRender,
-	"browse":   cmdBrowse,
-	"move":     cmdMove,
-	"doctor":   cmdDoctor,
+	"profile":    cmdProfile,
+	"search":     cmdSearch,
+	"seen":       cmdSeen,
+	"posting":    cmdPosting,
+	"answers":    cmdAnswers,
+	"verify":     cmdVerify,
+	"keywords":   cmdKeywords,
+	"render":     cmdRender,
+	"browse":     cmdBrowse,
+	"move":       cmdMove,
+	"follow-ups": cmdFollowUps,
+	"doctor":     cmdDoctor,
 }
 
 const usageText = `Usage: caddie <command> [flags]
@@ -71,6 +72,7 @@ Commands:
                                       portal hostname, uploads only from /handoff
   move <slug> applied|manual [--reason "<one line>"]
                                       archive a posting and its documents (JSON)
+  follow-ups [--json]                 follow-ups due, open manual steps, deadlines
   doctor [--json]                     check configuration, workspace and history
   help                                show this help
 

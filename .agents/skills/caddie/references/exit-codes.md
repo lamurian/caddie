@@ -65,3 +65,7 @@ invalid `.env`; those are left out below unless something else causes them.
   already archived, or `<dest>/<slug>` exists: tell the user, never
   delete anything; 9 after the JSON: moved, but `handoff/` was not
   cleared: do not move again, tell the user.
+- `caddie follow-ups`: 3 `preferences.yml` invalid (a negative
+  `apply.deadline_warning_days`); 4 a posting in `applied/`, `manual/` or
+  `postings/` is malformed or has a date that is not `YYYY-MM-DD` (file
+  named): show it to the user.

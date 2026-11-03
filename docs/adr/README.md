@@ -33,6 +33,11 @@ accepted ADR without superseding it.
 | [0024](0024-workspace-readmes.md) | Workspace directories carry a tracked README | §11, D14 |
 | [0025](0025-skill-in-agents-dir.md) | The skill lives in `.agents/skills/` | §8, §11, D1 |
 | [0026](0026-move-archive-and-trace.md) | Move: archive layout, rollback, trace mount, manual steps | §6.4–6.5, §12.3, D8, D11–D12 |
+| [0027](0027-follow-ups.md) | Follow-ups: boundaries, past deadlines, report shape | §6.5, §12.3, §12.7 |
+| [0028](0028-portal-pagination.md) | Portal pagination: `pages` and `{page}` | §7, §11, D11 |
+| [0029](0029-portal-deadline-timezone.md) | Portal deadline time zone (`deadline_tz`) | §7, §6.5, D11 |
+| [0030](0030-portal-offset-paging.md) | Portal offset paging: `{offset}` and `page_size` | §7, §11, D11 |
+| [0031](0031-portal-detail-slug.md) | Portal `detail_url`: optional trailing `{slug}` | §7, §11, D11 |
 
 ## Writing a new ADR
 

@@ -1,0 +1,30 @@
+# Bain & Company careers (www.bain.com, bespoke). Search is skipped with a
+# notice; `posting save` recognises job pages. Fixture and tests:
+# testdata/portals/bain/detail-70101.html, internal/source/portal_bain_test.go.
+name: Bain & Company
+listing_url: https://www.bain.com/careers/find-a-role/
+detail_url: https://www.bain.com/careers/find-a-role/position/?jobid={id}
+ats: bespoke
+js_rendered: true
+notes: >-
+  Discovery-only: search skips this portal with a notice; browse
+  listing_url by hand and give caddie posting save the job page URL.
+  VERIFIED live 2026-11-03 with caddie's own user agent: the Find a Role
+  page is an empty React mount (#role-search-page-react) whose script
+  calls /en/api/jobsearch/keyword/get?start=0&results=10&filters=&searchValue=
+  on www.bain.com, but that API answers caddie with HTTP 403 and
+  {"error": "Forbidden: Direct API access is not allowed."}. That is a
+  stated refusal of automated access, so this config does not call it and
+  does not imitate a browser (Referer, cookies) to get past it (PRD §3).
+  Job pages are /careers/find-a-role/position/?jobid=<id> (the page's
+  viewJobDescriptionUrl plus "?jobid="); they are served as HTML with a
+  schema.org JobPosting JSON-LD block (empty for an unknown id), which
+  posting save reads. ASSUMED: a real job fills that block with title,
+  description and jobLocation, and ids are short numbers. Limitations:
+  only the English job pages match detail_url; localised ones (/de/...,
+  /fr/careers/find-a-role/view-job-description/) are saved without the
+  portal's source and ats. robots.txt allows /careers/ (it disallows only
+  */?filters=*, */secure/*, */alumni/*, */mailings/*, */noindex/*); no
+  terms on automated access were found beyond the API's refusal.
+  ASSUMED: applying starts on www.bain.com (the JSON-LD says directApply);
+  the form was not inspected, so it may end in the manual checklist.

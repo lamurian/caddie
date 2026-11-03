@@ -23,21 +23,22 @@ func loadUN(t *testing.T) Portal {
 }
 
 // The tracked portals/un.yml parses the saved UN listing: the untitled item
-// is dropped, a null endDate gives no deadline, and the UTC endDate gives its
-// own date. Location is the first duty station only.
+// is dropped, a null endDate gives no deadline, and the UTC endDate (23:59
+// New York) gives the New York date (deadline_tz, ADR 0029). Location is the
+// first duty station only.
 func TestPortalUN(t *testing.T) {
 	d := &portalDoer{t: t, routes: map[string]string{unListing: "un/listing.json"}}
 	got := searchPortal(t, loadUN(t), d)
 	co, src, page := "United Nations", "portal:un", "https://careers.un.org/jobSearchDescription/"
 	want := []Job{
-		{ID: src + ":900101", Source: src, Title: "Programme Management Officer, Fictional Affairs", Company: co,
-			Location: "Nairobi",
-			URL:      page + "900101?language=en", Deadline: "2026-11-28"},
-		{ID: src + ":900102", Source: src, Title: "Statistician (Temporary Job Opening)", Company: co,
-			Location: "New York",
-			URL:      page + "900102?language=en", Deadline: "2026-12-15"},
-		{ID: src + ":900103", Source: src, Title: "Associate Economic Affairs Officer", Company: co,
-			Location: "Bangkok",
+		{ID: src + ":900101", Source: src, Title: "Programme Management Officer, Fictional Affairs, P3", Company: co,
+			Location: "NAIROBI",
+			URL:      page + "900101?language=en", Deadline: "2026-11-27"},
+		{ID: src + ":900102", Source: src, Title: "Statistician (Temporary Job Opening), P4", Company: co,
+			Location: "NEW YORK",
+			URL:      page + "900102?language=en", Deadline: "2026-12-14"},
+		{ID: src + ":900103", Source: src, Title: "Associate Economic Affairs Officer, P2", Company: co,
+			Location: "BANGKOK",
 			URL:      page + "900103?language=en"},
 	}
 	if !reflect.DeepEqual(got, want) {

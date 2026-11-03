@@ -1,0 +1,93 @@
+{
+  "refineSearch": {
+    "status": 200,
+    "hits": 4,
+    "totalHits": 4,
+    "data": {
+      "jobs": [
+        {
+          "country": "Germany",
+          "subCategory": "Consulting",
+          "ml_skills": ["fictional strategy", "made-up analytics"],
+          "type": "Full-Time",
+          "descriptionTeaser": "A fictional teaser for a fictional consulting role.",
+          "siteType": "external",
+          "multi_category": ["Consulting"],
+          "reqId": "900201",
+          "jobId": "900201",
+          "city": "Berlin",
+          "locale": "en_GLOBAL",
+          "multi_location": ["Berlin, Berlin, Germany", "Munich, Bavaria, Germany"],
+          "title": "Consultant, Fictional Public Sector Practice",
+          "jobSeqNo": "EXAMPLE900201EXTERNALENGLOBAL",
+          "postedDate": "2026-10-20T00:00:00.000+0000",
+          "applyUrl": "https://apply.example.org/jobs/7000001?source=listing",
+          "location": "Berlin, Berlin, Germany",
+          "category": "Consulting",
+          "externalApply": true,
+          "isMultiLocation": true,
+          "badge": ""
+        },
+        {
+          "country": "Kenya",
+          "subCategory": "Social Impact",
+          "ml_skills": ["invented skill"],
+          "type": "Full-Time",
+          "descriptionTeaser": "Another fictional teaser.",
+          "siteType": "external",
+          "multi_category": ["Social Impact"],
+          "reqId": "900202",
+          "jobId": "900202",
+          "city": "Nairobi",
+          "locale": "en_GLOBAL",
+          "multi_location": ["Nairobi, Nairobi County, Kenya"],
+          "title": "Project Leader, Example Global Health",
+          "jobSeqNo": "EXAMPLE900202EXTERNALENGLOBAL",
+          "postedDate": "2026-10-14T00:00:00.000+0000",
+          "applyUrl": "https://apply.example.org/jobs/7000002?source=listing",
+          "location": "Nairobi, Nairobi County, Kenya",
+          "category": "Consulting",
+          "externalApply": true,
+          "isMultiLocation": false,
+          "badge": ""
+        },
+        {
+          "subCategory": "Data Science",
+          "ml_skills": [],
+          "type": "Full-Time",
+          "descriptionTeaser": "A fictional role with no location given.",
+          "siteType": "external",
+          "multi_category": ["Data Science"],
+          "reqId": "900203",
+          "jobId": "900203",
+          "locale": "en_GLOBAL",
+          "multi_location": [],
+          "title": "Data Scientist, Imaginary Analytics Lab",
+          "jobSeqNo": "EXAMPLE900203EXTERNALENGLOBAL",
+          "postedDate": "2026-09-30T00:00:00.000+0000",
+          "applyUrl": "https://apply.example.org/jobs/7000003?source=listing",
+          "category": "Technology and Engineering",
+          "externalApply": true,
+          "isMultiLocation": false,
+          "badge": ""
+        },
+        {
+          "country": "Japan",
+          "type": "Internship",
+          "siteType": "external",
+          "reqId": "900204",
+          "jobId": "900204",
+          "city": "Tokyo",
+          "locale": "en_GLOBAL",
+          "title": "",
+          "jobSeqNo": "EXAMPLE900204EXTERNALENGLOBAL",
+          "postedDate": "2026-09-01T00:00:00.000+0000",
+          "location": "Tokyo, Tokyo, Japan",
+          "category": "Consulting",
+          "externalApply": false,
+          "badge": ""
+        }
+      ]
+    }
+  }
+}

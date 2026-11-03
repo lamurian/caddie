@@ -32,12 +32,15 @@ type Portal struct {
 	Method       string            `yaml:"method"`        // GET (default) or POST
 	Body         string            `yaml:"body"`          // request body for POST (JSON)
 	Headers      map[string]string `yaml:"headers"`       // extra request headers: functional parameters only
+	Pages        int               `yaml:"pages"`         // pages to fetch at most, {page} = 1, 2… (ADR 0028)
+	PageSize     int               `yaml:"page_size"`     // items per page: {offset} = 0, page_size… (ADR 0030)
 	ItemSelector string            `yaml:"item_selector"` // CSS selector for one item in HTML
 	JSONPath     string            `yaml:"json_path"`     // dotted path to the item array in JSON
 	Fields       PortalFields      `yaml:"fields"`
-	DetailURL    string            `yaml:"detail_url"`  // job page pattern with {id}
+	DetailURL    string            `yaml:"detail_url"`  // job page pattern with {id}, optional trailing /{slug}
 	ATS          string            `yaml:"ats"`         // taleo, oracle, successfactors, workday, inspira, bespoke…
 	JSRendered   bool              `yaml:"js_rendered"` // listing needs JavaScript: skipped with a notice
+	DeadlineTZ   string            `yaml:"deadline_tz"` // IANA zone for timestamp deadlines (ADR 0029)
 	Notes        string            `yaml:"notes"`
 }
 
@@ -108,7 +111,7 @@ type problem struct{ field, msg string }
 // "<file>: <field>: <problem>". A js_rendered config is skipped at search
 // time, so it needs only name, listing_url and ats.
 func (p Portal) Validate() error {
-	checks := []func() *problem{p.checkBasics, p.checkRequest, p.checkHeaders}
+	checks := []func() *problem{p.checkBasics, p.checkRequest, p.checkPages, p.checkHeaders, p.checkDeadlineTZ}
 	if !p.JSRendered {
 		checks = append(checks, p.checkExtraction, p.checkJSONPaths, p.checkLinks, p.checkSelectors)
 	}
@@ -164,6 +167,9 @@ func (p Portal) checkLinks() *problem {
 		if !strings.Contains(p.DetailURL, "{id}") {
 			return &problem{"detail_url", "must contain {id}"}
 		}
+		if pr := checkDetailSlug(p.DetailURL); pr != nil {
+			return pr
+		}
 	}
 	if p.Fields.URL == "" && (p.Fields.ID == "" || p.DetailURL == "") {
 		return &problem{"fields.url", "required unless fields.id and detail_url are set"}
@@ -191,7 +197,8 @@ func (p Portal) Hosts() []string {
 
 // Matches reports whether rawURL is one of this portal's job pages: its host
 // equals detail_url's and its path and query match the pattern, whose {id}
-// is captured and returned. Without detail_url any URL on the listing host
+// is captured and returned (a trailing /{slug} matches one optional
+// segment, ADR 0031). Without detail_url any URL on the listing host
 // matches, with an empty id.
 func (p Portal) Matches(rawURL string) (string, bool) {
 	host := hostOf(rawURL)
@@ -205,8 +212,7 @@ func (p Portal) Matches(rawURL string) (string, bool) {
 		return "", false
 	}
 	before, _, _ := strings.Cut(rawURL, "#")
-	expr := `^` + strings.ReplaceAll(regexp.QuoteMeta(urlTail(p.DetailURL)), `\{id\}`, `([^/?#&]+)`) + `$`
-	re, err := regexp.Compile(expr)
+	re, err := regexp.Compile(detailPattern(p.DetailURL))
 	if err != nil {
 		return "", false
 	}

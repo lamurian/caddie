@@ -1,0 +1,35 @@
+# McKinsey & Company careers (www.mckinsey.com, applications on Avature).
+# Search is skipped with a notice; `posting save` recognises job pages.
+# Tests: internal/source/portal_mckinsey_test.go (no fixture: nothing is fetched).
+name: McKinsey & Company
+listing_url: https://www.mckinsey.com/careers/search-jobs
+detail_url: https://www.mckinsey.com/careers/search-jobs/jobs/{id}
+ats: avature
+js_rendered: true
+notes: >-
+  Unsupported for search because of the terms, not the markup: McKinsey's
+  terms of use (section 3, last updated 2025-01-28) say you may not
+  "access, search, or collect, mine, or extract data, including by
+  crawling or scraping, from the Site ... by any means (automated or
+  otherwise) without McKinsey's express written permission" (read via
+  tostracker.app; www.mckinsey.com itself was unreachable). So this config
+  calls nothing (PRD §3); js_rendered is the schema's only way to skip a
+  portal, and the search page does need JavaScript. Browse listing_url by
+  hand and give caddie posting save the job page URL.
+  VERIFIED live 2026-11-03 with caddie's own user agent: www.mckinsey.com
+  (Akamai) resets this container's connections, robots.txt included, so
+  robots.txt is unknown. The Next.js search page reads its list from
+  https://gateway.mckinsey.com/apigw-x0cceuow60/v1/api/jobs/search
+  (GET, pageSize, start, lang=en; host and gateway id from the page's
+  publicRuntimeConfig, as reported by third-party scrapers), which answered
+  200 with {numFound: 599, docs[]}; pageSize=1000 returned all 599 in one
+  response. Each doc has jobID, title, friendlyURL ("associate-15178"),
+  cities[] (1 to 117 per role), countries[], postedToLinkedInDate (a
+  posting date; no closing date), compensationRange (US, only on some
+  roles) and jobApplyURL on mckinsey.avature.net (ApplicationMethods?
+  folderId=<jobID>). The SPA in the browser needs gateway.mckinsey.com too.
+  ASSUMED: job pages are /careers/search-jobs/jobs/<friendlyURL> (from the
+  page script and third-party scrapers; not fetched). With written
+  permission, a JSON config would be json_path docs, fields id friendlyURL,
+  title title, location cities, this detail_url. Applying needs an Avature
+  account, so it ends in the manual checklist.

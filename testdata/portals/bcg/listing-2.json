@@ -1,0 +1,35 @@
+{
+  "refineSearch": {
+    "status": 200,
+    "hits": 2,
+    "totalHits": 6,
+    "data": {
+      "jobs": [
+        {
+          "country": "Kenya",
+          "reqId": "900202",
+          "jobId": "900202",
+          "city": "Nairobi",
+          "locale": "en_GLOBAL",
+          "title": "Project Leader, Example Global Health",
+          "postedDate": "2026-10-14T00:00:00.000+0000",
+          "location": "Nairobi, Nairobi County, Kenya",
+          "category": "Consulting",
+          "externalApply": true
+        },
+        {
+          "country": "Chile",
+          "reqId": "900205",
+          "jobId": "900205",
+          "city": "Santiago",
+          "locale": "en_GLOBAL",
+          "title": "Associate, Invented Climate Practice",
+          "postedDate": "2026-08-12T00:00:00.000+0000",
+          "location": "Santiago, Santiago Metropolitan, Chile",
+          "category": "Consulting",
+          "externalApply": true
+        }
+      ]
+    }
+  }
+}
