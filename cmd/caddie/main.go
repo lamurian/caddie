@@ -42,6 +42,7 @@ var commands = map[string]command{
 	"keywords": cmdKeywords,
 	"render":   cmdRender,
 	"browse":   cmdBrowse,
+	"move":     cmdMove,
 	"doctor":   cmdDoctor,
 }
 
@@ -54,6 +55,7 @@ Commands:
   seen add <id…> --shown|--rejected   record jobs shown to or rejected by the user
   seen list [--rejected]              JSON of seen.jsonl, one entry per job
   posting save <url>                  fetch a posting into postings/<slug>.md
+  posting steps <slug> "<step>"…      add steps to a posting's manual checklist
   answers add --key k --scope global|company:<x>|posting:<slug> "<text>"
                                       store an answer in answers.yml
   answers show [--for <slug>] [--form]
@@ -67,6 +69,8 @@ Commands:
   browse <session> <agent-browser args…>
                                       run agent-browser in the sandbox; session =
                                       portal hostname, uploads only from /handoff
+  move <slug> applied|manual [--reason "<one line>"]
+                                      archive a posting and its documents (JSON)
   doctor [--json]                     check configuration, workspace and history
   help                                show this help
 

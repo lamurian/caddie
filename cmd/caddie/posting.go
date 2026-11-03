@@ -10,13 +10,25 @@ import (
 	"github.com/lamurian/caddie/internal/workspace"
 )
 
+const postingUsage = "want `posting save <url>` or `posting steps <slug> \"<step>\"…`"
+
 func cmdPosting(args []string, e env) error {
-	if len(args) == 0 || args[0] != "save" {
-		return usageErr("want `posting save <url>`")
+	if len(args) == 0 {
+		return usageErr(postingUsage)
 	}
+	switch args[0] {
+	case "save":
+		return postingSave(args[1:], e)
+	case "steps":
+		return postingSteps(args[1:], e)
+	}
+	return usageErr(postingUsage)
+}
+
+func postingSave(args []string, e env) error {
 	fs := newFlags("posting save", e)
 	fs.Bool("json", true, "print JSON (always on)")
-	pos, err := parseArgs(fs, args[1:])
+	pos, err := parseArgs(fs, args)
 	if err != nil {
 		return err
 	}
