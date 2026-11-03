@@ -46,7 +46,8 @@ host.
 
 ## Checking it by hand
 
-These are what `caddie doctor` automates:
+`caddie doctor` automates these as `browser-stack`, `ports`, `proxy-deny`
+and `proxy-allow` ([ADR 0023](../docs/adr/0023-doctor-browser-stack.md)):
 
 ```sh
 f=docker/compose.yml

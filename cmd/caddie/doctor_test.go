@@ -3,8 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 
@@ -85,10 +87,19 @@ func TestDoctorMalformedHistory(t *testing.T) {
 	t.Errorf("no history failure naming teaching.md:4 in %+v", rep)
 }
 
-// doctorWithQuarto runs doctor with every tool found and q as quarto.
+// doctorWithQuarto runs doctor with every tool found, q as quarto and the
+// browser in local mode, so no stack check runs.
 func doctorWithQuarto(t *testing.T, q document.Quarto) result {
 	t.Helper()
+	return doctorWith(t, q, &fakeBrowser{err: errors.New("browser must not run")}, "local")
+}
+
+// doctorWith runs doctor with every tool found, q as quarto, b as the
+// browser (docker) and the given CADDIE_BROWSER_MODE.
+func doctorWith(t *testing.T, q document.Quarto, b *fakeBrowser, mode string) result {
+	t.Helper()
 	vars := workspaceWith(t, "apply: {require_gate: true}\n", nil)
+	vars["CADDIE_BROWSER_MODE"] = mode
 	var out, errOut bytes.Buffer
 	code := run([]string{"doctor"}, env{
 		stdout: &out, stderr: &errOut,
@@ -101,6 +112,7 @@ func doctorWithQuarto(t *testing.T, q document.Quarto) result {
 			}
 			return q
 		},
+		browser: b,
 	})
 	return result{code, out.String(), errOut.String()}
 }
@@ -108,7 +120,7 @@ func doctorWithQuarto(t *testing.T, q document.Quarto) result {
 func TestDoctorQuartoRenders(t *testing.T) {
 	q := &fakeQuarto{}
 	r := doctorWithQuarto(t, q)
-	if r.code != exitOK || !strings.Contains(r.stdout, "ok    quarto       found at /opt/bin/quarto; rendered a test PDF") {
+	if r.code != exitOK || !strings.Contains(r.stdout, "ok    quarto         found at /opt/bin/quarto; rendered a test PDF") {
 		t.Errorf("got %+v", r)
 	}
 	if len(q.calls) != 1 || q.calls[0][1] != "doctor.qmd" {
@@ -121,5 +133,16 @@ func TestDoctorQuartoBroken(t *testing.T) {
 	if r.code != exitCheckFailed || !strings.Contains(r.stdout, "fail  quarto") ||
 		!strings.Contains(r.stdout, "ERROR: compile failed") {
 		t.Errorf("got %+v", r)
+	}
+}
+
+func TestDoctorChecksStackThroughBrowser(t *testing.T) {
+	b := &fakeBrowser{err: errors.New("exit status 1")}
+	r := doctorWith(t, &fakeQuarto{}, b, "compose")
+	if r.code != exitCheckFailed || !strings.Contains(r.stdout, "fail  browser-stack  cannot read") {
+		t.Errorf("got %+v", r)
+	}
+	if len(b.calls) != 1 || !slices.Equal(b.calls[0][:3], []string{"docker", "compose", "-f"}) {
+		t.Errorf("browser calls %q", b.calls)
 	}
 }
