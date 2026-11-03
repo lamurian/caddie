@@ -1,6 +1,6 @@
 # 07. Apply and archive
 
-- **Status:** Todo
+- **Status:** In progress
 - **PRD milestone:** M4 (part 2)
 
 ## Goal
