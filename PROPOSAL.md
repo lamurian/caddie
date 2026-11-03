@@ -69,7 +69,7 @@ on the shot, but the player takes the swing. The "swing" is the final
 | D11 | **International organisations get per-organisation adapters and will mostly route to `manual/`** | WHO, UN, World Bank, ADB, IsDB, McKinsey, BCG, Bain run custom portals (Taleo/Oracle, SuccessFactors, Workday, bespoke) with mandatory accounts, multi-page forms and often CAPTCHAs. Discovery is config-driven scraping per organisation; application there is primarily the manual checklist, not a failure. |
 | D12 | **Manual checklist** written into the posting file | Routing to `manual/` preserves the agent's understanding of the form as actionable `- [ ]` items, surfaced by `caddie follow-ups`. |
 | D13 | **Memory files** (`.caddie/seen.jsonl`, `answers.yml`) are plain, ignored, user-readable | The agent must not re-rank rejected jobs or re-ask interview questions; a file the user can edit is more trustworthy than hidden state. |
-| D14 | Workspace directories are **tracked, contents ignored** | Public repo keeps the structure; each of `postings/`, `applied/`, `manual/`, `resumes/`, `cover-letters/`, `handoff/`, `reviews/` carries a `.gitignore` ignoring everything but itself. |
+| D14 | Workspace directories are **tracked, contents ignored** | Public repo keeps the structure; each of `postings/`, `applied/`, `manual/`, `resumes/`, `cover-letters/`, `handoff/`, `reviews/` carries a `.gitignore` ignoring everything but itself and a `README.md` (ADR 0024). |
 | D15 | `history/` is **tracked and public**; contact details live in `preferences.yml` (ignored) | The history doubles as a public CV. Phone, email and anything not for publication are merged in from preferences at render time. |
 | D16 | `history/about.md` with frontmatter is the identity source | Name, nationality, work authorisation, links, languages and the long-form "about" narrative live here; the binary derives file names from `name`. |
 | D17 | History files are **clean Markdown** with a fixed schema (no `{data-icon=…}` attributes) | Deterministic parsing; one source of truth for both the public CV and the tailored resume. |
@@ -303,11 +303,13 @@ caddie/
 ```
 
 Per-directory `.gitignore` (identical in `postings/`, `applied/`, `manual/`,
-`resumes/`, `cover-letters/`, `handoff/`, `reviews/`):
+`resumes/`, `cover-letters/`, `handoff/`, `reviews/`), each next to a
+tracked `README.md`:
 
 ```
 *
 !.gitignore
+!README.md
 ```
 
 Root `.gitignore`:
