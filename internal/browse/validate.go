@@ -55,6 +55,8 @@ func isSessionRune(r rune) bool {
 // ValidateArgs checks the agent-browser arguments that follow the session:
 //   - no `--session` flag (either `--session x` or `--session=x`), which
 //     would bypass ValidateSession; this wraps ErrInvalidSession;
+//   - no bare `batch` token and none of refusedFlags (see refuse.go);
+//     these wrap ErrBatchRefused and ErrFlagRefused;
 //   - for the first bare `upload` token, `upload <selector> <file…>` needs
 //     at least one file and every argument after the selector must pass
 //     ValidateUploadPath; this wraps ErrUploadOutsideHandoff;
@@ -62,14 +64,17 @@ func isSessionRune(r rune) bool {
 //     any --screenshot-dir value must be under /trace (see trace.go); this
 //     wraps ErrScreenshotOutsideTrace.
 //
-// Both checks are deliberately conservative: a bare `upload` or
-// `screenshot` token anywhere (even as a value) triggers it.
+// All checks are deliberately conservative: a bare `batch`, `upload` or
+// `screenshot` token anywhere (even as a value) triggers its check.
 func ValidateArgs(args []string) error {
 	for _, a := range args {
 		if a == "--session" || strings.HasPrefix(a, "--session=") {
 			return fmt.Errorf("%w: %q: the session is set by caddie, not in the args",
 				ErrInvalidSession, a)
 		}
+	}
+	if err := validateRefused(args); err != nil {
+		return err
 	}
 	if i := indexOf(args, "upload"); i >= 0 {
 		if err := validateUpload(args[i+1:]); err != nil {

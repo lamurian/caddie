@@ -15,7 +15,8 @@ caddie browse <session> <agent-browser command…>
 - `caddie` runs agent-browser inside the Docker sandbox behind an
   allowlisting proxy. Never run `agent-browser` or `docker` yourself.
 - Everything after `<session>` goes to agent-browser unchanged; never add
-  `--session` there (exit 7).
+  `--session` or other browser-setup flags there, and never use `batch`:
+  one `caddie browse` call per command (exit 7).
 - **Session = the portal's hostname**, lowercase, as in the URL:
   `careers.who.int`, `inspira.un.org`, `job-boards.greenhouse.io`. Use the
   same session for every call on that portal; cookies and logins persist
@@ -85,8 +86,8 @@ caddie browse careers.who.int snapshot -i
 
 - 0: agent-browser succeeded; its output is printed as is.
 - 2: missing session or command; fix the command line.
-- 7: bad session name, upload path or screenshot path; fix it, never
-  work around it.
+- 7: bad session name, upload or screenshot path, `batch`, or a refused
+  flag; fix it, never work around it.
 - 8: agent-browser or Docker failed, or `CADDIE_BROWSE_TIMEOUT` expired.
   agent-browser's own message comes first on stderr. If it is about the
   page (an unknown ref, a missing element), take a fresh `snapshot -i` and

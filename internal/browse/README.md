@@ -12,6 +12,7 @@ only way the agent drives the sandboxed browser
 | `argv.go` | `Argv`: the compose or local command line |
 | `validate.go` | `ValidateSession`, `ValidateArgs`, `ValidateUploadPath`, `HandoffDir` |
 | `trace.go` | `ValidateScreenshotPath`, `TraceDir` |
+| `refuse.go` | The `batch` refusal and `refusedFlags` |
 
 ## Browse
 
@@ -39,6 +40,14 @@ local:   <BrowserBin> --session <session> <args…>
   to one session and one state file in the browser volume.
 - **No session override** (`ValidateArgs`): `--session x` or `--session=x`
   in the args is rejected, since it would bypass the check above.
+- **No `batch`** (`ValidateArgs`, `refuse.go`): a bare `batch` token is
+  refused (`ErrBatchRefused`). Its commands arrive as one quoted token or
+  on stdin, so the upload and screenshot checks could not see them.
+- **No sandbox overrides** (`refuse.go`): `--profile`, `--state`,
+  `--session-name`, `--cdp`, `--auto-connect`, `--executable-path`,
+  `--extension`, `--args`, `--proxy`, `--proxy-bypass`, `--provider`,
+  `--config` and `--allow-file-access`, bare or `=value`, anywhere in the
+  args (`ErrFlagRefused`).
 - **Uploads** (`ValidateArgs`, `ValidateUploadPath`): at the first bare
   `upload` token, `upload <selector> <file…>` needs at least one file and
   every argument after the selector must, after `path.Clean`, be absolute
@@ -58,10 +67,11 @@ local:   <BrowserBin> --session <session> <args…>
   an unknown flag's value is checked as a path and refused. Rejected:
   `/handoff/x.png`, `trace/x.png`, `/trace/../etc/x.png`, `/tracex/a.png`.
 
-Not validated: `pdf`, `download`, `state save|load` and `batch`. They act
+Not validated: `pdf`, `download`, `state save|load` and `eval`. They act
 inside the container, whose host mounts are the read-only `/handoff` and
 `/trace`, so at worst they write into `.caddie/trace/`. Page and posting
-content stays data; nothing here interprets it.
+content stays data; nothing here interprets it. `eval` can click like
+`click` can; the submit gate is a workflow rule, not an argv check.
 
 ## Errors
 
@@ -70,6 +80,8 @@ content stays data; nothing here interprets it.
 | `ErrInvalidSession` | bad session name or `--session` in args | 7 |
 | `ErrUploadOutsideHandoff` | an upload path outside `/handoff` | 7 |
 | `ErrScreenshotOutsideTrace` | a screenshot path outside `/trace` | 7 |
+| `ErrBatchRefused` | the `batch` command | 7 |
+| `ErrFlagRefused` | a flag that overrides the sandbox (`refuse.go`) | 7 |
 | `ErrExec` | agent-browser could not start or exited non-zero | 8 |
 | `ErrTimeout` | `CADDIE_BROWSE_TIMEOUT` expired; always wrapped with `ErrExec` | 8 |
 

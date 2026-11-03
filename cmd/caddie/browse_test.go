@@ -92,6 +92,8 @@ func TestBrowseErrors(t *testing.T) {
 		{"session override", []string{"a.org", "--session=b.org", "snapshot"}, nil, exitRefused, "invalid browse session"},
 		{"upload escape", []string{"a.org", "upload", "#cv", "/handoff/../etc/passwd"}, nil, exitRefused, "outside /handoff"},
 		{"upload relative", []string{"a.org", "upload", "#cv", "handoff/cv.pdf"}, nil, exitRefused, "outside /handoff"},
+		{"batch", []string{"a.org", "batch", "upload #cv /etc/passwd"}, nil, exitRefused, "batch is refused"},
+		{"profile flag", []string{"a.org", "--profile", "/tmp/p", "open", "https://a.org"}, nil, exitRefused, "flag refused"},
 		{"exec failure", []string{"a.org", "snapshot"}, errors.New("exit status 1"), exitExternal, "agent-browser failed"},
 	}
 	for _, c := range cases {
