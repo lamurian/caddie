@@ -51,7 +51,7 @@ always stays with the human. Full spec: [`PROPOSAL.md`](PROPOSAL.md) (the PRD).
 | `internal/` | All Go packages: config, workspace, profile, doctor, posting, source, memory, document, browse | [README](internal/README.md); one per package |
 | `skills/` | The Agent Skill the agent loads (`skills/caddie/SKILL.md`) | [README](skills/README.md), [caddie](skills/caddie/README.md), [references](skills/caddie/references/README.md) |
 | `templates/` | Quarto templates for resume and cover letter | [README](templates/README.md) |
-| `docker/` | Browser + egress proxy compose stack | [README](docker/README.md) |
+| `docker/` | Browser + egress proxy compose stack | [README](docker/README.md), [browser](docker/browser/README.md), [proxy](docker/proxy/README.md) |
 | `portals/` | Per-organisation portal adapter configs | [README](portals/README.md) |
 | `testdata/` | Fictional fixtures and golden files | [README](testdata/README.md); one per subdirectory |
 | `history/` | The user's career history (tracked, public) | [README](history/README.md) |

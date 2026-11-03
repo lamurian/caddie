@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/lamurian/caddie/internal/browse"
 	"github.com/lamurian/caddie/internal/config"
 	"github.com/lamurian/caddie/internal/document"
 	"github.com/lamurian/caddie/internal/profile"
@@ -40,6 +41,9 @@ type Options struct {
 	LookPath func(file string) (string, error)
 	// Quarto runs the quarto found at bin; nil runs it for real.
 	Quarto func(bin string) document.Quarto
+	// Browser runs the docker compose calls of the stack checks; nil runs
+	// them for real.
+	Browser browse.Exec
 }
 
 func (r *Report) add(name string, s Status, format string, args ...any) {
@@ -64,7 +68,7 @@ func Run(opts Options) Report {
 	checkPreferences(&r, layout)
 	checkHistory(&r, layout)
 	checkQuarto(&r, opts, cfg.QuartoBin)
-	checkTool(&r, opts.LookPath, "docker", "docker", "needed by `caddie browse` (phase 06)")
+	checkBrowser(&r, opts, cfg)
 	return r
 }
 
@@ -99,13 +103,4 @@ func checkHistory(r *Report, l workspace.Layout) {
 		return
 	}
 	r.add("history", StatusOK, "%s parsed: %d sections for %s", l.History(), len(p.Sections), p.Identity.Name)
-}
-
-func checkTool(r *Report, lookPath func(string) (string, error), name, bin, why string) {
-	path, err := lookPath(bin)
-	if err != nil {
-		r.add(name, StatusWarn, "%s not found on PATH; %s", bin, why)
-		return
-	}
-	r.add(name, StatusOK, "found at %s", path)
 }

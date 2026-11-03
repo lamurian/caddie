@@ -60,3 +60,8 @@ handler, and `skills/caddie/references/{apply,exit-codes}.md`.
 - [ ] A dry run against a public test form (Greenhouse demo or similar)
       reaches the gate and stops. Documented in the PR.
 - [ ] No code path clicks submit; only the agent does, after `submit`.
+- [ ] Trace screenshots (`01-filled.png`, `02-confirmed.png`) have a
+      writable destination: `/handoff` is read-only in the browser
+      container, so PRD §6.4's `screenshot handoff/trace/…` cannot work
+      as written. Pick a writable mount or copy step, and keep
+      `caddie browse` upload checks on `/handoff` only.

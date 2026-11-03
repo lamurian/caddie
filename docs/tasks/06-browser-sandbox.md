@@ -1,6 +1,6 @@
 # 06. Browser sandbox
 
-- **Status:** Todo
+- **Status:** In progress
 - **PRD milestone:** M4 (part 1)
 
 ## Goal
@@ -51,15 +51,15 @@ handler, the CI job and an update to `docker/README.md`.
 
 ## Definition of Done
 
-- [ ] Fake-`Exec` tests assert the exact argv for compose and local modes.
-- [ ] Invalid session names (`../x`, spaces, empty) are rejected (tested).
-- [ ] Uploads outside `/handoff` are rejected, including `..` traversal
+- [x] Fake-`Exec` tests assert the exact argv for compose and local modes.
+- [x] Invalid session names (`../x`, spaces, empty) are rejected (tested).
+- [x] Uploads outside `/handoff` are rejected, including `..` traversal
       (tested).
-- [ ] Doctor proves that the proxy denies `example.com` and allows a listed
+- [x] Doctor proves that the proxy denies `example.com` and allows a listed
       host.
-- [ ] No ports are published, and the volume is not bind-mounted into the
+- [x] No ports are published, and the volume is not bind-mounted into the
       repo.
 - [ ] The CI compose job is green.
-- [ ] The allowlist holds every host in the `portals/README.md` Hosts table
+- [x] The allowlist holds every host in the `portals/README.md` Hosts table
       (`careers.who.int`, `careers.un.org`) and the apply hosts its notes
       name (`inspira.un.org`), or says why one is left out.
