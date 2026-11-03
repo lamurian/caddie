@@ -21,6 +21,9 @@ in [`cmd/README.md`](../README.md) and
 | `answers.go` | `caddie answers add\|show\|list` over `answers.yml`; finds a posting by slug |
 | `verify.go` | `caddie verify <doc.md> [--json]`: traces claims, records the verified hash; `readDoc` |
 | `keywords.go` | `caddie keywords <posting.md> <doc.md> [--json]`: advisory keyword coverage |
+| `render.go` | `caddie render resume\|cover-letter <slug> [--json]` |
+| `browse.go` | `caddie browse <session> <agent-browser args…>` over `internal/browse` |
+| `followups.go` | `caddie follow-ups [--json]` over `workspace.FollowUps` (ADR 0027) |
 
 Tests run each command in-process against `testdata/` and assert both the
 output and the exit code. `profile_test.go` owns `-update` for

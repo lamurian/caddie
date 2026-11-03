@@ -1,13 +1,10 @@
 # portals/
 
-Per-organisation configs for the `portal` source adapter, which is a
+Per-organisation configs (tracked, public) for the `portal` source, a
 config-driven scraper ([ADR 0006](../docs/adr/0006-portals-and-manual.md)).
-These files are tracked and public.
-
-Configured: `who.yml` and `un.yml` (phase
-[03](../docs/tasks/03-discover-portals.md)). Planned for phase
-[08](../docs/tasks/08-follow-through.md): `worldbank.yml`, `adb.yml`,
-`isdb.yml`, `mckinsey.yml`, `bcg.yml`, `bain.yml`.
+Configured: `who`, `un` (phase [03](../docs/tasks/03-discover-portals.md)),
+`worldbank`, `adb`, `isdb`, `mckinsey`, `bcg`, `bain` (phase
+[08](../docs/tasks/08-follow-through.md)); see Hosts for which are searched.
 
 ## Config shape
 
@@ -26,8 +23,10 @@ errors; `caddie search` exits 3 naming the file and the key.
 | `json_path` | dotted path to the array of openings in JSON (`data.items`) |
 | `fields` | `id`, `title` (required), `url`, `location`, `deadline`, `salary` |
 | `detail_url` | Job page pattern with `{id}`; required without `fields.url` |
-| `ats` | ATS label: taleo, oracle, successfactors, workday, inspira, bespoke (required) |
+| `pages` | Pages to fetch at most (1–10); `{page}` in `listing_url` or `body` becomes 1, 2…; stops at a page with nothing new ([ADR 0028](../docs/adr/0028-portal-pagination.md)) |
+| `ats` | ATS label: taleo, oracle, successfactors, workday, inspira, cornerstone, phenom, avature, bespoke (required) |
 | `js_rendered` | `true` if the listing needs JavaScript: skipped with a notice |
+| `deadline_tz` | IANA zone (`America/New_York`): an RFC 3339 deadline with an offset becomes this zone's date ([ADR 0029](../docs/adr/0029-portal-deadline-timezone.md)) |
 | `notes` | Free text: limitations, terms of use |
 
 For HTML a field is a CSS selector inside the item, optionally ending in
@@ -49,8 +48,9 @@ detail_url: https://careers.example.org/job?id={id}
 ats: taleo
 ```
 
-Enabled from `preferences.yml` → `sources.portals`; `caddie search
---source portal` queries every enabled portal, `--source portal:<org>` one.
+Enabled in `preferences.yml` → `sources.portals`; `--source portal` queries
+every enabled portal, `--source portal:<org>` one. `posting save`
+recognises every config here, enabled or not, and takes `ats` from it.
 
 Each item becomes a job with ID `portal:<org>:<id>` (`fields.id`, else the
 `{id}` `detail_url` captures from the URL, else a URL hash). `roles.include`
@@ -60,26 +60,32 @@ Nov 2026"): the first `2026-11-30`, `30 Nov 2026`, `30 November 2026`, `Nov
 ignored. `salary` counts only with a currency or period ("USD 90,000",
 "90,000 per year"), so a grade such as `P-3` is not a salary.
 
-`caddie posting save` recognises every config here, enabled or not, and
-takes `ats` from it.
-
 ## Hosts
 
-The hosts each config contacts (`listing_url`, `detail_url`). Each is on
-the browser's [`docker/proxy/allowlist.conf`](../docker/proxy/README.md),
-with the apply hosts the notes name; `internal/source/allowlist_test.go`
-checks it.
+The hosts each config contacts, all on the browser's
+[`allowlist.conf`](../docker/proxy/README.md) with the apply hosts named
+below (`internal/source/allowlist_test.go` checks it).
 
-| Org | Hosts | Notes |
-|-----|-------|-------|
-| `un` | `careers.un.org` | JSON API (POST); applying is on `inspira.un.org` (login) |
-| `who` | `careers.who.int` | Taleo job board API (POST, `tz` header); first 25 newest only; applying needs a Taleo account |
+| Org | Hosts | Support | Notes |
+|-----|-------|---------|-------|
+| `un` | `careers.un.org` | Searched | JSON API (POST), `deadline_tz`; applying is on `inspira.un.org` (login) |
+| `who` | `careers.who.int` | Searched | Taleo job board API (POST, `tz` header), paged by `pageNo` (25 per page, ADR 0028); applying needs a Taleo account |
+| `adb` | `www.adb.org` | Searched | Server-rendered HTML, all openings on one page; titles keep " / <ref>"; applying is on `aces.adb.org` (login) |
+| `isdb` | `careers.isdb.org` | Searched | SuccessFactors HTML `/search/`; first 25 only; no deadline in the listing; URL-hash IDs; applying is on `career55.sapsf.eu` (account) |
+| `bcg` | `careers.bcg.com` | Searched | Phenom widgets API (POST); first 500 of ~940 only; applying is on `experiencedtalent.bcg.com`, `studenttalent.bcg.com` or `platinion.avature.net` (account) |
+| `worldbank` | `worldbankgroup.csod.com` | Discovery-only | Cornerstone: the list comes from a token-authorised API (401 without it) that ADR 0019 cannot call; applying needs a Cornerstone account |
+| `bain` | `www.bain.com` | Discovery-only | The listing API refuses direct access (403), so search skips it; `posting save` reads job pages' JSON-LD |
+| `mckinsey` | `www.mckinsey.com` | Discovery-only | Terms forbid automated collection, so search calls nothing; applying is on `mckinsey.avature.net` (account); `gateway.mckinsey.com` is the page's own search XHR |
+
+Discovery-only portals set `js_rendered: true`, the schema's only skip
+flag, so the notice reads "listing needs JavaScript" even when the reason
+is an API refusal or the terms (see `notes`). Browse `listing_url` by hand;
+`posting save` still recognises their job pages.
 
 ## Discovery, not application
 
 These portals usually need accounts, multi-page forms and CAPTCHAs, so
-applying to them normally ends in the **manual checklist**. That is the
-designed outcome, not a failure.
+applying normally ends in the **manual checklist**: the designed outcome.
 
 ## Contributing a portal
 
@@ -87,6 +93,5 @@ designed outcome, not a failure.
    `testdata/portals/<org>/`. Strip anything personal.
 2. Write `portals/<org>.yml` against the schema.
 3. Add a test that parses the fixture into the expected postings.
-4. List its hosts in the table above and add them to
-   `docker/proxy/allowlist.conf`.
+4. List its hosts above and add them to `docker/proxy/allowlist.conf`.
 5. Only scrape sites whose terms allow automated access (PRD §3).

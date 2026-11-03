@@ -13,11 +13,20 @@ portal tests through a fake HTTP client
 | `example-json/listing.json` | `example-json.yml`'s saved response: nested fields, numeric IDs, an untitled item |
 | `invalid/*.yml` | Configs that fail validation, one problem each, named after it |
 | `who/listing.json` | `portals/who.yml`'s Taleo search response: positional `column[]`, a JSON-array-in-string location |
-| `un/listing.json` | `portals/un.yml`'s API response (shape partly assumed, see its notes): `dutyStation[]`, a null `endDate` |
+| `un/listing.json` | `portals/un.yml`'s API response (shape third-party verified, see its notes): `dutyStation[]`, a UTC `endDate` converted by `deadline_tz`, a null `endDate` |
+| `adb/listing.html` | `portals/adb.yml`'s Drupal listing: one table per group, suffixed header ids, an untitled row, an empty location, a closing date without `<time>` |
+| `isdb/listing.html` | `portals/isdb.yml`'s SuccessFactors search page: titles repeated in desktop/tablet/mobile sections, a relative `data-url`, a tile without Location |
+| `bcg/listing.json` | `portals/bcg.yml`'s Phenom widgets response: `refineSearch.data.jobs[]`, an item without `location`, an untitled item |
+| `worldbank/listing.html` | `portals/worldbank.yml`'s Cornerstone page: an empty JavaScript shell (`div#cs-root`), why the config is `js_rendered` |
+| `bain/detail-70101.html` | `portals/bain.yml`'s job page (discovery-only, no listing): an empty React mount plus the `JobPosting` JSON-LD `posting save` reads |
+
+`portals/mckinsey.yml` has no fixture: its terms forbid automated
+collection, so nothing was recorded; its test checks the skip and URL match.
 
 The real configs live in [`portals/`](../../portals/README.md); their
-fixtures go in `<org>/` here (no README per sub-directory: this table covers them) (`listing.html` or `listing.json`, plus
-`detail-<id>.html`, which the `posting save` tests replay).
+fixtures go in `<org>/` here (`listing.html` or `listing.json`, plus
+`detail-<id>.html` for the `posting save` tests); this table covers them,
+so the sub-directories need no README.
 
 ## Contributing
 

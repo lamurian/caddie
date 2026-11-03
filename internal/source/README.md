@@ -22,6 +22,7 @@ The job boards behind `caddie search` and the fetcher behind
 | `portal_html.go` | `extractHTML`: CSS selectors (cascadia) → raw `portalItem`s, links resolved |
 | `portal_json.go` | `extractJSON`: items at a dotted `json_path`, fields by key path; path checks |
 | `portal.go` | `portalSource`: one GET/POST per portal, items → `Job`; `PortalOrgs`, `--source portal[:<org>]` |
+| `portal_pages.go` | `pages` validation and the paged fetch: `{page}` = 1, 2…, stop at a page with nothing new (ADR 0028) |
 | `portal_deadline.go` | `deadline_tz` validation and timestamp → posted-zone date (ADR 0029) |
 | `portal_headers.go` | `headers` validation: no credentials, `User-Agent`, transport headers or CR/LF |
 | `portal_match.go` | `LoadAllPortals`, `PortalFor` a URL, `PortalJobID`, `SourceOf` a Job ID |
