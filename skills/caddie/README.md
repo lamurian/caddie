@@ -12,6 +12,7 @@ layout in [`skills/README.md`](../README.md).
 ## Contributing
 
 - `SKILL.md` stays under 100 lines; move detail into `references/`.
-- The exit-code table is mirrored verbatim from `cmd/README.md`; a test in
-  `cmd/caddie` fails if they differ.
+- The exit-code table is mirrored verbatim from `cmd/README.md` in
+  `SKILL.md` and `references/exit-codes.md`; a test in `cmd/caddie` fails
+  if they differ. Another checks the gate text and the six hard rules.
 - Every command shown must exist in the CLI with exactly that syntax.

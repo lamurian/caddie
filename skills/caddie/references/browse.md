@@ -52,7 +52,7 @@ caddie browse careers.who.int snapshot -i
 3. A host outside the proxy allowlist fails to load. Tell the user which
    host; never look for another route to it.
 4. Never click a submit or apply button. Filling forms and the submit
-   gate belong to the apply workflow, which ships later.
+   gate belong to the apply workflow: [`apply.md`](apply.md).
 
 ## Uploads
 
@@ -67,8 +67,8 @@ caddie browse careers.who.int snapshot -i
 - Screenshots go to `/trace` only, the browser's one writable folder
   (`.caddie/trace/` in the repo): `caddie browse <host> screenshot
   /trace/01-filled.png`. Any other path is refused (exit 7).
-- Never upload from `/trace`; it is the trace that gets archived with the
-  application.
+- Never upload from `/trace`; it is the trace that `caddie move` archives
+  with the application.
 
 ## Logins
 
@@ -80,7 +80,7 @@ caddie browse careers.who.int snapshot -i
 - 2FA or a one-time code: ask the user to relay the code in chat, then
   enter it into the code field the snapshot shows.
 - Login wall you cannot pass, or a CAPTCHA: stop and tell the user; the
-  posting goes to `manual/` (apply workflow).
+  posting goes to `manual/` ([`apply.md`](apply.md), manual route).
 
 ## Exit codes
 

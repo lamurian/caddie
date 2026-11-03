@@ -63,7 +63,9 @@ Defined in `cmd/caddie/exit.go`, the contract of
 - Every command supports `--json`. Keep output short and structured, because
   the agent reasons over exactly what is printed.
 - Exit codes are documented in the table above, mirrored verbatim in
-  `skills/caddie/SKILL.md` (a test compares them). Change both together.
+  `skills/caddie/SKILL.md` and `skills/caddie/references/exit-codes.md`
+  (a test compares them). Change all of them together, and update the
+  per-command codes in `exit-codes.md`.
 - One file per subcommand group (e.g. `cmd/caddie/answers.go`) so that
   `main.go` stays small; every file stays under 300 lines.
 - Standard library `flag` (or a single small dependency) is preferred; adding
