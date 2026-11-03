@@ -49,19 +49,20 @@ handler, and `skills/caddie/references/{apply,exit-codes}.md`.
 
 ## Definition of Done
 
-- [ ] `Move` tests: all artefacts move together, frontmatter is updated,
+- [x] `Move` tests: all artefacts move together, frontmatter is updated,
       `handoff/` is cleared, and missing optional artefacts are tolerated.
-- [ ] A failed move leaves no half-moved state (or recovery is documented
+- [x] A failed move leaves no half-moved state (or recovery is documented
       and tested).
-- [ ] The manual checklist helper is idempotent and preserves existing
+- [x] The manual checklist helper is idempotent and preserves existing
       ticked items.
-- [ ] The skill contains the gate text and all six hard rules verbatim
+- [x] The skill contains the gate text and all six hard rules verbatim
       (PRD §8.3).
 - [ ] A dry run against a public test form (Greenhouse demo or similar)
-      reaches the gate and stops. Documented in the PR.
-- [ ] No code path clicks submit; only the agent does, after `submit`.
-- [ ] Trace screenshots (`01-filled.png`, `02-confirmed.png`) have a
+      reaches the gate and stops. Documented in the PR. *Open: needs a
+      human-approved run against a live form.*
+- [x] No code path clicks submit; only the agent does, after `submit`.
+- [x] Trace screenshots (`01-filled.png`, `02-confirmed.png`) have a
       writable destination: `/handoff` is read-only in the browser
       container, so PRD §6.4's `screenshot handoff/trace/…` cannot work
       as written. Pick a writable mount or copy step, and keep
-      `caddie browse` upload checks on `/handoff` only.
+      `caddie browse` upload checks on `/handoff` only. (ADR 0024: `/trace`.)
