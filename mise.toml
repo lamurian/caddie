@@ -9,8 +9,7 @@ lefthook = "2.2.2"
 gitleaks = "8.30.1"
 shellcheck = "0.11.0"
 actionlint = "1.7.12"
-uv = "0.13.6"
-"pipx:yamllint" = "1.38.0"
+yamlfmt = "0.21.0"
 "github:quarto-dev/quarto-cli" = "1.10.19"
 
 [settings]
@@ -43,8 +42,8 @@ description = "Lint Go, incl. complexity <= 15"
 run = "golangci-lint run ./..."
 
 [tasks."lint:yaml"]
-description = "Lint YAML files"
-run = "yamllint --strict ."
+description = "Check YAML formatting"
+run = "yamlfmt -lint ."
 
 [tasks."lint:sh"]
 description = "Lint shell scripts"
